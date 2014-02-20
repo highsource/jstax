@@ -1,0 +1,30 @@
+{
+  "name": "jstax",
+  "version": "0.0.0",
+  "description": "Jstax is an ultrafast streaming XML parser.",
+  "main": "jstax.js",
+
+	"scripts": {
+		"test": "nodeunit tests/Jstax.js" 
+	},
+
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:highsource/jstax.git"
+  },
+  "keywords": [
+    "xml",
+    "sax",
+    "stax",
+    "streaming",
+    "xml",
+    "parser"
+  ],
+  "author": "Aleksei Valikov",
+  "license": "BSD",
+	"devDependencies": {
+		"nodeunit": "~0.8.0",
+		"node-static": "~0.6.9"
+	}
+
+}
