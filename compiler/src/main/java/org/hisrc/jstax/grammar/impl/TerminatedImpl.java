@@ -1,5 +1,6 @@
 package org.hisrc.jstax.grammar.impl;
 
+import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.Production;
 import org.hisrc.jstax.grammar.Str;
 import org.hisrc.jstax.grammar.Terminated;
@@ -8,12 +9,13 @@ public class TerminatedImpl extends SequenceImpl implements Terminated {
 
 	private final Production content;
 
-	private final Str end;
+	private final Str terminator;
 
-	public TerminatedImpl(Production content, Str end) {
-		super(content, end);
+	public TerminatedImpl(Production content, Str terminator) {
+		super(content);
+		Validate.notNull(terminator);
 		this.content = content;
-		this.end = end;
+		this.terminator = terminator;
 	}
 
 	@Override
@@ -22,7 +24,7 @@ public class TerminatedImpl extends SequenceImpl implements Terminated {
 	}
 
 	@Override
-	public Str getEnd() {
-		return end;
+	public Str getTerminator() {
+		return this.terminator;
 	}
 }

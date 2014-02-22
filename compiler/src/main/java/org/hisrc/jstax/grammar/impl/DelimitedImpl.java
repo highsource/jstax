@@ -9,6 +9,7 @@ public class DelimitedImpl extends SequenceImpl implements Delimited {
 	private final Production element;
 	private final Production delimiter;
 
+	// Delimited ::= element (delimiter element)*
 	public DelimitedImpl(Production element, Production delimiter) {
 		super(element, Grammar.zeroOrMore(Grammar.sequence(delimiter, element)));
 		this.element = element;

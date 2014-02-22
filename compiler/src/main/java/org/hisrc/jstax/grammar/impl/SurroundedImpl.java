@@ -12,7 +12,7 @@ public class SurroundedImpl extends SequenceImpl implements Surrounded {
 	private final Str end;
 
 	public SurroundedImpl(Str start, Production content, Str end) {
-		super(start, Grammar.terminated(content, end));
+		super(start, Grammar.terminated(content, end), end);
 		this.start = start;
 		this.content = content;
 		this.end = end;

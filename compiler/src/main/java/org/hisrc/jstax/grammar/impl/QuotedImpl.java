@@ -35,7 +35,8 @@ public class QuotedImpl extends ChoiceImpl implements Quoted {
 		int index = 0;
 		for (Char _char : chars) {
 			productions[index++] = Grammar.surrounded(_char,
-					Grammar.excluding(content, _char), _char);
+					Grammar.zeroOrMore(Grammar.excluding(content, _char)),
+					_char);
 		}
 		return productions;
 	}
