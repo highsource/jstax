@@ -3,9 +3,9 @@ package org.hisrc.jstax.grammar.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.hisrc.jstax.grammar.Ch;
 import org.hisrc.jstax.grammar.Char;
 import org.hisrc.jstax.grammar.CharRange;
+import org.hisrc.jstax.io.Input;
 
 public class CharImpl extends AbstractChImpl implements Char {
 
@@ -20,7 +20,7 @@ public class CharImpl extends AbstractChImpl implements Char {
 		this.unmodifiableCharRanges = Collections
 				.<CharRange> unmodifiableList(charRanges);
 	}
-	
+
 	@Override
 	public char getFrom() {
 		return ch;
@@ -47,6 +47,12 @@ public class CharImpl extends AbstractChImpl implements Char {
 			return 1;
 		}
 		return this.getChar() - that.getChar();
+	}
+
+	@Override
+	public boolean check(Input input) {
+		final char ch = input.peekChar();
+		return this.ch == ch;
 	}
 
 }

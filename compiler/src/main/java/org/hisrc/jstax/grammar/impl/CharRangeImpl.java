@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.CharRange;
+import org.hisrc.jstax.io.Input;
 
 public class CharRangeImpl extends AbstractChImpl implements CharRange {
 
@@ -39,5 +40,11 @@ public class CharRangeImpl extends AbstractChImpl implements CharRange {
 	@Override
 	public List<CharRange> getCharRanges() {
 		return this.unmodifiableCharRanges;
+	}
+
+	@Override
+	public boolean check(Input input) {
+		final char ch = input.peekChar();
+		return ch >= this.from && ch <= this.to;
 	}
 }

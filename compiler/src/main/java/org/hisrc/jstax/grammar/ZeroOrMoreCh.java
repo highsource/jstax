@@ -4,10 +4,11 @@ import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
 import org.hisrc.jstax.io.Result;
 
-public interface Ch extends Production, Str {
-	
+public interface ZeroOrMoreCh extends ZeroOrMore {
+
+	@Override
+	public Ch getElement();
+
 	public void read(Input input, Result result, ErrorHandler handler);
-	
-	public boolean check(Input input);
 
 }

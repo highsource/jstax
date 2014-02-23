@@ -19,6 +19,7 @@ import org.hisrc.jstax.grammar.impl.StrIgnoreCaseImpl;
 import org.hisrc.jstax.grammar.impl.StrImpl;
 import org.hisrc.jstax.grammar.impl.SurroundedImpl;
 import org.hisrc.jstax.grammar.impl.TerminatedImpl;
+import org.hisrc.jstax.grammar.impl.ZeroOrMoreChImpl;
 import org.hisrc.jstax.grammar.impl.ZeroOrMoreImpl;
 import org.hisrc.jstax.grammar.impl.ZeroOrOneImpl;
 
@@ -38,6 +39,10 @@ public class Grammar {
 
 	public static ZeroOrOne zeroOrOne(Production element) {
 		return new ZeroOrOneImpl(element);
+	}
+
+	public static ZeroOrMoreCh zeroOrMore(Ch element) {
+		return new ZeroOrMoreChImpl(element);
 	}
 
 	public static ZeroOrMore zeroOrMore(Production element) {
@@ -69,6 +74,14 @@ public class Grammar {
 	}
 
 	public static NegativeChars negativeChars(Char... negativeChars) {
+		return new NegativeCharsImpl(negativeChars);
+	}
+
+	public static NegativeChars negativeChars(char... negativeChars) {
+		return new NegativeCharsImpl(negativeChars);
+	}
+
+	public static NegativeChars negativeChars(String negativeChars) {
 		return new NegativeCharsImpl(negativeChars);
 	}
 

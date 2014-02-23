@@ -10,12 +10,15 @@ import org.hisrc.jstax.grammar.Char;
 import org.hisrc.jstax.grammar.CharRange;
 import org.hisrc.jstax.grammar.Chars;
 import org.hisrc.jstax.grammar.Grammar;
+import org.hisrc.jstax.io.Input;
 
 public class CharsImpl extends AbstractChImpl implements Chars {
 
-	private List<Char> chars;
-	private List<Char> unmodifiableChars;
-	private List<CharRange> unmodifiableCharRanges;
+	private final int length;
+	private final char[] chs;
+	private final List<Char> chars;
+	private final List<Char> unmodifiableChars;
+	private final List<CharRange> unmodifiableCharRanges;
 
 	public CharsImpl(String str) {
 		this(str.toCharArray());
@@ -27,10 +30,14 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 
 	public CharsImpl(Char... _chars) {
 		Validate.noNullElements(_chars);
+		this.length = _chars.length;
+		this.chs = new char[this.length];
+		for (int index = 0; index < this.length; index++) {
+			this.chs[index] = _chars[index].getChar();
+		}
 		this.chars = Arrays.asList(_chars);
 		this.unmodifiableChars = Collections.unmodifiableList(this.chars);
-		final List<CharRange> charRanges = new ArrayList<CharRange>(
-				_chars.length);
+		final List<CharRange> charRanges = new ArrayList<CharRange>(this.length);
 		charRanges.addAll(this.chars);
 		this.unmodifiableCharRanges = Collections
 				.<CharRange> unmodifiableList(charRanges);
@@ -53,5 +60,16 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 			chars[index] = Grammar._char(_chars[index]);
 		}
 		return chars;
+	}
+
+	@Override
+	public boolean check(Input input) {
+		final char ch = input.peekChar();
+		for (int index = 0; index < this.length; index++) {
+			if (ch == this.chs[index]) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
