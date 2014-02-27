@@ -35,7 +35,7 @@ public abstract class AbstractChImpl implements Ch {
 					"Could not read the next character, the stream is empty.",
 					locator));
 		} else {
-			if (check(input)) {
+			if (matches(input)) {
 				result.pushChar(input.readChar());
 			} else {
 				final Locator locator = input.getLocator();
@@ -44,8 +44,17 @@ public abstract class AbstractChImpl implements Ch {
 								.format("Unexpected character [{0}] in input stream at [{1}, {2}].",
 										ch, locator.getLineNumber(),
 										locator.getColumnNumber()), locator));
-
 			}
 		}
+	}
+
+	@Override
+	public boolean matches(Input input) {
+		return matches(input);
+	}
+
+	@Override
+	public Ch getFirst() {
+		return this;
 	}
 }

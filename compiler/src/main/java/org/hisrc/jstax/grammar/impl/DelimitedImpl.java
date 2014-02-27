@@ -2,27 +2,27 @@ package org.hisrc.jstax.grammar.impl;
 
 import org.hisrc.jstax.grammar.Delimited;
 import org.hisrc.jstax.grammar.Grammar;
-import org.hisrc.jstax.grammar.Production;
+import org.hisrc.jstax.grammar.Prefix;
 
-public class DelimitedImpl extends SequenceImpl implements Delimited {
+public class DelimitedImpl extends PrefixedSequenceImpl implements Delimited {
 
-	private final Production element;
-	private final Production delimiter;
+	private final Prefix element;
+	private final Prefix delimiter;
 
 	// Delimited ::= element (delimiter element)*
-	public DelimitedImpl(Production element, Production delimiter) {
+	public DelimitedImpl(Prefix element, Prefix delimiter) {
 		super(element, Grammar.zeroOrMore(Grammar.sequence(delimiter, element)));
 		this.element = element;
 		this.delimiter = delimiter;
 	}
 
 	@Override
-	public Production getElement() {
+	public Prefix getElement() {
 		return element;
 	}
 
 	@Override
-	public Production getDelimiter() {
+	public Prefix getDelimiter() {
 		return delimiter;
 	}
 }

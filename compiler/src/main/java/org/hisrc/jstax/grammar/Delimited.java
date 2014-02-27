@@ -2,8 +2,8 @@ package org.hisrc.jstax.grammar;
 
 public interface Delimited extends Sequence {
 
-	public Production getElement();
+	public Prefix getElement();
 
-	public Production getDelimiter();
+	public Prefix getDelimiter();
 
 }

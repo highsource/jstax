@@ -1,9 +1,9 @@
 package org.hisrc.jstax.grammar;
 
-public interface Excluding extends Production {
+public interface Excluding extends Production, PrefixedChoice {
 
-	public Production getContent();
+	public PrefixedChoice getContent();
 
-	public Production getExclusion();
+	public PrefixedChoice getExclusion();
 
 }

@@ -5,22 +5,24 @@ import java.util.List;
 import org.hisrc.jstax.grammar.Char;
 import org.hisrc.jstax.grammar.Chars;
 import org.hisrc.jstax.grammar.Grammar;
+import org.hisrc.jstax.grammar.Prefix;
+import org.hisrc.jstax.grammar.PrefixedChoice;
 import org.hisrc.jstax.grammar.Production;
 import org.hisrc.jstax.grammar.Quoted;
 
-public class QuotedImpl extends ChoiceImpl implements Quoted {
+public class QuotedImpl extends PrefixedChoiceImpl implements Quoted {
 
-	private final Production content;
+	private final PrefixedChoice content;
 	private final Chars quotes;
 
-	public QuotedImpl(Production content, Chars quotes) {
+	public QuotedImpl(PrefixedChoice content, Chars quotes) {
 		super(quoted(content, quotes));
 		this.content = content;
 		this.quotes = quotes;
 	}
 
 	@Override
-	public Production getContent() {
+	public PrefixedChoice getContent() {
 		return this.content;
 	}
 
@@ -29,9 +31,9 @@ public class QuotedImpl extends ChoiceImpl implements Quoted {
 		return quotes;
 	}
 
-	private static Production[] quoted(Production content, Chars quotes) {
+	private static Prefix[] quoted(PrefixedChoice content, Chars quotes) {
 		final List<Char> chars = quotes.getChars();
-		final Production[] productions = new Production[chars.size()];
+		final Prefix[] productions = new Prefix[chars.size()];
 		int index = 0;
 		for (Char _char : chars) {
 			productions[index++] = Grammar.surrounded(_char,

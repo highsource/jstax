@@ -60,8 +60,7 @@ public class StringInput implements Input {
 			if (this.lastCharWasEOL) {
 				this.lineNumber++;
 				this.columnNumber = 1;
-			}
-			else {
+			} else {
 				this.columnNumber++;
 			}
 			if (ch == CharConstants.CR) {
@@ -86,6 +85,16 @@ public class StringInput implements Input {
 			return CharConstants.EOF;
 		} else {
 			return this.str[this.current];
+		}
+	}
+
+	@Override
+	public char peekChar(int offset) {
+		final int position = this.current + offset;
+		if (position >= this.length) {
+			return CharConstants.EOF;
+		} else {
+			return this.str[position];
 		}
 	}
 

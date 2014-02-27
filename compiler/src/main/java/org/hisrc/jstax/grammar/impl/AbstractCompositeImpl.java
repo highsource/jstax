@@ -15,6 +15,7 @@ public abstract class AbstractCompositeImpl implements Composite {
 
 	public AbstractCompositeImpl(Production... elements) {
 		Validate.noNullElements(elements);
+		Validate.notEmpty(elements);
 		this.elements = Arrays.asList(elements);
 		this.unmodifiableElements = Collections.unmodifiableList(this.elements);
 	}

@@ -41,7 +41,7 @@ public class CharRangesImpl extends AbstractChImpl implements CharRanges {
 	}
 
 	@Override
-	public boolean check(Input input) {
+	public boolean matches(Input input) {
 		final char ch = input.peekChar();
 		for (int index = 0; index < this.length; index++) {
 			final char[] range = this.chs[index];

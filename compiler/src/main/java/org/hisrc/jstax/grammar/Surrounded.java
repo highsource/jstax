@@ -1,6 +1,6 @@
 package org.hisrc.jstax.grammar;
 
-public interface Surrounded extends Sequence {
+public interface Surrounded extends PrefixedSequence {
 
 	public Str getStart();
 

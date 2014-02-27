@@ -21,7 +21,7 @@ public class ZeroOrMoreChImpl extends ZeroOrMoreImpl implements ZeroOrMoreCh {
 	}
 
 	public void read(Input input, Result result, ErrorHandler handler) {
-		while (this.element.check(input)) {
+		while (this.element.matches(input)) {
 			this.element.read(input, result, handler);
 		}
 	}

@@ -5,7 +5,7 @@ import org.hisrc.jstax.grammar.Production;
 import org.hisrc.jstax.grammar.Str;
 import org.hisrc.jstax.grammar.Surrounded;
 
-public class SurroundedImpl extends SequenceImpl implements Surrounded {
+public class SurroundedImpl extends PrefixedSequenceImpl implements Surrounded {
 
 	private final Str start;
 	private final Production content;

@@ -1,5 +1,7 @@
 package org.hisrc.jstax.grammar;
 
+import java.util.List;
+
 import org.hisrc.jstax.grammar.impl.CharImpl;
 import org.hisrc.jstax.grammar.impl.CharRangeImpl;
 import org.hisrc.jstax.grammar.impl.CharRangesImpl;
@@ -12,16 +14,15 @@ import org.hisrc.jstax.grammar.impl.ExcludingImpl;
 import org.hisrc.jstax.grammar.impl.NegativeCharsImpl;
 import org.hisrc.jstax.grammar.impl.NotIncludingImpl;
 import org.hisrc.jstax.grammar.impl.OneOrMoreChImpl;
-import org.hisrc.jstax.grammar.impl.OneOrMoreImpl;
+import org.hisrc.jstax.grammar.impl.OptionalPrefixedChoiceImpl;
+import org.hisrc.jstax.grammar.impl.PrefixedChoiceImpl;
+import org.hisrc.jstax.grammar.impl.PrefixedSequenceImpl;
 import org.hisrc.jstax.grammar.impl.QuotedImpl;
 import org.hisrc.jstax.grammar.impl.SequenceImpl;
-import org.hisrc.jstax.grammar.impl.StrIgnoreCaseImpl;
 import org.hisrc.jstax.grammar.impl.StrImpl;
 import org.hisrc.jstax.grammar.impl.SurroundedImpl;
 import org.hisrc.jstax.grammar.impl.TerminatedImpl;
-import org.hisrc.jstax.grammar.impl.ZeroOrMoreChImpl;
 import org.hisrc.jstax.grammar.impl.ZeroOrMoreImpl;
-import org.hisrc.jstax.grammar.impl.ZeroOrOneImpl;
 
 public class Grammar {
 
@@ -33,24 +34,44 @@ public class Grammar {
 		return new SequenceImpl(elements);
 	}
 
+	public static PrefixedChoice sequence1(PrefixedChoice first,
+			PrefixedChoice... elements) {
+		if (elements.length == 0) {
+			return first;
+		} else {
+			final List<? extends Prefix> prefixes = first.getElements();
+			final Prefix[] suffixedElements = new Prefix[prefixes.size()];
+			int index = 0;
+			for (Prefix prefix : first.getElements()) {
+				suffixedElements[index++] = sequence(prefix, elements);
+			}
+			return choice(suffixedElements);
+		}
+	}
+
+	public static PrefixedSequence sequence(Prefix first,
+			Production... elements) {
+		return new PrefixedSequenceImpl(first, elements);
+	}
+
+	public static PrefixedChoice choice(PrefixedChoice... elements) {
+		return new PrefixedChoiceImpl(elements);
+	}
+
 	public static Choice choice(Production... elements) {
 		return new ChoiceImpl(elements);
 	}
 
-	public static ZeroOrOne zeroOrOne(Production element) {
-		return new ZeroOrOneImpl(element);
+	public static OptionalPrefixedChoice zeroOrOne(PrefixedChoice element) {
+		return new OptionalPrefixedChoiceImpl(element);
 	}
 
-	public static ZeroOrMoreCh zeroOrMore(Ch element) {
-		return new ZeroOrMoreChImpl(element);
+	public static OptionalPrefixedChoice zeroOrMore(Ch element) {
+		return zeroOrOne(oneOrMore(element));
 	}
 
 	public static ZeroOrMore zeroOrMore(Production element) {
 		return new ZeroOrMoreImpl(element);
-	}
-
-	public static OneOrMore oneOrMore(Production element) {
-		return new OneOrMoreImpl(element);
 	}
 
 	public static OneOrMoreCh oneOrMore(Ch element) {
@@ -93,11 +114,11 @@ public class Grammar {
 		return new CharRangesImpl(elements);
 	}
 
-	public static Delimited delimited(Production element, Production delimiter) {
+	public static Delimited delimited(Prefix element, Prefix delimiter) {
 		return new DelimitedImpl(element, delimiter);
 	}
 
-	public static Excluding excluding(Production content, Production exclusion) {
+	public static Excluding excluding(Prefix content, PrefixedChoice exclusion) {
 		return new ExcludingImpl(content, exclusion);
 	}
 
@@ -105,7 +126,8 @@ public class Grammar {
 		return new NotIncludingImpl(element, exclusion);
 	}
 
-	public static Excluding excluding(Production content, CharRanges exclusion) {
+	public static Excluding excluding(PrefixedChoice content,
+			CharRanges exclusion) {
 		return new ExcludingCharRangesImpl(content, exclusion);
 	}
 
@@ -121,11 +143,7 @@ public class Grammar {
 		return new StrImpl(str);
 	}
 
-	public static Str strIgnoreCase(String str) {
-		return new StrIgnoreCaseImpl(str);
-	}
-
-	public static Quoted quoted(Production content, Chars quotes) {
+	public static Quoted quoted(PrefixedChoice content, Chars quotes) {
 		return new QuotedImpl(content, quotes);
 	}
 }

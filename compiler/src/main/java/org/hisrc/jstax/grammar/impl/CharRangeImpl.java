@@ -43,7 +43,7 @@ public class CharRangeImpl extends AbstractChImpl implements CharRange {
 	}
 
 	@Override
-	public boolean check(Input input) {
+	public boolean matches(Input input) {
 		final char ch = input.peekChar();
 		return ch >= this.from && ch <= this.to;
 	}

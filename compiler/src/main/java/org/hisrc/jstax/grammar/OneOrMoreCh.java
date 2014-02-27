@@ -4,7 +4,7 @@ import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
 import org.hisrc.jstax.io.Result;
 
-public interface OneOrMoreCh extends OneOrMore {
+public interface OneOrMoreCh extends OneOrMore, Prefix {
 
 	@Override
 	public Ch getElement();

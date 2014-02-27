@@ -1,8 +1,8 @@
 package org.hisrc.jstax.grammar;
 
-public interface Quoted extends Choice {
+public interface Quoted extends PrefixedChoice {
 
-	public Production getContent();
+	public PrefixedChoice getContent();
 
 	public Chars getQuotes();
 

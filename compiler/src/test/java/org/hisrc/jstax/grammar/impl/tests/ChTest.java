@@ -16,9 +16,9 @@ public class ChTest {
 	public void testCharCheck() {
 		final Ch ch = Grammar._char('a');
 		final Input input = new StringInput("ab");
-		Assert.assertTrue(ch.check(input));
+		Assert.assertTrue(ch.matches(input));
 		input.readChar();
-		Assert.assertFalse(ch.check(input));
+		Assert.assertFalse(ch.matches(input));
 	}
 
 	@Test
@@ -34,9 +34,9 @@ public class ChTest {
 	public void testCharRange() {
 		final Ch ch = Grammar.charRange('b', 'y');
 		final Input input = new StringInput("ba");
-		Assert.assertTrue(ch.check(input));
+		Assert.assertTrue(ch.matches(input));
 		input.readChar();
-		Assert.assertFalse(ch.check(input));
+		Assert.assertFalse(ch.matches(input));
 	}
 
 	@Test
@@ -44,27 +44,27 @@ public class ChTest {
 		final Ch ch = Grammar.charRanges(Grammar.charRange('a', 'c'),
 				Grammar.charRange('x', 'z'));
 		final Input input = new StringInput("xd");
-		Assert.assertTrue(ch.check(input));
+		Assert.assertTrue(ch.matches(input));
 		input.readChar();
-		Assert.assertFalse(ch.check(input));
+		Assert.assertFalse(ch.matches(input));
 	}
 
 	@Test
 	public void testChars() {
 		final Ch ch = Grammar.chars('a', 'b', 'c');
 		final Input input = new StringInput("cd");
-		Assert.assertTrue(ch.check(input));
+		Assert.assertTrue(ch.matches(input));
 		input.readChar();
-		Assert.assertFalse(ch.check(input));
+		Assert.assertFalse(ch.matches(input));
 	}
 
 	@Test
 	public void testNegativeChars() {
 		final Ch ch = Grammar.negativeChars("geca");
 		final Input input = new StringInput("dc");
-		Assert.assertTrue(ch.check(input));
+		Assert.assertTrue(ch.matches(input));
 		input.readChar();
-		Assert.assertFalse(ch.check(input));
+		Assert.assertFalse(ch.matches(input));
 	}
 
 }
