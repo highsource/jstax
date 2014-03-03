@@ -2,31 +2,30 @@ package org.hisrc.jstax.grammar.gamma;
 
 public class CharConstants {
 
-	public static final Char MIN = GammaProducer._char('\u0000');
-	public static final Char MAX = GammaProducer._char('\uFFFF');
-	public static final CharRange ANY_CHAR = GammaProducer.charRange(
-			MIN.getChar(), MAX.getChar());
-	public static final Char TAB_CHAR = GammaProducer._char((char) 0x9);
-	public static final Char LF_CHAR = GammaProducer._char((char) 0xA);
-	public static final Char CR_CHAR = GammaProducer._char((char) 0xD);
-	public static final Char SPACE_CHAR = GammaProducer._char((char) 0x20);
-	public static final Char APOSTROPHE = GammaProducer._char('\'');
-	public static final Char QUOTATION_MARK = GammaProducer._char('\"');
-	public static final Chars QUOTES = GammaProducer.chars(APOSTROPHE,
+	public static final Char MIN = Producer._char('\u0000');
+	public static final Char MAX = Producer._char('\uFFFF');
+	public static final CharRange ANY_CHAR = Producer.charRange(MIN.getChar(),
+			MAX.getChar());
+	public static final Char TAB_CHAR = Producer._char((char) 0x9);
+	public static final Char LF_CHAR = Producer._char((char) 0xA);
+	public static final Char CR_CHAR = Producer._char((char) 0xD);
+	public static final Char SPACE_CHAR = Producer._char((char) 0x20);
+	public static final Char APOSTROPHE = Producer._char('\'');
+	public static final Char QUOTATION_MARK = Producer._char('\"');
+	public static final Chars QUOTES = Producer.chars(APOSTROPHE,
 			QUOTATION_MARK);
-	public static final Char AMPERSAND = GammaProducer._char('&');
-	public static final Char PERCENT_SIGN = GammaProducer._char('%');
-	public static final Char SEMICOLON = GammaProducer._char(';');
-	public static final Char LT = GammaProducer._char('<');
-	public static final Char GT = GammaProducer._char('>');
-	public static final CharRange DIGITS = GammaProducer.charRange('0', '9');
-	public static final CharRanges LETTERS = GammaProducer.charRanges(
-			GammaProducer.charRange('a', 'z'),
-			GammaProducer.charRange('A', 'Z'));
-	public static final CharRanges DIGITS_AND_LETTERS = GammaProducer
-			.charRanges(DIGITS, LETTERS);
+	public static final Char AMPERSAND = Producer._char('&');
+	public static final Char PERCENT_SIGN = Producer._char('%');
+	public static final Char SEMICOLON = Producer._char(';');
+	public static final Char LT = Producer._char('<');
+	public static final Char GT = Producer._char('>');
+	public static final CharRange DIGITS = Producer.charRange('0', '9');
+	public static final CharRanges LETTERS = Producer.charRanges(
+			Producer.charRange('a', 'z'), Producer.charRange('A', 'Z'));
+	public static final CharRanges DIGITS_AND_LETTERS = Producer.charRanges(
+			DIGITS, LETTERS);
 	// [3]
-	public static final Chars WHITESPACE_CHAR = GammaProducer.chars(SPACE_CHAR,
+	public static final Chars WHITESPACE_CHAR = Producer.chars(SPACE_CHAR,
 			TAB_CHAR, LF_CHAR, CR_CHAR);
-	public static final Char COLON = GammaProducer._char(':');
+	public static final Char COLON = Producer._char(':');
 }

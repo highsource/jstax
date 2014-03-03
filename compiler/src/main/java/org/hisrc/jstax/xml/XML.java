@@ -1,21 +1,21 @@
 package org.hisrc.jstax.xml;
 
-import static org.hisrc.jstax.grammar.gamma.GammaProducer._char;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.choice;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.delimited;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.negativeChars;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.quoted;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.quotedSingle;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.sequence;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.str;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.surrounded;
-import static org.hisrc.jstax.grammar.gamma.GammaProducer.terminated;
+import static org.hisrc.jstax.grammar.gamma.Producer._char;
+import static org.hisrc.jstax.grammar.gamma.Producer.choice;
+import static org.hisrc.jstax.grammar.gamma.Producer.delimited;
+import static org.hisrc.jstax.grammar.gamma.Producer.negativeChars;
+import static org.hisrc.jstax.grammar.gamma.Producer.quoted;
+import static org.hisrc.jstax.grammar.gamma.Producer.quotedSingle;
+import static org.hisrc.jstax.grammar.gamma.Producer.sequence;
+import static org.hisrc.jstax.grammar.gamma.Producer.str;
+import static org.hisrc.jstax.grammar.gamma.Producer.surrounded;
+import static org.hisrc.jstax.grammar.gamma.Producer.terminated;
 
 import org.hisrc.jstax.grammar.gamma.CharConstants;
 import org.hisrc.jstax.grammar.gamma.CharRanges;
 import org.hisrc.jstax.grammar.gamma.Choice;
 import org.hisrc.jstax.grammar.gamma.Delimited;
-import org.hisrc.jstax.grammar.gamma.GammaProducer;
+import org.hisrc.jstax.grammar.gamma.Producer;
 import org.hisrc.jstax.grammar.gamma.Production;
 import org.hisrc.jstax.grammar.gamma.Str;
 import org.hisrc.jstax.grammar.gamma.Surrounded;
@@ -25,10 +25,10 @@ public class XML {
 	// [2] Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] |
 	// [#x10000-#x10FFFF] /* any Unicode character, excluding the surrogate
 	// blocks, FFFE, and FFFF. */
-	public static final CharRanges CHAR = GammaProducer.charRanges(
-			GammaProducer.charRange('\u0021', '\uD7FF'),
+	public static final CharRanges CHAR = Producer.charRanges(
+			Producer.charRange('\u0021', '\uD7FF'),
 			CharConstants.WHITESPACE_CHAR,
-			GammaProducer.charRange('\uE000', '\uFFFD'));
+			Producer.charRange('\uE000', '\uFFFD'));
 
 	// [3] S ::= (#x20 | #x9 | #xD | #xA)+
 	public static final Production S = CharConstants.WHITESPACE_CHAR
@@ -40,30 +40,28 @@ public class XML {
 	// [#xD8-#xF6] | [#xF8-#x2FF] | [#x370-#x37D] | [#x37F-#x1FFF] |
 	// [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] |
 	// [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]
-	public static final CharRanges NAME_START_CHAR = GammaProducer.charRanges(
-			GammaProducer.charRange('A', 'Z'),
-			GammaProducer.charRange('a', 'z'), CharConstants.COLON,
-			GammaProducer._char('_'),
-			GammaProducer.charRange('\u00C0', '\u00D6'),
-			GammaProducer.charRange('\u00D8', '\u00F6'),
-			GammaProducer.charRange('\u00F8', '\u02FF'),
-			GammaProducer.charRange('\u0370', '\u037D'),
-			GammaProducer.charRange('\u037F', '\u1FFF'),
-			GammaProducer.charRange('\u200C', '\u200D'),
-			GammaProducer.charRange('\u2070', '\u218F'),
-			GammaProducer.charRange('\u2C00', '\u2FEF'),
-			GammaProducer.charRange('\u3001', '\uD7FF'),
-			GammaProducer.charRange('\uF900', '\uFDCF'),
-			GammaProducer.charRange('\uFDF0', '\uFFFD'));
+	public static final CharRanges NAME_START_CHAR = Producer.charRanges(
+			Producer.charRange('A', 'Z'), Producer.charRange('a', 'z'),
+			CharConstants.COLON, Producer._char('_'),
+			Producer.charRange('\u00C0', '\u00D6'),
+			Producer.charRange('\u00D8', '\u00F6'),
+			Producer.charRange('\u00F8', '\u02FF'),
+			Producer.charRange('\u0370', '\u037D'),
+			Producer.charRange('\u037F', '\u1FFF'),
+			Producer.charRange('\u200C', '\u200D'),
+			Producer.charRange('\u2070', '\u218F'),
+			Producer.charRange('\u2C00', '\u2FEF'),
+			Producer.charRange('\u3001', '\uD7FF'),
+			Producer.charRange('\uF900', '\uFDCF'),
+			Producer.charRange('\uFDF0', '\uFFFD'));
 
 	// [4a] NameChar ::= NameStartChar | "-" | "." | [0-9] | #xB7 |
 	// [#x0300-#x036F] | [#x203F-#x2040]
-	public static final CharRanges NAME_CHAR = GammaProducer.charRanges(
-			NAME_START_CHAR, GammaProducer._char('-'),
-			GammaProducer._char('.'), CharConstants.DIGITS,
-			GammaProducer._char('\u00B7'),
-			GammaProducer.charRange('\u0300', '\u036F'),
-			GammaProducer.charRange('\u203F', '\u2040'));
+	public static final CharRanges NAME_CHAR = Producer.charRanges(
+			NAME_START_CHAR, Producer._char('-'), Producer._char('.'),
+			CharConstants.DIGITS, Producer._char('\u00B7'),
+			Producer.charRange('\u0300', '\u036F'),
+			Producer.charRange('\u203F', '\u2040'));
 
 	// [5] Name ::= NameStartChar (NameChar)*
 	public static final Production NAME = NAME_START_CHAR.followedBy(NAME_CHAR
@@ -90,14 +88,14 @@ public class XML {
 
 	// [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
 	public static final Production CHAR_REF = sequence(
-			GammaProducer.str("&#"),
+			Producer.str("&#"),
 			choice(CharConstants.DIGITS.oneOrMore(),
 					sequence(
-							GammaProducer._char('x'),
-							GammaProducer.charRanges(CharConstants.DIGITS,
-									GammaProducer.charRange('a', 'f'),
-									GammaProducer.charRange('A', 'F'))
-									.oneOrMore())), CharConstants.SEMICOLON);
+							Producer._char('x'),
+							Producer.charRanges(CharConstants.DIGITS,
+									Producer.charRange('a', 'f'),
+									Producer.charRange('A', 'F')).oneOrMore())),
+			CharConstants.SEMICOLON);
 
 	// [67] Reference ::= EntityRef | CharRef
 	public static final Production REFERENCE = ENTITY_REF.or(CHAR_REF);
@@ -120,29 +118,27 @@ public class XML {
 			CharConstants.ANY_CHAR, CharConstants.QUOTES);
 
 	// [13] PubidChar ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]
-	public static final CharRanges PUBID_CHAR = GammaProducer.charRanges(
+	public static final CharRanges PUBID_CHAR = Producer.charRanges(
 			CharConstants.SPACE_CHAR, CharConstants.CR_CHAR,
 			CharConstants.LF_CHAR, CharConstants.DIGITS_AND_LETTERS,
-			GammaProducer.chars("-'()+,./:=?;!*#@$_%"));
+			Producer.chars("-'()+,./:=?;!*#@$_%"));
 
 	// [12] PubidLiteral ::= '"' PubidChar* '"' | "'" (PubidChar - "'")* "'"
 	public static final Production PUBID_LITERAL = quoted(PUBID_CHAR,
 			CharConstants.QUOTES);
 
 	// [21] CDEnd ::= ']]>'
-	public static final Str CD_END = GammaProducer.str("]]>");
+	public static final Str CD_END = Producer.str("]]>");
 
-	// TODO terminated?
 	// [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
 	public static final Production CHAR_DATA = terminated(
-			GammaProducer.negativeChars(CharConstants.SEMICOLON,
-					CharConstants.LT), CD_END);
+			Producer.negativeChars(CharConstants.SEMICOLON, CharConstants.LT),
+			CD_END);
 
 	// [15] Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
-	public static final Production COMMENT = str("<!--")
-			.followedBy(
-					GammaProducer.terminated(CHAR.zeroOrMore(),
-							GammaProducer.str("--"))).followedBy(str("-->"));
+	public static final Production COMMENT = str("<!--").followedBy(
+			Producer.terminated(CHAR.zeroOrMore(), Producer.str("--")))
+			.followedBy(str("-->"));
 
 	// [17] PITarget ::= Name - (('X' | 'x') ('M' | 'm') ('L' | 'l'))
 	public static final Production XML_IGNORECASE = sequence(
@@ -155,16 +151,15 @@ public class XML {
 	public static final Production PI_TARGET = NAME.butNot(XML_IGNORECASE);
 
 	// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
-	// TODO
-	public static final Str PI_START = GammaProducer.str("<?");
-	public static final Str PI_END = GammaProducer.str("?>");
+	public static final Str PI_START = Producer.str("<?");
+	public static final Str PI_END = Producer.str("?>");
 	public static final Surrounded PI = surrounded(
 			PI_START,
 			PI_TARGET.followedBy(S.followedBy(
 					terminated(CHAR.zeroOrMore(), PI_END)).zeroOrOne()), PI_END);
 
 	// [19] CDStart ::= '<![CDATA['
-	public static final Str CD_START = GammaProducer.str("<![CDATA[");
+	public static final Str CD_START = Producer.str("<![CDATA[");
 
 	// [20] CData ::= (Char* - (Char* ']]>' Char*))
 	public static final Production C_DATA = terminated(CHAR.zeroOrMore(),
@@ -175,9 +170,8 @@ public class XML {
 			CD_END);
 
 	// [26] VersionNum ::= '1.' [0-9]+
-	// TODO oneOrMore(DIGITS);
-	public static final Production VERSION_NUM = GammaProducer.str("1.")
-			.followedBy(CharConstants.DIGITS.oneOrMore());
+	public static final Production VERSION_NUM = Producer.str("1.").followedBy(
+			CharConstants.DIGITS.oneOrMore());
 
 	// [25] Eq ::= S? '=' S?
 	public static final Production EQ = POSSIBLY_S.followedBy(_char('='))
@@ -186,14 +180,13 @@ public class XML {
 	// [24] VersionInfo ::= S 'version' Eq ("'" VersionNum "'" | '"' VersionNum
 	// '"')
 	public static final Production VERSION_INFO = S
-			.followedBy(GammaProducer.str("version")).followedBy(EQ)
+			.followedBy(Producer.str("version")).followedBy(EQ)
 			.followedBy(quotedSingle(VERSION_NUM, CharConstants.QUOTES));
 
 	// [81] EncName ::= [A-Za-z] ([A-Za-z0-9._] | '-')*
 	public static final Production ENC_NAME = CharConstants.LETTERS
-			.followedBy(GammaProducer.charRanges(
-					CharConstants.DIGITS_AND_LETTERS,
-					GammaProducer.chars("._-")).zeroOrMore());
+			.followedBy(Producer.charRanges(CharConstants.DIGITS_AND_LETTERS,
+					Producer.chars("._-")).zeroOrMore());
 
 	// [80] EncodingDecl ::= S 'encoding' Eq ('"' EncName '"' | "'" EncName "'"
 	// )
@@ -203,10 +196,10 @@ public class XML {
 
 	// [32] SDDecl ::= S 'standalone' Eq (("'" ('yes' | 'no') "'") | ('"' ('yes'
 	// | 'no') '"'))
-	public static final Production YES_NO = GammaProducer.str("yes").or(
-			GammaProducer.str("no"));
+	public static final Production YES_NO = Producer.str("yes").or(
+			Producer.str("no"));
 	public static final Production SD_DECL = S
-			.followedBy(GammaProducer.str("standalone")).followedBy(EQ)
+			.followedBy(Producer.str("standalone")).followedBy(EQ)
 			.followedBy(quotedSingle(YES_NO, CharConstants.QUOTES));
 
 	// [23] XMLDecl ::= '<?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
@@ -228,16 +221,15 @@ public class XML {
 			ATT_VALUE);
 
 	// [44] EmptyElemTag ::= '<' Name (S Attribute)* S? '/>'
-	public static final Production EMPTY_ELEM_TAG = surrounded(
-			GammaProducer._char('<'),
-			NAME.followedBy(S.followedBy(ATTRIBUTE).zeroOrMore()).followedBy(
-					POSSIBLY_S), str("/>"));
+	public static final Production START_TAG_PART = Producer._char('<')
+			.followedBy(NAME).followedBy(S.followedBy(ATTRIBUTE).zeroOrMore())
+			.followedBy(POSSIBLY_S);
+	// public static final Production EMPTY_ELEM_TAG = START_TAG_PART
+	// .followedBy(str("/>"));
 
 	// [40] STag ::= '<' Name (S Attribute)* S? '>'
-	public static final Production S_TAG = surrounded(
-			GammaProducer._char('<'),
-			NAME.followedBy(S.followedBy(ATTRIBUTE).zeroOrMore()).followedBy(
-					POSSIBLY_S), str(">"));
+	// public static final Production S_TAG = START_TAG_PART
+	// .followedBy(_char('>'));
 
 	// [42] ETag ::= '</' Name S? '>'
 	public static final Surrounded E_TAG = surrounded(str("</"),
@@ -254,8 +246,15 @@ public class XML {
 					.zeroOrMore());
 
 	// [39] element ::= EmptyElemTag|STag content ETag
-	public static final Production ELEMENT = choice(EMPTY_ELEM_TAG,
-			sequence(S_TAG, CONTENT, E_TAG));
+	// public static final Production ELEMENT = choice(EMPTY_ELEM_TAG,
+	// sequence(S_TAG, CONTENT, E_TAG));
+	public static final Production ELEMENT =
+	// choice(
+	// START_TAG_PART.followedBy(str("/>")),
+	// START_TAG_PART.followedBy(_char('>')).followedBy(CONTENT)
+	// .followedBy(E_TAG));
+	START_TAG_PART.followedBy(str("/>").or(
+			_char('>').followedBy(CONTENT).followedBy(E_TAG)));
 
 	// [1] document ::= prolog element Misc*
 
@@ -264,7 +263,7 @@ public class XML {
 
 	static {
 		// Hack for circular dependency
-//		NON_CHARACTER_CONTENT.add(ELEMENT);
+		// NON_CHARACTER_CONTENT.add(ELEMENT);
 	}
 
 }

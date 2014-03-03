@@ -10,8 +10,8 @@ import org.hisrc.jstax.grammar.gamma.Char;
 import org.hisrc.jstax.grammar.gamma.CharConstants;
 import org.hisrc.jstax.grammar.gamma.CharRange;
 import org.hisrc.jstax.grammar.gamma.Chars;
-import org.hisrc.jstax.grammar.gamma.GammaProducer;
 import org.hisrc.jstax.grammar.gamma.NegativeChars;
+import org.hisrc.jstax.grammar.gamma.Producer;
 import org.hisrc.jstax.io.Input;
 
 public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
@@ -41,7 +41,7 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 		System.arraycopy(negativeChars, 0, sortedNegativeChars, 0, this.length);
 		Arrays.sort(sortedNegativeChars);
 		negativeChars = sortedNegativeChars;
-		this.negativeChars = GammaProducer.chars(sortedNegativeChars);
+		this.negativeChars = Producer.chars(sortedNegativeChars);
 
 		this.charRanges = new ArrayList<CharRange>(this.length + 1);
 		for (int index = 0; index <= this.length; index++) {
@@ -50,7 +50,7 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 			final char to = (index == this.length ? CharConstants.MAX.getChar()
 					: (char) (negativeChars[index].getChar() - 1));
 			if (from <= to) {
-				this.charRanges.add(GammaProducer.charRange(from, to));
+				this.charRanges.add(Producer.charRange(from, to));
 			}
 		}
 		this.unmodifiableCharRanges = Collections
@@ -71,7 +71,7 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 		Validate.notNull(_chars);
 		final Char[] chars = new Char[_chars.length];
 		for (int index = 0; index < _chars.length; index++) {
-			chars[index] = GammaProducer._char(_chars[index]);
+			chars[index] = Producer._char(_chars[index]);
 		}
 		return chars;
 	}

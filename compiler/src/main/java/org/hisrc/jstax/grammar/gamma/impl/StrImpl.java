@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.gamma.Ch;
 import org.hisrc.jstax.grammar.gamma.Char;
-import org.hisrc.jstax.grammar.gamma.GammaProducer;
+import org.hisrc.jstax.grammar.gamma.Producer;
 import org.hisrc.jstax.grammar.gamma.Str;
 
 public class StrImpl extends SequenceImpl implements Str {
@@ -24,7 +24,7 @@ public class StrImpl extends SequenceImpl implements Str {
 		final char[] chars = str.toCharArray();
 		final Char[] elements = new Char[chars.length];
 		for (int index = 0; index < chars.length; index++) {
-			elements[index] = GammaProducer._char(chars[index]);
+			elements[index] = Producer._char(chars[index]);
 		}
 		return elements;
 	}

@@ -9,7 +9,7 @@ import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.gamma.Char;
 import org.hisrc.jstax.grammar.gamma.CharRange;
 import org.hisrc.jstax.grammar.gamma.Chars;
-import org.hisrc.jstax.grammar.gamma.GammaProducer;
+import org.hisrc.jstax.grammar.gamma.Producer;
 import org.hisrc.jstax.io.Input;
 
 public class CharsImpl extends AbstractChImpl implements Chars {
@@ -57,7 +57,7 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 		Validate.notNull(_chars);
 		final Char[] chars = new Char[_chars.length];
 		for (int index = 0; index < _chars.length; index++) {
-			chars[index] = GammaProducer._char(_chars[index]);
+			chars[index] = Producer._char(_chars[index]);
 		}
 		return chars;
 	}

@@ -14,7 +14,7 @@ import org.hisrc.jstax.grammar.gamma.impl.StrImpl;
 import org.hisrc.jstax.grammar.gamma.impl.SurroundedImpl;
 import org.hisrc.jstax.grammar.gamma.impl.TerminatedImpl;
 
-public class GammaProducer {
+public class Producer {
 
 	public static Char _char(char ch) {
 		return new CharImpl(ch);
