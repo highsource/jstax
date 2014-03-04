@@ -10,9 +10,12 @@ import org.jgrapht.DirectedGraph;
 public class EmptyVertexWithNoIncomingEdgesRemover extends
 		DefaultVertexVisitor<Boolean> {
 
+	private final DirectedGraph<Vertex, Edge> graph;
+
 	public EmptyVertexWithNoIncomingEdgesRemover(
 			DirectedGraph<Vertex, Edge> graph) {
-		super(graph);
+		Validate.notNull(graph);
+		this.graph = graph;
 	}
 
 	@Override
@@ -31,6 +34,10 @@ public class EmptyVertexWithNoIncomingEdgesRemover extends
 		} else {
 			return false;
 		}
+	}
+
+	public DirectedGraph<Vertex, Edge> getGraph() {
+		return graph;
 	}
 
 }

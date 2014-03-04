@@ -45,9 +45,14 @@ public class CharRangeImpl extends AbstractChImpl implements CharRange {
 	@Override
 	public boolean startsInput(Input input) {
 		final char ch = input.peekChar();
+		return matches(ch);
+	}
+
+	@Override
+	public boolean matches(final char ch) {
 		return ch >= this.from && ch <= this.to;
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.valueOf(getFrom()) + "-" + String.valueOf(getTo());

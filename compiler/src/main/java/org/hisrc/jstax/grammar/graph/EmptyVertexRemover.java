@@ -11,8 +11,11 @@ import org.jgrapht.DirectedGraph;
 
 public class EmptyVertexRemover extends DefaultVertexVisitor<Boolean> {
 
+	private final DirectedGraph<Vertex, Edge> graph;
+
 	public EmptyVertexRemover(DirectedGraph<Vertex, Edge> graph) {
-		super(graph);
+		Validate.notNull(graph);
+		this.graph = graph;
 	}
 
 	@Override
@@ -41,6 +44,10 @@ public class EmptyVertexRemover extends DefaultVertexVisitor<Boolean> {
 		}
 		graph.removeVertex(vertex);
 		return true;
+	}
+
+	public DirectedGraph<Vertex, Edge> getGraph() {
+		return graph;
 	}
 
 }

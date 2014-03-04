@@ -52,6 +52,11 @@ public class CharImpl extends AbstractChImpl implements Char {
 	@Override
 	public boolean startsInput(Input input) {
 		final char ch = input.peekChar();
+		return matches(ch);
+	}
+
+	@Override
+	public boolean matches(final char ch) {
 		return this.ch == ch;
 	}
 

@@ -9,6 +9,15 @@ import org.hisrc.jstax.grammar.gamma.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.gamma.impl.EndVertexImpl;
 import org.hisrc.jstax.grammar.gamma.impl.StartVertexImpl;
 import org.hisrc.jstax.grammar.graph.GraphOptimizer;
+import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
+import org.hisrc.jstax.grammar.parser.StateMachineParser;
+import org.hisrc.jstax.grammar.state.StateMachine;
+import org.hisrc.jstax.io.ErrorHandler;
+import org.hisrc.jstax.io.Input;
+import org.hisrc.jstax.io.Result;
+import org.hisrc.jstax.io.impl.StringInput;
+import org.hisrc.jstax.io.impl.StringResult;
+import org.hisrc.jstax.io.impl.ThrowingErrorHandler;
 import org.hisrc.jstax.jgrapht.ext.GMLGraphExporter;
 import org.hisrc.jstax.jgrapht.ext.GraphExporter;
 import org.hisrc.jstax.xml.XML;
@@ -37,7 +46,7 @@ public class XMLGraphTest {
 
 		graph.addVertex(start);
 		graph.addVertex(end);
-		XML.DOCUMENT.buildGraph(graph, start, end);
+		XML.COMMENT.buildGraph(graph, start, end);
 
 		new GraphOptimizer(graph).optimize();
 
@@ -54,6 +63,15 @@ public class XMLGraphTest {
 					}
 				}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),
 				LoggerFactory.getLogger(getClass()));
+
+		final StateMachine stateMachine = new StateMachineBuilder()
+				.buildStateMachine(graph);
+		final StateMachineParser parser = new StateMachineParser(stateMachine);
+
+		final Input input = new StringInput("<!-- Comment -->");
+		final Result result = new StringResult();
+		final ErrorHandler errorHandler = ThrowingErrorHandler.INSTANCE;
+		parser.parse(input, result, errorHandler);
 
 	}
 

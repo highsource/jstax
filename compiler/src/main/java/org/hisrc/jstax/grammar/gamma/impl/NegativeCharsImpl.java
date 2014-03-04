@@ -79,6 +79,11 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 	@Override
 	public boolean startsInput(Input input) {
 		final char ch = input.peekChar();
+		return matches(ch);
+	}
+
+	@Override
+	public boolean matches(final char ch) {
 		for (int index = 0; index < this.length; index++) {
 			if (ch == this.negativeChs[index]) {
 				return false;
