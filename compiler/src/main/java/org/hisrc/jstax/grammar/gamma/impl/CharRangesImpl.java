@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.gamma.ChVisitor;
+import org.hisrc.jstax.grammar.gamma.Char;
 import org.hisrc.jstax.grammar.gamma.CharRange;
 import org.hisrc.jstax.grammar.gamma.CharRanges;
 import org.hisrc.jstax.io.Input;
@@ -66,5 +68,36 @@ public class CharRangesImpl extends AbstractChImpl implements CharRanges {
 			sb.append(ch.toString());
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public <R> R accept(ChVisitor<R> visitor) {
+		Validate.notNull(visitor);
+		return visitor.visitCh(this);
+	}
+
+	@Override
+	public CharRanges minus(Char that) {
+		if (!this.intersects(that)) {
+			return this;
+		} else {
+			final List<CharRange> newCharRanges = new ArrayList<CharRange>(
+					this.charRanges.size() + 1);
+			for (final CharRange charRange : this.charRanges) {
+				final CharRanges newCharRange = charRange.minus(that);
+				if (newCharRanges != null) {
+					newCharRanges.addAll(newCharRange.getCharRanges());
+				}
+			}
+			if (newCharRanges.size() == 0) {
+				return null;
+			} else if (newCharRanges.size() == 1) {
+				return newCharRanges.get(0);
+			} else {
+				return new CharRangesImpl(
+						newCharRanges.toArray(new CharRange[newCharRanges
+								.size()]));
+			}
+		}
 	}
 }

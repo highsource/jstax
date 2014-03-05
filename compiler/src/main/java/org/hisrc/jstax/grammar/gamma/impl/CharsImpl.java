@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.gamma.ChVisitor;
 import org.hisrc.jstax.grammar.gamma.Char;
 import org.hisrc.jstax.grammar.gamma.CharRange;
+import org.hisrc.jstax.grammar.gamma.CharRanges;
 import org.hisrc.jstax.grammar.gamma.Chars;
 import org.hisrc.jstax.grammar.gamma.Producer;
 import org.hisrc.jstax.io.Input;
@@ -81,5 +83,22 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 	@Override
 	public String toString() {
 		return String.valueOf(chs);
+	}
+
+	@Override
+	public <R> R accept(ChVisitor<R> visitor) {
+		Validate.notNull(visitor);
+		return visitor.visitCh(this);
+	}
+
+	@Override
+	public CharRanges minus(Char that) {
+		if (!chars.contains(that)) {
+			return this;
+		} else {
+			final List<Char> newChars = new ArrayList<Char>(this.chars);
+			newChars.remove(that);
+			return new CharsImpl(newChars.toArray(new Char[newChars.size()]));
+		}
 	}
 }

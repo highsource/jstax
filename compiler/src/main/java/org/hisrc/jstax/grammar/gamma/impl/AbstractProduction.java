@@ -29,9 +29,9 @@ public abstract class AbstractProduction implements Production {
 		return new SequenceImpl(this, that);
 	}
 
-	@Override
-	public Production butNot(Production that) {
-		return new ButNotImpl(this, that);
-	}
+//	@Override
+//	public Production butNot(Production that) {
+//		return new ButNotImpl(this, that);
+//	}
 
 }

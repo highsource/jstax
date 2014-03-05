@@ -37,8 +37,9 @@ graph
 	node
 	[
 		id 7
-		label "[!-? 	
-?-?]"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
@@ -48,11 +49,23 @@ graph
 	node
 	[
 		id 9
-		label "[-]"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 10
+		label "[-]"
+	]
+	node
+	[
+		id 11
+		label "[-]"
+	]
+	node
+	[
+		id 12
 		label "[>]"
 	]
 	edge
@@ -66,7 +79,7 @@ graph
 	]
 	edge
 	[
-		source 10
+		source 12
 		target 2
 		graphics
 		[
@@ -111,7 +124,43 @@ graph
 	]
 	edge
 	[
-		source 9
+		source 10
+		target 11
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 11
+		target 12
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 6
+		target 7
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 6
+		target 8
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 6
 		target 10
 		graphics
 		[
@@ -121,25 +170,7 @@ graph
 	edge
 	[
 		source 7
-		target 8
-		graphics
-		[
-			targetArrow "standard"
-		]
-	]
-	edge
-	[
-		source 6
-		target 7
-		graphics
-		[
-			targetArrow "standard"
-		]
-	]
-	edge
-	[
-		source 6
-		target 8
+		target 10
 		graphics
 		[
 			targetArrow "standard"
@@ -149,6 +180,42 @@ graph
 	[
 		source 7
 		target 7
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 7
+		target 8
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 9
+		target 10
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 9
+		target 7
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 9
+		target 8
 		graphics
 		[
 			targetArrow "standard"

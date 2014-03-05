@@ -22,6 +22,6 @@ public interface Production {
 	// A B
 	public Production followedBy(Production that);
 
-	// A - B
-	public Production butNot(Production that);
+//	 A - B
+//	public Production butNot(Production that);
 }

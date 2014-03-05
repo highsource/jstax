@@ -4,7 +4,10 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.gamma.Ch;
+import org.hisrc.jstax.grammar.gamma.CharRange;
+import org.hisrc.jstax.grammar.gamma.CharRanges;
 import org.hisrc.jstax.grammar.gamma.Edge;
 import org.hisrc.jstax.grammar.gamma.Vertex;
 import org.hisrc.jstax.io.CharConstants;
@@ -15,7 +18,8 @@ import org.hisrc.jstax.io.ParseException;
 import org.hisrc.jstax.io.Result;
 import org.jgrapht.DirectedGraph;
 
-public abstract class AbstractChImpl extends AbstractProduction implements Ch {
+public abstract class AbstractChImpl extends AbstractProduction implements Ch,
+		CharRanges {
 
 	private final List<Ch> unmodifiableElements;
 
@@ -58,6 +62,20 @@ public abstract class AbstractChImpl extends AbstractProduction implements Ch {
 		graph.addVertex(middle);
 		graph.addEdge(start, middle);
 		graph.addEdge(middle, end);
+	}
+
+	@Override
+	public boolean intersects(Ch that) {
+		Validate.notNull(that);
+		for (CharRange thisCharRange : this.getCharRanges()) {
+			for (CharRange thatCharRange : that.getCharRanges()) {
+				if (thisCharRange.getTo() >= thatCharRange.getFrom()
+						&& thisCharRange.getFrom() <= thatCharRange.getTo()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

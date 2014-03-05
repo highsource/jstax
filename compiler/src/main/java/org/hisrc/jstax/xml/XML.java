@@ -79,12 +79,12 @@ public class XML {
 			CharConstants.SPACE_CHAR);
 
 	// [69] PEReference ::= '%' Name ';'
-	public static final Surrounded PE_REFERENCE = surrounded(
-			CharConstants.PERCENT_SIGN, NAME, CharConstants.SEMICOLON);
+	public static final Production PE_REFERENCE = CharConstants.PERCENT_SIGN
+			.followedBy(NAME).followedBy(CharConstants.SEMICOLON);
 
 	// [68] EntityRef ::= '&' Name ';'
-	public static final Surrounded ENTITY_REF = surrounded(
-			CharConstants.AMPERSAND, NAME, CharConstants.SEMICOLON);
+	public static final Production ENTITY_REF = CharConstants.AMPERSAND
+			.followedBy(NAME).followedBy(CharConstants.SEMICOLON);
 
 	// [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
 	public static final Production CHAR_REF = sequence(
@@ -102,20 +102,19 @@ public class XML {
 
 	// [9] EntityValue ::= '"' ([^%&"] | PEReference | Reference)* '"' | "'"
 	// ([^%&'] | PEReference | Reference)* "'"
-	public static final Production ENTITY_VALUE = quoted(
-			negativeChars(CharConstants.PERCENT_SIGN, CharConstants.AMPERSAND)
-					.or(PE_REFERENCE).or(REFERENCE), CharConstants.QUOTES);
+	public static final Production ENTITY_VALUE = quoted(CharConstants.QUOTES,
+			negativeChars(CharConstants.PERCENT_SIGN, CharConstants.AMPERSAND),
+			PE_REFERENCE, REFERENCE);
 
 	// [10] AttValue ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] |
 	// Reference)* "'"
-	public static final Production ATT_VALUE = quoted(
-			negativeChars(CharConstants.LT, CharConstants.AMPERSAND).or(
-					REFERENCE), CharConstants.QUOTES);
+	public static final Production ATT_VALUE = quoted(CharConstants.QUOTES,
+			negativeChars(CharConstants.LT, CharConstants.AMPERSAND), REFERENCE);
 
 	// [11] SystemLiteral ::= ('"' [^"]* '"') | ("'" [^']* "'")
 	// zeroOrMoreChar
 	public static final Production SYSTEM_LITERAL = quoted(
-			CharConstants.ANY_CHAR, CharConstants.QUOTES);
+			CharConstants.QUOTES, CharConstants.ANY_CHAR);
 
 	// [13] PubidChar ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]
 	public static final CharRanges PUBID_CHAR = Producer.charRanges(
@@ -124,8 +123,8 @@ public class XML {
 			Producer.chars("-'()+,./:=?;!*#@$_%"));
 
 	// [12] PubidLiteral ::= '"' PubidChar* '"' | "'" (PubidChar - "'")* "'"
-	public static final Production PUBID_LITERAL = quoted(PUBID_CHAR,
-			CharConstants.QUOTES);
+	public static final Production PUBID_LITERAL = quoted(CharConstants.QUOTES,
+			PUBID_CHAR);
 
 	// [21] CDEnd ::= ']]>'
 	public static final Str CD_END = Producer.str("]]>");
@@ -137,37 +136,40 @@ public class XML {
 
 	// [15] Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
 	public static final Production COMMENT = str("<!--").followedBy(
-			Producer.terminated(CHAR.zeroOrMore(), Producer.str("--")))
-			.followedBy(str("-->"));
+			terminated(CHAR.zeroOrMore(), str("--")).followedBy(str("--")))
+			.followedBy(_char('>'));
 
 	// [17] PITarget ::= Name - (('X' | 'x') ('M' | 'm') ('L' | 'l'))
-	public static final Production XML_IGNORECASE = sequence(
-	//
-			_char('X').or(_char('x')),
-			//
-			_char('M').or(_char('m')),
-			//
-			_char('L').or(_char('l')));
-	public static final Production PI_TARGET = NAME.butNot(XML_IGNORECASE);
+	// public static final Production XML_IGNORECASE = sequence(
+	// //
+	// _char('X').or(_char('x')),
+	// //
+	// _char('M').or(_char('m')),
+	// //
+	// _char('L').or(_char('l')));
+	// public static final Production PI_TARGET = NAME.butNot(XML_IGNORECASE);
+	public static final Production PI_TARGET = NAME;
+	// .butNot(XML_IGNORECASE);
 
 	// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
 	public static final Str PI_START = Producer.str("<?");
 	public static final Str PI_END = Producer.str("?>");
-	public static final Surrounded PI = surrounded(
-			PI_START,
-			PI_TARGET.followedBy(S.followedBy(
-					terminated(CHAR.zeroOrMore(), PI_END)).zeroOrOne()), PI_END);
+	public static final Production PI = PI_START.followedBy(PI_TARGET)
+			.followedBy(
+					S.followedBy(PI_END).or(
+							S.followedBy(terminated(CHAR.zeroOrMore(), PI_END))
+									.followedBy(PI_END)));
 
 	// [19] CDStart ::= '<![CDATA['
 	public static final Str CD_START = Producer.str("<![CDATA[");
 
 	// [20] CData ::= (Char* - (Char* ']]>' Char*))
-	public static final Production C_DATA = terminated(CHAR.zeroOrMore(),
-			CD_END);
+	// public static final Production C_DATA = terminated(CHAR.zeroOrMore(),
+	// CD_END);
 
 	// [18] CDSect ::= CDStart CData CDEnd
-	public static final Production CD_SECT = surrounded(CD_START, C_DATA,
-			CD_END);
+	public static final Production CD_SECT = CD_START.followedBy(
+			terminated(CHAR.zeroOrMore(), CD_END)).followedBy(CD_END);
 
 	// [26] VersionNum ::= '1.' [0-9]+
 	public static final Production VERSION_NUM = Producer.str("1.").followedBy(
@@ -181,7 +183,7 @@ public class XML {
 	// '"')
 	public static final Production VERSION_INFO = S
 			.followedBy(Producer.str("version")).followedBy(EQ)
-			.followedBy(quotedSingle(VERSION_NUM, CharConstants.QUOTES));
+			.followedBy(quotedSingle(CharConstants.QUOTES, VERSION_NUM));
 
 	// [81] EncName ::= [A-Za-z] ([A-Za-z0-9._] | '-')*
 	public static final Production ENC_NAME = CharConstants.LETTERS
@@ -192,7 +194,7 @@ public class XML {
 	// )
 	public static final Production ENCODING_DECL = S
 			.followedBy(str("encoding")).followedBy(EQ)
-			.followedBy(quotedSingle(ENC_NAME, CharConstants.QUOTES));
+			.followedBy(quotedSingle(CharConstants.QUOTES, ENC_NAME));
 
 	// [32] SDDecl ::= S 'standalone' Eq (("'" ('yes' | 'no') "'") | ('"' ('yes'
 	// | 'no') '"'))
@@ -200,12 +202,13 @@ public class XML {
 			Producer.str("no"));
 	public static final Production SD_DECL = S
 			.followedBy(Producer.str("standalone")).followedBy(EQ)
-			.followedBy(quotedSingle(YES_NO, CharConstants.QUOTES));
+			.followedBy(quotedSingle(CharConstants.QUOTES, YES_NO));
 
 	// [23] XMLDecl ::= '<?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
-	public static final Production XML_DECL = surrounded(PI_START, str("xml")
+	public static final Production XML_DECL = PI_START.followedBy(str("xml"))
 			.followedBy(VERSION_INFO).followedBy(ENCODING_DECL.zeroOrOne())
-			.followedBy(SD_DECL.zeroOrOne()).followedBy(POSSIBLY_S), PI_END);
+			.followedBy(SD_DECL.zeroOrOne()).followedBy(POSSIBLY_S)
+			.followedBy(PI_END);
 
 	// [27] Misc ::= Comment | PI | S
 	public static final Production MISC = COMMENT.or(PI).or(S);
@@ -232,8 +235,8 @@ public class XML {
 	// .followedBy(_char('>'));
 
 	// [42] ETag ::= '</' Name S? '>'
-	public static final Surrounded E_TAG = surrounded(str("</"),
-			NAME.followedBy(POSSIBLY_S), CharConstants.GT);
+	public static final Production E_TAG = str("</").followedBy(NAME)
+			.followedBy(POSSIBLY_S).followedBy(CharConstants.GT);
 
 	// element | Reference | CDSect | PI | Comment
 	public static final Choice NON_CHARACTER_CONTENT = choice(REFERENCE,

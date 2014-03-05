@@ -76,25 +76,32 @@ public class Producer {
 		return new SurroundedImpl(start, content, end);
 	}
 
-//	// X* - (X* Y X*)
-//	public static Production notIncluding(Ch _char, Str string) {
-//		return _char.zeroOrMore().butNot(
-//				_char.oneOrMore().followedBy(string)
-//						.followedBy(_char.oneOrMore()));
-//	}
+	// // X* - (X* Y X*)
+	// public static Production notIncluding(Ch _char, Str string) {
+	// return _char.zeroOrMore().butNot(
+	// _char.oneOrMore().followedBy(string)
+	// .followedBy(_char.oneOrMore()));
+	// }
 
 	// '"' X* '"' | "'" X* "'"
-	public static Production quoted(Production content, Chars quotes) {
-		return quotedSingle(content.zeroOrMore(), quotes);
+	public static Production quoted(Chars quotes, Ch ch, Production... contents) {
+		final List<Char> chars = quotes.getChars();
+		final Production[] productions = new Production[chars.size()];
+		int index = 0;
+		for (final Char quote : chars) {
+			final Production content = choice(contents).or(ch.minus(quote));
+			productions[index++] = surrounded(quote, content, quote);
+		}
+		return choice(productions);
 	}
 
 	// '"' X '"' | "'" X "'"
-	public static Production quotedSingle(Production content, Chars quotes) {
+	public static Production quotedSingle(Chars quotes, Production content) {
 		final List<Char> chars = quotes.getChars();
 		final Production[] productions = new Production[chars.size()];
 		int index = 0;
 		for (final Char _char : chars) {
-			productions[index++] = surrounded(_char, content, _char);
+			productions[index++] = _char.followedBy(content).followedBy(_char);
 		}
 		return choice(productions);
 	}

@@ -1,6 +1,6 @@
 package org.hisrc.jstax.grammar.gamma;
 
-// Not including terminator
+// Including terminator
 public interface Terminated extends Sequence {
 
 	public Production getContent();

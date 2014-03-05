@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.gamma.ChVisitor;
 import org.hisrc.jstax.grammar.gamma.Char;
 import org.hisrc.jstax.grammar.gamma.CharConstants;
 import org.hisrc.jstax.grammar.gamma.CharRange;
+import org.hisrc.jstax.grammar.gamma.CharRanges;
 import org.hisrc.jstax.grammar.gamma.Chars;
 import org.hisrc.jstax.grammar.gamma.NegativeChars;
 import org.hisrc.jstax.grammar.gamma.Producer;
@@ -95,5 +97,24 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 	@Override
 	public String toString() {
 		return "^" + String.valueOf(negativeChs);
+	}
+
+	@Override
+	public <R> R accept(ChVisitor<R> visitor) {
+		Validate.notNull(visitor);
+		return visitor.visitCh(this);
+	}
+
+	@Override
+	public CharRanges minus(Char that) {
+		if (this.negativeChars.intersects(that)) {
+			return this;
+		} else {
+			final List<Char> newChars = new ArrayList<Char>(
+					this.negativeChars.getChars());
+			newChars.add(that);
+			return new NegativeCharsImpl(newChars.toArray(new Char[newChars
+					.size()]));
+		}
 	}
 }

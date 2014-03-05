@@ -3,8 +3,11 @@ package org.hisrc.jstax.grammar.gamma.impl;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.gamma.ChVisitor;
 import org.hisrc.jstax.grammar.gamma.Char;
 import org.hisrc.jstax.grammar.gamma.CharRange;
+import org.hisrc.jstax.grammar.gamma.CharRanges;
 import org.hisrc.jstax.io.Input;
 
 public class CharImpl extends AbstractChImpl implements Char {
@@ -50,6 +53,28 @@ public class CharImpl extends AbstractChImpl implements Char {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ch;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CharImpl other = (CharImpl) obj;
+		if (ch != other.ch)
+			return false;
+		return true;
+	}
+
+	@Override
 	public boolean startsInput(Input input) {
 		final char ch = input.peekChar();
 		return matches(ch);
@@ -63,5 +88,21 @@ public class CharImpl extends AbstractChImpl implements Char {
 	@Override
 	public String toString() {
 		return String.valueOf(getChar());
+	}
+
+	@Override
+	public <R> R accept(ChVisitor<R> visitor) {
+		Validate.notNull(visitor);
+		return visitor.visitCh(this);
+	}
+
+	@Override
+	public CharRanges minus(Char that) {
+		Validate.notNull(that);
+		if (this.getChar() == that.getChar()) {
+			return null;
+		} else {
+			return this;
+		}
 	}
 }
