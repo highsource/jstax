@@ -102,4 +102,9 @@ public class StringInput implements Input {
 	public Locator getLocator() {
 		return this.locator;
 	}
+	
+	@Override
+	public boolean hasNextChar() {
+		return !finished;
+	}
 }

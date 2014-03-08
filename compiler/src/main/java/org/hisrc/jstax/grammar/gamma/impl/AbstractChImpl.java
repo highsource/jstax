@@ -10,7 +10,6 @@ import org.hisrc.jstax.grammar.gamma.CharRange;
 import org.hisrc.jstax.grammar.gamma.CharRanges;
 import org.hisrc.jstax.grammar.gamma.Edge;
 import org.hisrc.jstax.grammar.gamma.Vertex;
-import org.hisrc.jstax.io.CharConstants;
 import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
 import org.hisrc.jstax.io.Locator;
@@ -23,7 +22,8 @@ public abstract class AbstractChImpl extends AbstractProduction implements Ch,
 
 	private final List<Ch> unmodifiableElements;
 
-	public AbstractChImpl() {
+	public AbstractChImpl(String name) {
+		super(Validate.notNull(name));
 		this.unmodifiableElements = Collections.unmodifiableList(Collections
 				.<Ch> singletonList(this));
 	}
@@ -36,12 +36,13 @@ public abstract class AbstractChImpl extends AbstractProduction implements Ch,
 	@Override
 	public void read(Input input, Result result, ErrorHandler handler) {
 		final char ch = input.peekChar();
-		if (ch == CharConstants.EOF) {
-			final Locator locator = input.getLocator();
-			handler.error(new ParseException(
-					"Could not read the next character, the stream is empty.",
-					locator));
-		} else {
+		// if (ch == CharConstants.EOF) {
+		// final Locator locator = input.getLocator();
+		// handler.error(new ParseException(
+		// "Could not read the next character, the stream is empty.",
+		// locator));
+		// } else
+		{
 			if (startsInput(input)) {
 				result.pushChar(input.readChar());
 			} else {

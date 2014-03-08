@@ -9,7 +9,8 @@ public abstract class AbstractSomeImpl extends AbstractProduction implements
 
 	private final Production production;
 
-	public AbstractSomeImpl(Production production) {
+	public AbstractSomeImpl(String name, Production production) {
+		super(Validate.notNull(name));
 		this.production = Validate.notNull(production);
 	}
 

@@ -20,7 +20,8 @@ public class CharRangeImpl extends AbstractChImpl implements CharRange {
 
 	private final List<CharRange> unmodifiableCharRanges;
 
-	public CharRangeImpl(char from, char to) {
+	public CharRangeImpl(String name, char from, char to) {
+		super(Validate.notNull(name));
 		Validate.isTrue(from <= to,
 				"Character [from] must not be greater that [to].");
 		this.from = from;
@@ -68,31 +69,35 @@ public class CharRangeImpl extends AbstractChImpl implements CharRange {
 	}
 
 	@Override
-	public CharRanges minus(Char that) {
+	public CharRanges minus(String name, Char that) {
+		Validate.notNull(name);
 		Validate.notNull(that);
 		final char thatChar = that.getChar();
 		final char thisFrom = this.getFrom();
 		final char thisTo = this.getTo();
 		if (thisFrom > thatChar || this.getTo() < thatChar) {
 			return this;
-		} else if (thisFrom == thatChar) {
-			final char newFrom = (char) (thisFrom + 1);
-			if (newFrom == thisTo) {
-				return new CharImpl(newFrom);
-			} else {
-				return new CharRangeImpl(newFrom, thisTo);
-			}
-		} else if (thisTo == thatChar) {
-			final char newTo = (char) (thisTo - 1);
-			if (newTo == thisFrom) {
-				return new CharImpl(newTo);
-			} else {
-				return new CharRangeImpl(thisFrom, newTo);
-			}
 		} else {
-			return new CharRangesImpl(new CharRangeImpl(thisFrom,
-					(char) (thatChar - 1)), new CharRangeImpl(
-					(char) (thatChar + 1), thisTo));
+			if (thisFrom == thatChar) {
+				final char newFrom = (char) (thisFrom + 1);
+				if (newFrom == thisTo) {
+					return new CharImpl(name, newFrom);
+				} else {
+					return new CharRangeImpl(name, newFrom, thisTo);
+				}
+			} else if (thisTo == thatChar) {
+				final char newTo = (char) (thisTo - 1);
+				if (newTo == thisFrom) {
+					return new CharImpl(name, newTo);
+				} else {
+					return new CharRangeImpl(name, thisFrom, newTo);
+				}
+			} else {
+				return new CharRangesImpl(name, new CharRangeImpl(name
+						+ "_BELOW", thisFrom, (char) (thatChar - 1)),
+						new CharRangeImpl(name + "_ABOVE",
+								(char) (thatChar + 1), thisTo));
+			}
 		}
 	}
 }

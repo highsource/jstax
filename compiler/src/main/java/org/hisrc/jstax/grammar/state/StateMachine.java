@@ -53,7 +53,7 @@ public class StateMachine {
 
 	public State createState(String name) {
 		final int id = count;
-		final String stateName = name == null ? ("STATE_" + id) : name;
+		final String stateName = (name == null ? "STATE": name) + "_" + id;
 		final State state = new State(id, stateName);
 		if (nameStateMap.containsKey(state.getName())) {
 			throw new IllegalArgumentException("State with name [" + name

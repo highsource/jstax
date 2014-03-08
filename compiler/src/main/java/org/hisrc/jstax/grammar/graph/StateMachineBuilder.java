@@ -9,9 +9,11 @@ import org.hisrc.jstax.grammar.gamma.ChVertex;
 import org.hisrc.jstax.grammar.gamma.Edge;
 import org.hisrc.jstax.grammar.gamma.EmptyVertex;
 import org.hisrc.jstax.grammar.gamma.EndVertex;
+import org.hisrc.jstax.grammar.gamma.ErrorVertex;
 import org.hisrc.jstax.grammar.gamma.StartVertex;
 import org.hisrc.jstax.grammar.gamma.Vertex;
 import org.hisrc.jstax.grammar.gamma.VertexVisitor;
+import org.hisrc.jstax.grammar.gamma.impl.CharImpl;
 import org.hisrc.jstax.grammar.gamma.impl.DefaultVertexVisitor;
 import org.hisrc.jstax.grammar.state.State;
 import org.hisrc.jstax.grammar.state.StateMachine;
@@ -36,7 +38,8 @@ public class StateMachineBuilder {
 
 						@Override
 						public State visitVertex(ChVertex vertex) {
-							return stateMachine.createState();
+							return stateMachine.createState(vertex
+									.getIdentifierName());
 						}
 
 						@Override
@@ -47,6 +50,12 @@ public class StateMachineBuilder {
 						@Override
 						public State visitVertex(EndVertex vertex) {
 							return stateMachine.getTerminalState();
+						}
+
+						@Override
+						public State visitVertex(ErrorVertex vertex) {
+							return stateMachine.createState(vertex
+									.getIdentifierName());
 						}
 					}));
 		}
@@ -64,6 +73,16 @@ public class StateMachineBuilder {
 								vertex.getContent(), nextState);
 						return null;
 					}
+
+					@Override
+					public Void visitVertex(EndVertex vertex) {
+						stateMachine.createTransition(previousState,
+								new CharImpl("EOF",
+										org.hisrc.jstax.io.CharConstants.EOF),
+								nextState);
+						return null;
+					}
+
 				});
 			}
 		}

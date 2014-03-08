@@ -42,11 +42,15 @@ public class XMLGraphTest {
 				});
 
 		final Vertex start = new StartVertexImpl();
+//		final Vertex end = new ChVertexImpl(new CharImpl(CharConstants.EOF));
 		final Vertex end = new EndVertexImpl();
-
 		graph.addVertex(start);
+//		graph.addVertex(last);
 		graph.addVertex(end);
-		XML.COMMENT.buildGraph(graph, start, end);
+//		graph.addEdge(last, end);
+//		XML.COMMENT.buildGraph(graph, start, end);
+//		XML.CHAR_DATA.buildGraph(graph, start, end);
+		XML.PROLOG.buildGraph(graph, start, end);
 
 		new GraphOptimizer(graph).optimize();
 
@@ -68,7 +72,8 @@ public class XMLGraphTest {
 				.buildStateMachine(graph);
 		final StateMachineParser parser = new StateMachineParser(stateMachine);
 
-		final Input input = new StringInput("<!-- Comment -->");
+//		final Input input = new StringInput("<!-- Comment -->");
+		final Input input = new StringInput("<?xml    version=\"1.0\"    encoding=\"utf-8\"    standalone=\"yes\"  ?>");
 		final Result result = new StringResult();
 		final ErrorHandler errorHandler = ThrowingErrorHandler.INSTANCE;
 		parser.parse(input, result, errorHandler);

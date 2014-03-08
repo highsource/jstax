@@ -18,7 +18,8 @@ public class CharRangesImpl extends AbstractChImpl implements CharRanges {
 	private final List<CharRange> charRanges;
 	private final List<CharRange> unmodifiableCharRanges;
 
-	public CharRangesImpl(CharRanges... elements) {
+	public CharRangesImpl(String name, CharRanges... elements) {
+		super(Validate.notNull(name));
 		Validate.noNullElements(elements);
 		this.charRanges = new ArrayList<CharRange>(elements.length);
 		for (CharRanges charRanges : elements) {
@@ -77,24 +78,31 @@ public class CharRangesImpl extends AbstractChImpl implements CharRanges {
 	}
 
 	@Override
-	public CharRanges minus(Char that) {
+	public CharRanges minus(String name, Char that) {
+		Validate.notNull(name);
+		final List<CharRange> charRanges = getCharRanges();
 		if (!this.intersects(that)) {
-			return this;
+			return new CharRangesImpl(name,
+					charRanges.toArray(new CharRanges[charRanges.size()]));
 		} else {
 			final List<CharRange> newCharRanges = new ArrayList<CharRange>(
-					this.charRanges.size() + 1);
-			for (final CharRange charRange : this.charRanges) {
-				final CharRanges newCharRange = charRange.minus(that);
-				if (newCharRanges != null) {
+					charRanges.size() + 1);
+			int index = 0;
+			for (final CharRange charRange : charRanges) {
+				final CharRanges newCharRange = charRange.minus(
+						(name + "_" + index++), that);
+				if (newCharRange != null) {
 					newCharRanges.addAll(newCharRange.getCharRanges());
 				}
 			}
 			if (newCharRanges.size() == 0) {
 				return null;
 			} else if (newCharRanges.size() == 1) {
-				return newCharRanges.get(0);
+				final CharRange newCharRange = newCharRanges.get(0);
+				return new CharRangeImpl(name, newCharRange.getFrom(),
+						newCharRange.getTo());
 			} else {
-				return new CharRangesImpl(
+				return new CharRangesImpl(name,
 						newCharRanges.toArray(new CharRange[newCharRanges
 								.size()]));
 			}

@@ -10,4 +10,6 @@ public interface VertexVisitor<R> {
 
 	public R visitVertex(EndVertex vertex);
 
+	public R visitVertex(ErrorVertex vertex);
+
 }

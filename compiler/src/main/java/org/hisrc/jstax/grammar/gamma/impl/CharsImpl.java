@@ -22,15 +22,16 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 	private final List<Char> unmodifiableChars;
 	private final List<CharRange> unmodifiableCharRanges;
 
-	public CharsImpl(String str) {
-		this(str.toCharArray());
+	public CharsImpl(String name, String str) {
+		this(Validate.notNull(name), str.toCharArray());
 	}
 
-	public CharsImpl(char[] _chars) {
-		this(chars(_chars));
+	public CharsImpl(String name, char[] _chars) {
+		this(Validate.notNull(name), chars(Validate.notNull(name), _chars));
 	}
 
-	public CharsImpl(Char... _chars) {
+	public CharsImpl(String name, Char... _chars) {
+		super(Validate.notNull(name));
 		Validate.noNullElements(_chars);
 		this.length = _chars.length;
 		this.chs = new char[this.length];
@@ -55,11 +56,11 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 		return this.unmodifiableCharRanges;
 	}
 
-	private static final Char[] chars(char... _chars) {
+	private static final Char[] chars(String name, char... _chars) {
 		Validate.notNull(_chars);
 		final Char[] chars = new Char[_chars.length];
 		for (int index = 0; index < _chars.length; index++) {
-			chars[index] = Producer._char(_chars[index]);
+			chars[index] = Producer._char(name + "_" + index, _chars[index]);
 		}
 		return chars;
 	}
@@ -92,13 +93,16 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 	}
 
 	@Override
-	public CharRanges minus(Char that) {
+	public CharRanges minus(String name, Char that) {
+		Validate.notNull(name);
+		Validate.notNull(that);
 		if (!chars.contains(that)) {
-			return this;
+			return new CharsImpl(name, chs);
 		} else {
 			final List<Char> newChars = new ArrayList<Char>(this.chars);
 			newChars.remove(that);
-			return new CharsImpl(newChars.toArray(new Char[newChars.size()]));
+			return new CharsImpl(name, newChars.toArray(new Char[newChars
+					.size()]));
 		}
 	}
 }

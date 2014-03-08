@@ -7,7 +7,6 @@ import org.hisrc.jstax.grammar.gamma.Ch;
 import org.hisrc.jstax.grammar.state.State;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.hisrc.jstax.grammar.state.Transition;
-import org.hisrc.jstax.io.CharConstants;
 import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
 import org.hisrc.jstax.io.ParseException;
@@ -29,15 +28,6 @@ public class StateMachineParser {
 
 		while (currentState != terminalState) {
 			final char _char = input.peekChar();
-
-			if (_char == CharConstants.EOF) {
-				// TODO
-				errorHandler
-						.error(new ParseException(
-								"Finished end of stream, but the state machine did not yet reached the terminal state.",
-								input.getLocator()));
-				return;
-			}
 			final Transition transition = this.stateMachine.getTransition(
 					currentState, _char);
 			if (transition == null) {

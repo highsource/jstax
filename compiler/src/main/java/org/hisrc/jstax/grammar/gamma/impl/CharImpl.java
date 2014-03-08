@@ -16,10 +16,11 @@ public class CharImpl extends AbstractChImpl implements Char {
 	private final List<CharRange> charRanges;
 	private final List<CharRange> unmodifiableCharRanges;
 
-	public CharImpl(char ch) {
+	public CharImpl(String name, char ch) {
+		super(name);
 		this.ch = ch;
 		this.charRanges = Collections
-				.<CharRange> singletonList(new CharRangeImpl(ch, ch));
+				.<CharRange> singletonList(new CharRangeImpl(name, ch, ch));
 		this.unmodifiableCharRanges = Collections
 				.<CharRange> unmodifiableList(charRanges);
 	}
@@ -97,12 +98,13 @@ public class CharImpl extends AbstractChImpl implements Char {
 	}
 
 	@Override
-	public CharRanges minus(Char that) {
+	public CharRanges minus(String name, Char that) {
+		Validate.notNull(name);
 		Validate.notNull(that);
 		if (this.getChar() == that.getChar()) {
 			return null;
 		} else {
-			return this;
+			return new CharImpl(name, this.getChar());
 		}
 	}
 }

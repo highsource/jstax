@@ -18,7 +18,8 @@ public class ChoiceImpl extends AbstractProduction implements Choice {
 	private final List<Production> options;
 	private final List<Production> unmodifiableOptions;
 
-	public ChoiceImpl(Production... options) {
+	public ChoiceImpl(String name, Production... options) {
+		super(Validate.notNull(name));
 		Validate.noNullElements(options);
 		this.options = new ArrayList<Production>(Arrays.asList(options));
 		this.unmodifiableOptions = Collections.unmodifiableList(this.options);
@@ -26,24 +27,6 @@ public class ChoiceImpl extends AbstractProduction implements Choice {
 
 	public List<Production> getOptions() {
 		return this.unmodifiableOptions;
-	}
-
-	@Override
-	public void add(Production option) {
-		Validate.notNull(option);
-		this.options.add(option);
-	}
-
-	@Override
-	public Production or(Production that) {
-		Validate.notNull(that);
-		final Production[] options = new Production[this.options.size() + 1];
-		int index = 0;
-		for (Production option : this.options) {
-			options[index++] = option;
-		}
-		options[options.length - 1] = that;
-		return new ChoiceImpl(options);
 	}
 
 	@Override

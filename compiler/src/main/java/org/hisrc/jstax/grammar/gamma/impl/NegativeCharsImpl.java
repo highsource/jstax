@@ -24,15 +24,16 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 	private final List<CharRange> charRanges;
 	private final List<CharRange> unmodifiableCharRanges;
 
-	public NegativeCharsImpl(String str) {
-		this(str.toCharArray());
+	public NegativeCharsImpl(String name, String str) {
+		this(Validate.notNull(name), str.toCharArray());
 	}
 
-	public NegativeCharsImpl(char[] _chars) {
-		this(chars(_chars));
+	public NegativeCharsImpl(String name, char[] _chars) {
+		this(Validate.notNull(name), chars(Validate.notNull(name), _chars));
 	}
 
-	public NegativeCharsImpl(Char... negativeChars) {
+	public NegativeCharsImpl(String name, Char... negativeChars) {
+		super(Validate.notNull(name));
 		Validate.noNullElements(negativeChars);
 		this.length = negativeChars.length;
 		this.negativeChs = new char[this.length];
@@ -43,7 +44,8 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 		System.arraycopy(negativeChars, 0, sortedNegativeChars, 0, this.length);
 		Arrays.sort(sortedNegativeChars);
 		negativeChars = sortedNegativeChars;
-		this.negativeChars = Producer.chars(sortedNegativeChars);
+		this.negativeChars = Producer.chars(name + "_NEGATIVE_CHARS",
+				sortedNegativeChars);
 
 		this.charRanges = new ArrayList<CharRange>(this.length + 1);
 		for (int index = 0; index <= this.length; index++) {
@@ -52,7 +54,8 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 			final char to = (index == this.length ? CharConstants.MAX.getChar()
 					: (char) (negativeChars[index].getChar() - 1));
 			if (from <= to) {
-				this.charRanges.add(Producer.charRange(from, to));
+				this.charRanges.add(Producer.charRange(name + "_" + index,
+						from, to));
 			}
 		}
 		this.unmodifiableCharRanges = Collections
@@ -69,11 +72,11 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 		return this.negativeChars;
 	}
 
-	private static final Char[] chars(char... _chars) {
+	private static final Char[] chars(String name, char... _chars) {
 		Validate.notNull(_chars);
 		final Char[] chars = new Char[_chars.length];
 		for (int index = 0; index < _chars.length; index++) {
-			chars[index] = Producer._char(_chars[index]);
+			chars[index] = Producer._char(name + "_" + index, _chars[index]);
 		}
 		return chars;
 	}
@@ -106,15 +109,17 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 	}
 
 	@Override
-	public CharRanges minus(Char that) {
+	public CharRanges minus(String name, Char that) {
+		Validate.notNull(name);
+		Validate.notNull(that);
 		if (this.negativeChars.intersects(that)) {
 			return this;
 		} else {
 			final List<Char> newChars = new ArrayList<Char>(
 					this.negativeChars.getChars());
 			newChars.add(that);
-			return new NegativeCharsImpl(newChars.toArray(new Char[newChars
-					.size()]));
+			return new NegativeCharsImpl(name,
+					newChars.toArray(new Char[newChars.size()]));
 		}
 	}
 }

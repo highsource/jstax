@@ -1,37 +1,18 @@
 package org.hisrc.jstax.grammar.gamma.impl;
 
+import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.gamma.Production;
 
 public abstract class AbstractProduction implements Production {
 
-	@Override
-	public Production oneOrMore() {
-		return new OneOrMoreImpl(this);
+	private final String name;
+
+	public AbstractProduction(String name) {
+		Validate.notNull(name);
+		this.name = name;
 	}
 
-	@Override
-	public Production zeroOrMore() {
-		return new ZeroOrMoreImpl(this);
+	public String getIdentifierName() {
+		return name;
 	}
-
-	@Override
-	public Production zeroOrOne() {
-		return new ZeroOrOneImpl(this);
-	}
-
-	@Override
-	public Production or(Production that) {
-		return new ChoiceImpl(this, that);
-	}
-
-	@Override
-	public Production followedBy(Production that) {
-		return new SequenceImpl(this, that);
-	}
-
-//	@Override
-//	public Production butNot(Production that) {
-//		return new ButNotImpl(this, that);
-//	}
-
 }

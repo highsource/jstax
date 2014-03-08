@@ -3,6 +3,7 @@ package org.hisrc.jstax.grammar.gamma.impl;
 import org.hisrc.jstax.grammar.gamma.ChVertex;
 import org.hisrc.jstax.grammar.gamma.EmptyVertex;
 import org.hisrc.jstax.grammar.gamma.EndVertex;
+import org.hisrc.jstax.grammar.gamma.ErrorVertex;
 import org.hisrc.jstax.grammar.gamma.StartVertex;
 import org.hisrc.jstax.grammar.gamma.Vertex;
 import org.hisrc.jstax.grammar.gamma.VertexVisitor;
@@ -30,6 +31,11 @@ public class DefaultVertexVisitor<R> implements VertexVisitor<R> {
 
 	@Override
 	public R visitVertex(EndVertex vertex) {
+		return visitVertex((Vertex) vertex);
+	}
+
+	@Override
+	public R visitVertex(ErrorVertex vertex) {
 		return visitVertex((Vertex) vertex);
 	}
 

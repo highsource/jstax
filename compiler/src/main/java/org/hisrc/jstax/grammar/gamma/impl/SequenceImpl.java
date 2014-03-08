@@ -18,7 +18,8 @@ public class SequenceImpl extends AbstractProduction implements Sequence {
 	private final List<Production> elements;
 	private final List<Production> unmodifiableElements;
 
-	public SequenceImpl(Production... elements) {
+	public SequenceImpl(String name, Production... elements) {
+		super(Validate.notNull(name));
 		Validate.noNullElements(elements);
 		this.elements = new ArrayList<Production>(Arrays.asList(elements));
 		this.unmodifiableElements = Collections.unmodifiableList(this.elements);
@@ -26,18 +27,6 @@ public class SequenceImpl extends AbstractProduction implements Sequence {
 
 	public List<? extends Production> getElements() {
 		return this.unmodifiableElements;
-	}
-
-	@Override
-	public Production followedBy(Production that) {
-		Validate.notNull(that);
-		final Production[] elements = new Production[this.elements.size() + 1];
-		int index = 0;
-		for (Production element : this.elements) {
-			elements[index++] = element;
-		}
-		elements[elements.length - 1] = that;
-		return new SequenceImpl(elements);
 	}
 
 	@Override
@@ -55,7 +44,7 @@ public class SequenceImpl extends AbstractProduction implements Sequence {
 			previous = next;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();

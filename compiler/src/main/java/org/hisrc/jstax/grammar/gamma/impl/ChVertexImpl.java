@@ -10,6 +10,7 @@ public class ChVertexImpl extends AbstractVertexImpl implements ChVertex {
 	private final Ch content;
 
 	public ChVertexImpl(Ch content) {
+		super(content.getIdentifierName());
 		Validate.notNull(content);
 		this.content = content;
 	}
@@ -23,7 +24,7 @@ public class ChVertexImpl extends AbstractVertexImpl implements ChVertex {
 	public String getName() {
 		return "[" + getContent().toString() + "]";
 	}
-	
+
 	@Override
 	public <R> R accept(VertexVisitor<R> visitor) {
 		Validate.notNull(visitor);

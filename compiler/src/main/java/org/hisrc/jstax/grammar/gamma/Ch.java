@@ -22,5 +22,5 @@ public interface Ch extends Str {
 
 	public boolean intersects(Ch that);
 
-	public CharRanges minus(Char that);
+	public CharRanges minus(String name, Char that);
 }
