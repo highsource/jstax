@@ -9,6 +9,7 @@ public class ErrorVertexImpl extends AbstractVertexImpl implements ErrorVertex {
 	private final String message;
 
 	public ErrorVertexImpl(String message) {
+		super("ERROR");
 		Validate.notNull(message);
 		this.message = message;
 	}

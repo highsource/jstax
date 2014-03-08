@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import org.hisrc.jstax.grammar.graph.Edge;
-import org.hisrc.jstax.grammar.graph.GraphOptimizer;
 import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EndVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
+import org.hisrc.jstax.grammar.graph.optimizer.GraphOptimizer;
 import org.hisrc.jstax.grammar.parser.StateMachineParser;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.hisrc.jstax.io.ErrorHandler;
@@ -50,7 +50,7 @@ public class XMLGraphTest {
 //		graph.addEdge(last, end);
 //		XML.COMMENT.buildGraph(graph, start, end);
 //		XML.CHAR_DATA.buildGraph(graph, start, end);
-		XML.PROLOG.buildGraph(graph, start, end);
+		XML.DOCUMENT.buildGraph(graph, start, end);
 
 		new GraphOptimizer(graph).optimize();
 
@@ -62,8 +62,10 @@ public class XMLGraphTest {
 
 					@Override
 					public String getVertexName(Vertex vertex) {
-						return vertex.getName().replace("\"", "\'\'")
-								.replace("&", "AMP");
+						return
+								vertex.getIdentifierName();
+//								vertex.getName().replace("\"", "\'\'")
+//								.replace("&", "AMP");
 					}
 				}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),
 				LoggerFactory.getLogger(getClass()));

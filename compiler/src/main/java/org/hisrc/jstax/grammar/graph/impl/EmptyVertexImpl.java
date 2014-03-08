@@ -6,6 +6,10 @@ import org.hisrc.jstax.grammar.graph.VertexVisitor;
 
 public class EmptyVertexImpl extends AbstractVertexImpl implements EmptyVertex {
 
+	public EmptyVertexImpl() {
+		super("EMPTY");
+	}
+
 	@Override
 	public String getName() {
 		return "EMPTY";

@@ -6,10 +6,6 @@ public abstract class AbstractVertexImpl implements Vertex {
 
 	private final String identifierName;
 
-	public AbstractVertexImpl() {
-		this(null);
-	}
-
 	public AbstractVertexImpl(String identifierName) {
 		this.identifierName = identifierName;
 	}

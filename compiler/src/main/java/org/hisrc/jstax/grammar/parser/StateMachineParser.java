@@ -3,7 +3,7 @@ package org.hisrc.jstax.grammar.parser;
 import java.text.MessageFormat;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.character.Ch;
+import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.state.State;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.hisrc.jstax.grammar.state.Transition;

@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.character.impl.CharImpl;
 import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
+import org.hisrc.jstax.grammar.production.character.impl.CharImpl;
 import org.hisrc.jstax.grammar.state.State;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.jgrapht.DirectedGraph;

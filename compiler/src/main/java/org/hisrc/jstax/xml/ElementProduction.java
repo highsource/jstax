@@ -1,11 +1,11 @@
 package org.hisrc.jstax.xml;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.gamma.Production;
-import org.hisrc.jstax.grammar.gamma.impl.AbstractProduction;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
+import org.hisrc.jstax.grammar.production.Production;
+import org.hisrc.jstax.grammar.production.impl.AbstractProduction;
 import org.jgrapht.DirectedGraph;
 
 public class ElementProduction extends AbstractProduction {

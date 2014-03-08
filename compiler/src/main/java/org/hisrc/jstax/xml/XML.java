@@ -1,30 +1,30 @@
 package org.hisrc.jstax.xml;
 
-import static org.hisrc.jstax.grammar.gamma.Producer._char;
-import static org.hisrc.jstax.grammar.gamma.Producer.charRange;
-import static org.hisrc.jstax.grammar.gamma.Producer.charRanges;
-import static org.hisrc.jstax.grammar.gamma.Producer.chars;
-import static org.hisrc.jstax.grammar.gamma.Producer.choice;
-import static org.hisrc.jstax.grammar.gamma.Producer.delimited;
-import static org.hisrc.jstax.grammar.gamma.Producer.negativeChars;
-import static org.hisrc.jstax.grammar.gamma.Producer.notContaining;
-import static org.hisrc.jstax.grammar.gamma.Producer.oneOrMore;
-import static org.hisrc.jstax.grammar.gamma.Producer.quoted;
-import static org.hisrc.jstax.grammar.gamma.Producer.quotedSingle;
-import static org.hisrc.jstax.grammar.gamma.Producer.sequence;
-import static org.hisrc.jstax.grammar.gamma.Producer.str;
-import static org.hisrc.jstax.grammar.gamma.Producer.terminated;
-import static org.hisrc.jstax.grammar.gamma.Producer.zeroOrMore;
-import static org.hisrc.jstax.grammar.gamma.Producer.zeroOrOne;
+import static org.hisrc.jstax.grammar.production.Producer._char;
+import static org.hisrc.jstax.grammar.production.Producer.charRange;
+import static org.hisrc.jstax.grammar.production.Producer.charRanges;
+import static org.hisrc.jstax.grammar.production.Producer.chars;
+import static org.hisrc.jstax.grammar.production.Producer.choice;
+import static org.hisrc.jstax.grammar.production.Producer.delimited;
+import static org.hisrc.jstax.grammar.production.Producer.negativeChars;
+import static org.hisrc.jstax.grammar.production.Producer.notContaining;
+import static org.hisrc.jstax.grammar.production.Producer.oneOrMore;
+import static org.hisrc.jstax.grammar.production.Producer.quoted;
+import static org.hisrc.jstax.grammar.production.Producer.quotedSingle;
+import static org.hisrc.jstax.grammar.production.Producer.sequence;
+import static org.hisrc.jstax.grammar.production.Producer.str;
+import static org.hisrc.jstax.grammar.production.Producer.terminated;
+import static org.hisrc.jstax.grammar.production.Producer.zeroOrMore;
+import static org.hisrc.jstax.grammar.production.Producer.zeroOrOne;
 
-import org.hisrc.jstax.grammar.character.Char;
-import org.hisrc.jstax.grammar.character.CharConstants;
-import org.hisrc.jstax.grammar.character.CharRanges;
-import org.hisrc.jstax.grammar.character.Chars;
-import org.hisrc.jstax.grammar.gamma.Choice;
-import org.hisrc.jstax.grammar.gamma.Producer;
-import org.hisrc.jstax.grammar.gamma.Production;
-import org.hisrc.jstax.grammar.gamma.Str;
+import org.hisrc.jstax.grammar.production.Producer;
+import org.hisrc.jstax.grammar.production.Production;
+import org.hisrc.jstax.grammar.production.character.Char;
+import org.hisrc.jstax.grammar.production.character.CharConstants;
+import org.hisrc.jstax.grammar.production.character.CharRanges;
+import org.hisrc.jstax.grammar.production.character.Chars;
+import org.hisrc.jstax.grammar.production.structure.Choice;
+import org.hisrc.jstax.grammar.production.structure.Str;
 
 public class XML {
 

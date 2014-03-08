@@ -12,7 +12,7 @@ import java.util.Set;
 import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.collections4.map.MultiValueArrayMap;
-import org.hisrc.jstax.grammar.character.Ch;
+import org.hisrc.jstax.grammar.production.character.Ch;
 
 public class StateMachine {
 

@@ -1,9 +1,9 @@
 package org.hisrc.jstax.grammar.graph.impl;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.character.Ch;
 import org.hisrc.jstax.grammar.graph.ChVertex;
 import org.hisrc.jstax.grammar.graph.VertexVisitor;
+import org.hisrc.jstax.grammar.production.character.Ch;
 
 public class ChVertexImpl extends AbstractVertexImpl implements ChVertex {
 

@@ -5,6 +5,10 @@ import org.hisrc.jstax.grammar.graph.VertexVisitor;
 
 public class StartVertexImpl extends AbstractVertexImpl implements StartVertex {
 
+	public StartVertexImpl() {
+		super("START");
+	}
+
 	@Override
 	public String getName() {
 		return "START";
