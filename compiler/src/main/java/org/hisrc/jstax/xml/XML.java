@@ -17,10 +17,10 @@ import static org.hisrc.jstax.grammar.gamma.Producer.terminated;
 import static org.hisrc.jstax.grammar.gamma.Producer.zeroOrMore;
 import static org.hisrc.jstax.grammar.gamma.Producer.zeroOrOne;
 
-import org.hisrc.jstax.grammar.gamma.Char;
-import org.hisrc.jstax.grammar.gamma.CharConstants;
-import org.hisrc.jstax.grammar.gamma.CharRanges;
-import org.hisrc.jstax.grammar.gamma.Chars;
+import org.hisrc.jstax.grammar.character.Char;
+import org.hisrc.jstax.grammar.character.CharConstants;
+import org.hisrc.jstax.grammar.character.CharRanges;
+import org.hisrc.jstax.grammar.character.Chars;
 import org.hisrc.jstax.grammar.gamma.Choice;
 import org.hisrc.jstax.grammar.gamma.Producer;
 import org.hisrc.jstax.grammar.gamma.Production;

@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.gamma.Choice;
-import org.hisrc.jstax.grammar.gamma.Edge;
 import org.hisrc.jstax.grammar.gamma.Production;
-import org.hisrc.jstax.grammar.gamma.Vertex;
+import org.hisrc.jstax.grammar.graph.Edge;
+import org.hisrc.jstax.grammar.graph.Vertex;
 import org.jgrapht.DirectedGraph;
 
 public class ChoiceImpl extends AbstractProduction implements Choice {

@@ -3,10 +3,7 @@ package org.hisrc.jstax.grammar.graph;
 import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.gamma.Edge;
-import org.hisrc.jstax.grammar.gamma.EmptyVertex;
-import org.hisrc.jstax.grammar.gamma.Vertex;
-import org.hisrc.jstax.grammar.gamma.impl.DefaultVertexVisitor;
+import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
 import org.jgrapht.DirectedGraph;
 
 public class EmptyVertexWithOneOutgoingEdgeRemover extends

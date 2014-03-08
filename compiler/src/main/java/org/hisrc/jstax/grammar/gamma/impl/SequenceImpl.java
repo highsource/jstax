@@ -7,10 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.gamma.Edge;
 import org.hisrc.jstax.grammar.gamma.Production;
 import org.hisrc.jstax.grammar.gamma.Sequence;
-import org.hisrc.jstax.grammar.gamma.Vertex;
+import org.hisrc.jstax.grammar.graph.Edge;
+import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
 import org.jgrapht.DirectedGraph;
 
 public class SequenceImpl extends AbstractProduction implements Sequence {

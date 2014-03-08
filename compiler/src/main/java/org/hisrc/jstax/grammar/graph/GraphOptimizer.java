@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.gamma.Edge;
-import org.hisrc.jstax.grammar.gamma.Vertex;
-import org.hisrc.jstax.grammar.gamma.VertexVisitor;
 import org.jgrapht.DirectedGraph;
 
 public class GraphOptimizer {

@@ -3,19 +3,25 @@ package org.hisrc.jstax.grammar.gamma;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.gamma.impl.CharImpl;
-import org.hisrc.jstax.grammar.gamma.impl.CharRangeImpl;
-import org.hisrc.jstax.grammar.gamma.impl.CharRangesImpl;
-import org.hisrc.jstax.grammar.gamma.impl.CharsImpl;
+import org.hisrc.jstax.grammar.character.Ch;
+import org.hisrc.jstax.grammar.character.Char;
+import org.hisrc.jstax.grammar.character.CharRange;
+import org.hisrc.jstax.grammar.character.CharRanges;
+import org.hisrc.jstax.grammar.character.Chars;
+import org.hisrc.jstax.grammar.character.NegativeChars;
+import org.hisrc.jstax.grammar.character.impl.CharImpl;
+import org.hisrc.jstax.grammar.character.impl.CharRangeImpl;
+import org.hisrc.jstax.grammar.character.impl.CharRangesImpl;
+import org.hisrc.jstax.grammar.character.impl.CharsImpl;
+import org.hisrc.jstax.grammar.character.impl.NegativeCharsImpl;
 import org.hisrc.jstax.grammar.gamma.impl.ChoiceImpl;
-import org.hisrc.jstax.grammar.gamma.impl.NegativeCharsImpl;
 import org.hisrc.jstax.grammar.gamma.impl.NotContainingImpl;
-import org.hisrc.jstax.grammar.gamma.impl.OneOrMoreImpl;
 import org.hisrc.jstax.grammar.gamma.impl.SequenceImpl;
 import org.hisrc.jstax.grammar.gamma.impl.StrImpl;
 import org.hisrc.jstax.grammar.gamma.impl.Terminated1Impl;
-import org.hisrc.jstax.grammar.gamma.impl.ZeroOrMoreImpl;
-import org.hisrc.jstax.grammar.gamma.impl.ZeroOrOneImpl;
+import org.hisrc.jstax.grammar.some.impl.OneOrMoreImpl;
+import org.hisrc.jstax.grammar.some.impl.ZeroOrMoreImpl;
+import org.hisrc.jstax.grammar.some.impl.ZeroOrOneImpl;
 
 public class Producer {
 
@@ -103,7 +109,6 @@ public class Producer {
 		return new NotContainingImpl(name, content, end);
 	}
 
-	// '"' X* '"' | "'" X* "'"
 	public static Production quoted(String name, Chars quotes, Ch ch,
 			Production... contents) {
 
@@ -147,11 +152,6 @@ public class Producer {
 		}
 		return choice(name, productions);
 	}
-
-	// [15] Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
-	// [20] CData ::= (Char* - (Char* ']]>' Char*))
-	// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
-	// [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
 
 	public static Production terminated(String name, Ch _char, Str terminator) {
 		Validate.notNull(name);

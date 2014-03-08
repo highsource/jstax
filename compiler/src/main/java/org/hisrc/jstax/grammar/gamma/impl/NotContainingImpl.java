@@ -4,11 +4,14 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.gamma.Ch;
-import org.hisrc.jstax.grammar.gamma.Char;
-import org.hisrc.jstax.grammar.gamma.Edge;
+import org.hisrc.jstax.grammar.character.Ch;
+import org.hisrc.jstax.grammar.character.Char;
 import org.hisrc.jstax.grammar.gamma.Str;
-import org.hisrc.jstax.grammar.gamma.Vertex;
+import org.hisrc.jstax.grammar.graph.Edge;
+import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
+import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
+import org.hisrc.jstax.grammar.graph.impl.ErrorVertexImpl;
 import org.jgrapht.DirectedGraph;
 
 public class NotContainingImpl extends AbstractProduction {

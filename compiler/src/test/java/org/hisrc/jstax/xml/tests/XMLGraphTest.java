@@ -3,13 +3,13 @@ package org.hisrc.jstax.xml.tests;
 import java.io.File;
 import java.io.IOException;
 
-import org.hisrc.jstax.grammar.gamma.Edge;
-import org.hisrc.jstax.grammar.gamma.Vertex;
-import org.hisrc.jstax.grammar.gamma.impl.EdgeImpl;
-import org.hisrc.jstax.grammar.gamma.impl.EndVertexImpl;
-import org.hisrc.jstax.grammar.gamma.impl.StartVertexImpl;
+import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.GraphOptimizer;
 import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
+import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
+import org.hisrc.jstax.grammar.graph.impl.EndVertexImpl;
+import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
 import org.hisrc.jstax.grammar.parser.StateMachineParser;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.hisrc.jstax.io.ErrorHandler;

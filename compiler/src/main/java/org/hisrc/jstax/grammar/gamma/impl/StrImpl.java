@@ -3,8 +3,8 @@ package org.hisrc.jstax.grammar.gamma.impl;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.gamma.Ch;
-import org.hisrc.jstax.grammar.gamma.Char;
+import org.hisrc.jstax.grammar.character.Ch;
+import org.hisrc.jstax.grammar.character.Char;
 import org.hisrc.jstax.grammar.gamma.Producer;
 import org.hisrc.jstax.grammar.gamma.Str;
 
