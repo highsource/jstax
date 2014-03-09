@@ -38,6 +38,7 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 		for (int index = 0; index < this.length; index++) {
 			this.chs[index] = _chars[index].getChar();
 		}
+//		Arrays.sort(this.chs);
 		this.chars = Arrays.asList(_chars);
 		this.unmodifiableChars = Collections.unmodifiableList(this.chars);
 		final List<CharRange> charRanges = new ArrayList<CharRange>(this.length);
@@ -105,4 +106,28 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 					.size()]));
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(chs);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CharsImpl other = (CharsImpl) obj;
+		if (!Arrays.equals(chs, other.chs))
+			return false;
+		return true;
+	}
+	
+	
 }

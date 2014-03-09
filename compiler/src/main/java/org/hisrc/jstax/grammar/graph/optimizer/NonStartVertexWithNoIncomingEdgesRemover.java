@@ -1,47 +1,35 @@
 package org.hisrc.jstax.grammar.graph.optimizer;
 
-import java.util.Set;
-
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.EmptyVertex;
+import org.hisrc.jstax.grammar.graph.StartVertex;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
 import org.jgrapht.DirectedGraph;
 
-public class EmptyVertexWithOneIncomingEdgeRemover extends
+public class NonStartVertexWithNoIncomingEdgesRemover extends
 		DefaultVertexVisitor<Boolean> {
 
 	private final DirectedGraph<Vertex, Edge> graph;
 
-	public EmptyVertexWithOneIncomingEdgeRemover(
+	public NonStartVertexWithNoIncomingEdgesRemover(
 			DirectedGraph<Vertex, Edge> graph) {
 		Validate.notNull(graph);
 		this.graph = graph;
 	}
 
 	@Override
-	public Boolean visitVertex(Vertex vertex) {
+	public Boolean visitVertex(StartVertex vertex) {
 		return Boolean.FALSE;
 	}
 
 	@Override
-	public Boolean visitVertex(EmptyVertex vertex) {
+	public Boolean visitVertex(Vertex vertex) {
 		Validate.notNull(vertex);
 		final DirectedGraph<Vertex, Edge> graph = getGraph();
 		Validate.isTrue(graph.containsVertex(vertex));
-		final Set<Edge> incomingEdgesSet = graph.incomingEdgesOf(vertex);
-		final Set<Edge> outgoingEdgesSet = graph.outgoingEdgesOf(vertex);
-
-		if (incomingEdgesSet.size() == 1) {
-			final Edge incomingEdge = incomingEdgesSet.iterator().next();
-			final Vertex incomingVertex = graph.getEdgeSource(incomingEdge);
-			final Edge[] outgoingEdges = outgoingEdgesSet
-					.toArray(new Edge[outgoingEdgesSet.size()]);
-			for (Edge outgoingEdge : outgoingEdges) {
-				final Vertex outgoingVertex = graph.getEdgeTarget(outgoingEdge);
-				graph.addEdge(incomingVertex, outgoingVertex);
-			}
+		if (graph.inDegreeOf(vertex) == 0) {
 			graph.removeVertex(vertex);
 			return true;
 		} else {

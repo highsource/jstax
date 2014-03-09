@@ -122,4 +122,27 @@ public class NegativeCharsImpl extends AbstractChImpl implements NegativeChars {
 					newChars.toArray(new Char[newChars.size()]));
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(negativeChs);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NegativeCharsImpl other = (NegativeCharsImpl) obj;
+		if (!Arrays.equals(negativeChs, other.negativeChs))
+			return false;
+		return true;
+	}
+
 }

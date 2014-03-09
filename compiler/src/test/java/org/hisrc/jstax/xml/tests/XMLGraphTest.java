@@ -11,7 +11,7 @@ import org.hisrc.jstax.grammar.graph.VertexVisitor;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EndVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
-import org.hisrc.jstax.grammar.graph.optimizer.GraphOptimizer;
+import org.hisrc.jstax.grammar.graph.optimizer.CompositeGraphOptimizer;
 import org.hisrc.jstax.grammar.graph.optimizer.OutgoingEdgeUnifier;
 import org.hisrc.jstax.grammar.parser.StateMachineParser;
 import org.hisrc.jstax.grammar.state.StateMachine;
@@ -56,32 +56,7 @@ public class XMLGraphTest {
 //		XML.XML_DECL.buildGraph(graph, start, end);
 		XML.DOCUMENT.buildGraph(graph, start, end);
 
-		new GraphOptimizer(graph).optimize();
-		
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
-//		optimize(graph, new OutgoingEdgeUnifier(graph));
+		new CompositeGraphOptimizer(graph).optimize();
 		
 		
 		
@@ -108,31 +83,16 @@ public class XMLGraphTest {
 		final StateMachineParser parser = new StateMachineParser(stateMachine);
 
 //		final Input input = new StringInput("<!-- Comment -->");
-		final Input input = new StringInput("<?xml    version=\"1.0\"    encoding=\"utf-8\"    standalone=\"yes\"?><a/>");
+		final Input input = new StringInput("<?xml    version=\"1.0\"    encoding=\"utf-8\"    standalone=\"yes\"?>" +
+				"<!-- Comment -->" +
+				"<?PI data?>" +
+				"<a b=\"c\" d=\'e\'>f</a>");
+//		final Input input = new StringInput("<a b=\"c\" d=\'e\'>f</a>");
 		final Result result = new StringResult();
 		final ErrorHandler errorHandler = ThrowingErrorHandler.INSTANCE;
 		parser.parse(input, result, errorHandler);
 
 	}
 
-	private boolean optimize(DirectedGraph<Vertex, Edge> graph, VertexVisitor<Boolean> optimizer) {
-
-		final Set<Vertex> vertexSet = graph.vertexSet();
-		final Vertex[] vertices = vertexSet
-				.toArray(new Vertex[vertexSet.size()]);
-
-		boolean optimized = false;
-		for (Vertex vertex : vertices) {
-			if (graph.containsVertex(vertex)) {
-				optimized = optimized || vertex.accept(optimizer);
-			}
-		}
-		// If optimized, do it again
-//		if (optimized) {
-//			optimize(optimizer);
-//		}
-		return optimized;
-
-	}
 
 }

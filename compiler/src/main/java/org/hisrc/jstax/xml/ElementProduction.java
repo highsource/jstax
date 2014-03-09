@@ -74,6 +74,7 @@ public class ElementProduction extends AbstractProduction {
 
 		this.charData.buildGraph(graph, v4, v5);
 
+		graph.addEdge(v3, v5);
 		graph.addEdge(v5, v3);
 
 		this.endTag.buildGraph(graph, v5, v6);

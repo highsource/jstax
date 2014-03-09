@@ -1,6 +1,7 @@
 package org.hisrc.jstax.grammar.production.character.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -108,4 +109,29 @@ public class CharRangesImpl extends AbstractChImpl implements CharRanges {
 			}
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(chs);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CharRangesImpl other = (CharRangesImpl) obj;
+		if (!Arrays.deepEquals(chs, other.chs))
+			return false;
+		return true;
+	}
+	
+	
+	
 }

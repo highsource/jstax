@@ -5,7 +5,6 @@ import static org.hisrc.jstax.grammar.production.Producer.charRange;
 import static org.hisrc.jstax.grammar.production.Producer.charRanges;
 import static org.hisrc.jstax.grammar.production.Producer.chars;
 import static org.hisrc.jstax.grammar.production.Producer.choice;
-import static org.hisrc.jstax.grammar.production.Producer.delimited;
 import static org.hisrc.jstax.grammar.production.Producer.negativeChars;
 import static org.hisrc.jstax.grammar.production.Producer.notContaining;
 import static org.hisrc.jstax.grammar.production.Producer.oneOrMore;
@@ -80,16 +79,17 @@ public class XML {
 	public static final Production NAME = sequence("NAME", NAME_START_CHAR,
 			zeroOrMore("NAME_CHARS", XML.NAME_CHAR));
 
-	// [6] Names ::= Name (#x20 Name)*
-	public static final Production NAMES = delimited("NAMES", NAME,
-			CharConstants.SPACE_CHAR);
+	// // [6] Names ::= Name (#x20 Name)*
+	// public static final Production NAMES = delimited("NAMES", NAME,
+	// CharConstants.SPACE_CHAR);
 
-	// [7] Nmtoken ::= (NameChar)+
-	public static final Production NMTOKEN = oneOrMore("NMTOKEN", XML.NAME_CHAR);
+	// // [7] Nmtoken ::= (NameChar)+
+	// public static final Production NMTOKEN = oneOrMore("NMTOKEN",
+	// XML.NAME_CHAR);
 
-	// [8] Nmtokens ::= Nmtoken (#x20 Nmtoken)*
-	public static final Production NMTOKENS = delimited("NMTOKENS", NMTOKEN,
-			CharConstants.SPACE_CHAR);
+	// // [8] Nmtokens ::= Nmtoken (#x20 Nmtoken)*
+	// public static final Production NMTOKENS = delimited("NMTOKENS", NMTOKEN,
+	// CharConstants.SPACE_CHAR);
 
 	// [69] PEReference ::= '%' Name ';'
 	public static final Production PE_REFERENCE = sequence("PE_REFERENCE",
@@ -180,7 +180,8 @@ public class XML {
 	// //
 	// _char('L').or(_char('l')));
 	// public static final Production PI_TARGET = NAME.butNot(XML_IGNORECASE);
-	public static final Production PI_TARGET = NAME;
+	public static final Production PI_TARGET = new PITargetProduction(
+			"PI_TARGET", NAME_START_CHAR, NAME_CHAR);
 	// .butNot(XML_IGNORECASE);
 
 	// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
@@ -310,13 +311,15 @@ public class XML {
 			CharConstants.GT, CHAR_DATA, NON_CHARACTER_OR_ELEMENT_CONTENT,
 			E_TAG);
 
-	// public static final Production ELEMENT = new ElementProduction(
-	// _char("_1", '1'),
-	// _char("_2", '2'),
-	// _char("_3", '3'),
-	// _char("_4", '4'),
-	// _char("_5", '5'),
-	// _char("_6", '6'));
+//	 public static final Production ELEMENT = new ElementProduction(
+//	 "ELEMENT",
+//	 str("START_TAG_PART", "<e"),
+//	 str("EMPTY_ELEM_START_TAG_END", "/>"),
+//	 CharConstants.GT,
+//	 // CHAR_DATA,
+//	 _char("CHAR_DATA", 'c'),
+//	 _char("NON_CHARACTER_OR_ELEMENT_CONTENT", '!'),
+//	 str("START_TAG_PART", "</e>"));
 
 	// choice(
 	// START_TAG_PART.followedBy(str("/>")),
