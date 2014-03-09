@@ -7,1127 +7,1177 @@ graph
 	node
 	[
 		id 1
-		label "null"
+		label "START"
 	]
 	node
 	[
 		id 2
-		label "null"
+		label "END"
 	]
 	node
 	[
 		id 3
-		label "PI_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 4
-		label "PI_START_1"
+		label "[?]"
 	]
 	node
 	[
 		id 5
-		label "XML_0"
+		label "[x]"
 	]
 	node
 	[
 		id 6
-		label "XML_1"
+		label "[m]"
 	]
 	node
 	[
 		id 7
-		label "XML_2"
+		label "[l]"
 	]
 	node
 	[
 		id 8
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 9
-		label "VERSION_ATTRIBUTE_NAME_0"
+		label "[v]"
 	]
 	node
 	[
 		id 10
-		label "VERSION_ATTRIBUTE_NAME_1"
+		label "[e]"
 	]
 	node
 	[
 		id 11
-		label "VERSION_ATTRIBUTE_NAME_2"
+		label "[r]"
 	]
 	node
 	[
 		id 12
-		label "VERSION_ATTRIBUTE_NAME_3"
+		label "[s]"
 	]
 	node
 	[
 		id 13
-		label "VERSION_ATTRIBUTE_NAME_4"
+		label "[i]"
 	]
 	node
 	[
 		id 14
-		label "VERSION_ATTRIBUTE_NAME_5"
+		label "[o]"
 	]
 	node
 	[
 		id 15
-		label "VERSION_ATTRIBUTE_NAME_6"
+		label "[n]"
 	]
 	node
 	[
 		id 16
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 17
-		label "EQUALS_SIGN"
+		label "[=]"
 	]
 	node
 	[
 		id 18
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 19
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 20
-		label "VERSION_NUM_PREFIX_0"
+		label "[1]"
 	]
 	node
 	[
 		id 21
-		label "VERSION_NUM_PREFIX_1"
+		label "[.]"
 	]
 	node
 	[
 		id 22
-		label "DIGITS"
+		label "[0-9]"
 	]
 	node
 	[
 		id 23
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 24
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 25
-		label "VERSION_NUM_PREFIX_0"
+		label "[1]"
 	]
 	node
 	[
 		id 26
-		label "VERSION_NUM_PREFIX_1"
+		label "[.]"
 	]
 	node
 	[
 		id 27
-		label "DIGITS"
+		label "[0-9]"
 	]
 	node
 	[
 		id 28
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 29
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 30
-		label "ENCODING_ATTRIBUTE_NAME_0"
+		label "[e]"
 	]
 	node
 	[
 		id 31
-		label "ENCODING_ATTRIBUTE_NAME_1"
+		label "[n]"
 	]
 	node
 	[
 		id 32
-		label "ENCODING_ATTRIBUTE_NAME_2"
+		label "[c]"
 	]
 	node
 	[
 		id 33
-		label "ENCODING_ATTRIBUTE_NAME_3"
+		label "[o]"
 	]
 	node
 	[
 		id 34
-		label "ENCODING_ATTRIBUTE_NAME_4"
+		label "[d]"
 	]
 	node
 	[
 		id 35
-		label "ENCODING_ATTRIBUTE_NAME_5"
+		label "[i]"
 	]
 	node
 	[
 		id 36
-		label "ENCODING_ATTRIBUTE_NAME_6"
+		label "[n]"
 	]
 	node
 	[
 		id 37
-		label "ENCODING_ATTRIBUTE_NAME_7"
+		label "[g]"
 	]
 	node
 	[
 		id 38
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 39
-		label "EQUALS_SIGN"
+		label "[=]"
 	]
 	node
 	[
 		id 40
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 41
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 42
-		label "LETTERS"
+		label "[a-zA-Z]"
 	]
 	node
 	[
 		id 43
-		label "ENC_NAME_CHAR"
+		label "[0-9a-zA-Z._-]"
 	]
 	node
 	[
 		id 44
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 45
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 46
-		label "LETTERS"
+		label "[a-zA-Z]"
 	]
 	node
 	[
 		id 47
-		label "ENC_NAME_CHAR"
+		label "[0-9a-zA-Z._-]"
 	]
 	node
 	[
 		id 48
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 49
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 50
-		label "STANDALONE_ATTRIBUTE_NAME_0"
+		label "[s]"
 	]
 	node
 	[
 		id 51
-		label "STANDALONE_ATTRIBUTE_NAME_1"
+		label "[t]"
 	]
 	node
 	[
 		id 52
-		label "STANDALONE_ATTRIBUTE_NAME_2"
+		label "[a]"
 	]
 	node
 	[
 		id 53
-		label "STANDALONE_ATTRIBUTE_NAME_3"
+		label "[n]"
 	]
 	node
 	[
 		id 54
-		label "STANDALONE_ATTRIBUTE_NAME_4"
+		label "[d]"
 	]
 	node
 	[
 		id 55
-		label "STANDALONE_ATTRIBUTE_NAME_5"
+		label "[a]"
 	]
 	node
 	[
 		id 56
-		label "STANDALONE_ATTRIBUTE_NAME_6"
+		label "[l]"
 	]
 	node
 	[
 		id 57
-		label "STANDALONE_ATTRIBUTE_NAME_7"
+		label "[o]"
 	]
 	node
 	[
 		id 58
-		label "STANDALONE_ATTRIBUTE_NAME_8"
+		label "[n]"
 	]
 	node
 	[
 		id 59
-		label "STANDALONE_ATTRIBUTE_NAME_9"
+		label "[e]"
 	]
 	node
 	[
 		id 60
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 61
-		label "EQUALS_SIGN"
+		label "[=]"
 	]
 	node
 	[
 		id 62
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 63
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 64
-		label "YES_0"
+		label "[y]"
 	]
 	node
 	[
 		id 65
-		label "YES_1"
+		label "[e]"
 	]
 	node
 	[
 		id 66
-		label "YES_2"
+		label "[s]"
 	]
 	node
 	[
 		id 67
-		label "NO_0"
+		label "[n]"
 	]
 	node
 	[
 		id 68
-		label "NO_1"
+		label "[o]"
 	]
 	node
 	[
 		id 69
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 70
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 71
-		label "YES_0"
+		label "[y]"
 	]
 	node
 	[
 		id 72
-		label "YES_1"
+		label "[e]"
 	]
 	node
 	[
 		id 73
-		label "YES_2"
+		label "[s]"
 	]
 	node
 	[
 		id 74
-		label "NO_0"
+		label "[n]"
 	]
 	node
 	[
 		id 75
-		label "NO_1"
+		label "[o]"
 	]
 	node
 	[
 		id 76
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 77
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 78
-		label "PI_END_0"
+		label "[?]"
 	]
 	node
 	[
 		id 79
-		label "PI_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 80
-		label "COMMENT_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 81
-		label "COMMENT_START_1"
+		label "[!]"
 	]
 	node
 	[
 		id 82
-		label "COMMENT_START_2"
+		label "[-]"
 	]
 	node
 	[
 		id 83
-		label "COMMENT_START_3"
+		label "[-]"
 	]
 	node
 	[
 		id 84
-		label "COMMENT_SUFFIX_0"
+		label "[-]"
 	]
 	node
 	[
 		id 85
-		label "CHAR_MINUS_COMMENT_SUFFIX_0"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 86
-		label "COMMENT_SUFFIX_1"
+		label "[-]"
 	]
 	node
 	[
 		id 87
-		label "CHAR_MINUS_COMMENT_SUFFIX_1"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 88
-		label "GT"
+		label "[>]"
 	]
 	node
 	[
 		id 89
-		label "PI_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 90
-		label "PI_START_1"
+		label "[?]"
 	]
 	node
 	[
 		id 91
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 92
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 93
-		label "PI_END_0"
+		label "[?]"
 	]
 	node
 	[
 		id 94
-		label "PI_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 95
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 96
-		label "PI_END_0"
+		label "[?]"
 	]
 	node
 	[
 		id 97
-		label "CHAR_MINUS_PI_END_0"
+		label "[!->@-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 98
-		label "PI_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 99
-		label "CHAR_MINUS_PI_END_1"
+		label "[!-=?-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 100
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 101
-		label "LT"
+		label "[<]"
 	]
 	node
 	[
 		id 102
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 103
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 104
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 105
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 106
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 107
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 108
-		label "EQUALS_SIGN"
+		label "[=]"
 	]
 	node
 	[
 		id 109
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 110
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 111
-		label "ATT_VALUE_MAIN_CONTENT_APOSTROPHE"
+		label "[^AMP<']"
 	]
 	node
 	[
 		id 112
-		label "AMPERSAND"
+		label "[AMP]"
 	]
 	node
 	[
 		id 113
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 114
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 115
-		label "SEMICOLON"
+		label "[;]"
 	]
 	node
 	[
 		id 116
-		label "CHAR_REF_PREFIX_0"
+		label "[AMP]"
 	]
 	node
 	[
 		id 117
-		label "CHAR_REF_PREFIX_1"
+		label "[#]"
 	]
 	node
 	[
 		id 118
-		label "DIGITS"
+		label "[0-9]"
 	]
 	node
 	[
 		id 119
-		label "HEX_CHAR_REF_PREFIX"
+		label "[x]"
 	]
 	node
 	[
 		id 120
-		label "HEX_CHARS"
+		label "[0-9a-fA-F]"
 	]
 	node
 	[
 		id 121
-		label "SEMICOLON"
+		label "[;]"
 	]
 	node
 	[
 		id 122
-		label "APOSTROPHE"
+		label "[']"
 	]
 	node
 	[
 		id 123
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 124
-		label "ATT_VALUE_MAIN_CONTENT_QUOTATION_MARK"
+		label "[^AMP<'']"
 	]
 	node
 	[
 		id 125
-		label "AMPERSAND"
+		label "[AMP]"
 	]
 	node
 	[
 		id 126
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 127
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 128
-		label "SEMICOLON"
+		label "[;]"
 	]
 	node
 	[
 		id 129
-		label "CHAR_REF_PREFIX_0"
+		label "[AMP]"
 	]
 	node
 	[
 		id 130
-		label "CHAR_REF_PREFIX_1"
+		label "[#]"
 	]
 	node
 	[
 		id 131
-		label "DIGITS"
+		label "[0-9]"
 	]
 	node
 	[
 		id 132
-		label "HEX_CHAR_REF_PREFIX"
+		label "[x]"
 	]
 	node
 	[
 		id 133
-		label "HEX_CHARS"
+		label "[0-9a-fA-F]"
 	]
 	node
 	[
 		id 134
-		label "SEMICOLON"
+		label "[;]"
 	]
 	node
 	[
 		id 135
-		label "QUOTATION_MARK"
+		label "['']"
 	]
 	node
 	[
 		id 136
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 137
-		label "EMPTY_ELEM_START_TAG_END_0"
+		label "[/]"
 	]
 	node
 	[
 		id 138
-		label "EMPTY_ELEM_START_TAG_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 139
-		label "GT"
+		label "[>]"
 	]
 	node
 	[
 		id 140
-		label "null"
+		label "ERROR"
 	]
 	node
 	[
 		id 141
-		label "CD_END_0"
+		label "[]]"
 	]
 	node
 	[
 		id 142
-		label "CHAR_DATA_CHAR_MINUS_CD_END_0"
+		label "[^AMP<]]"
 	]
 	node
 	[
 		id 143
-		label "CD_END_1"
+		label "[]]"
 	]
 	node
 	[
 		id 144
-		label "CHAR_DATA_CHAR_MINUS_CD_END_1"
+		label "[^AMP<]]"
 	]
 	node
 	[
 		id 145
-		label "CD_END_2"
+		label "[>]"
 	]
 	node
 	[
 		id 146
-		label "CHAR_DATA_CHAR_MINUS_CD_END_2"
+		label "[^AMP<>]"
 	]
 	node
 	[
 		id 147
-		label "AMPERSAND"
+		label "[AMP]"
 	]
 	node
 	[
 		id 148
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 149
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 150
-		label "SEMICOLON"
+		label "[;]"
 	]
 	node
 	[
 		id 151
-		label "CHAR_REF_PREFIX_0"
+		label "[AMP]"
 	]
 	node
 	[
 		id 152
-		label "CHAR_REF_PREFIX_1"
+		label "[#]"
 	]
 	node
 	[
 		id 153
-		label "DIGITS"
+		label "[0-9]"
 	]
 	node
 	[
 		id 154
-		label "HEX_CHAR_REF_PREFIX"
+		label "[x]"
 	]
 	node
 	[
 		id 155
-		label "HEX_CHARS"
+		label "[0-9a-fA-F]"
 	]
 	node
 	[
 		id 156
-		label "SEMICOLON"
+		label "[;]"
 	]
 	node
 	[
 		id 157
-		label "CD_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 158
-		label "CD_START_1"
+		label "[!]"
 	]
 	node
 	[
 		id 159
-		label "CD_START_2"
+		label "[[]"
 	]
 	node
 	[
 		id 160
-		label "CD_START_3"
+		label "[C]"
 	]
 	node
 	[
 		id 161
-		label "CD_START_4"
+		label "[D]"
 	]
 	node
 	[
 		id 162
-		label "CD_START_5"
+		label "[A]"
 	]
 	node
 	[
 		id 163
-		label "CD_START_6"
+		label "[T]"
 	]
 	node
 	[
 		id 164
-		label "CD_START_7"
+		label "[A]"
 	]
 	node
 	[
 		id 165
-		label "CD_START_8"
+		label "[[]"
 	]
 	node
 	[
 		id 166
-		label "CD_END_0"
+		label "[]]"
 	]
 	node
 	[
 		id 167
-		label "CHAR_MINUS_CD_END_0"
+		label "[!-\^-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 168
-		label "CD_END_1"
+		label "[]]"
 	]
 	node
 	[
 		id 169
-		label "CHAR_MINUS_CD_END_1"
+		label "[!-\^-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 170
-		label "CD_END_2"
+		label "[>]"
 	]
 	node
 	[
 		id 171
-		label "CHAR_MINUS_CD_END_2"
+		label "[!-=?-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 172
-		label "PI_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 173
-		label "PI_START_1"
+		label "[?]"
 	]
 	node
 	[
 		id 174
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 175
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 176
-		label "PI_END_0"
+		label "[?]"
 	]
 	node
 	[
 		id 177
-		label "PI_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 178
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 179
-		label "PI_END_0"
+		label "[?]"
 	]
 	node
 	[
 		id 180
-		label "CHAR_MINUS_PI_END_0"
+		label "[!->@-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 181
-		label "PI_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 182
-		label "CHAR_MINUS_PI_END_1"
+		label "[!-=?-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 183
-		label "COMMENT_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 184
-		label "COMMENT_START_1"
+		label "[!]"
 	]
 	node
 	[
 		id 185
-		label "COMMENT_START_2"
+		label "[-]"
 	]
 	node
 	[
 		id 186
-		label "COMMENT_START_3"
+		label "[-]"
 	]
 	node
 	[
 		id 187
-		label "COMMENT_SUFFIX_0"
+		label "[-]"
 	]
 	node
 	[
 		id 188
-		label "CHAR_MINUS_COMMENT_SUFFIX_0"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 189
-		label "COMMENT_SUFFIX_1"
+		label "[-]"
 	]
 	node
 	[
 		id 190
-		label "CHAR_MINUS_COMMENT_SUFFIX_1"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 191
-		label "GT"
+		label "[>]"
 	]
 	node
 	[
 		id 192
-		label "null"
+		label "ERROR"
 	]
 	node
 	[
 		id 193
-		label "CD_END_0"
+		label "[]]"
 	]
 	node
 	[
 		id 194
-		label "CHAR_DATA_CHAR_MINUS_CD_END_0"
+		label "[^AMP<]]"
 	]
 	node
 	[
 		id 195
-		label "CD_END_1"
+		label "[]]"
 	]
 	node
 	[
 		id 196
-		label "CHAR_DATA_CHAR_MINUS_CD_END_1"
+		label "[^AMP<]]"
 	]
 	node
 	[
 		id 197
-		label "CD_END_2"
+		label "[>]"
 	]
 	node
 	[
 		id 198
-		label "CHAR_DATA_CHAR_MINUS_CD_END_2"
+		label "[^AMP<>]"
 	]
 	node
 	[
 		id 199
-		label "E_TAG_PREFIX_0"
+		label "[<]"
 	]
 	node
 	[
 		id 200
-		label "E_TAG_PREFIX_1"
+		label "[/]"
 	]
 	node
 	[
 		id 201
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 202
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 203
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 204
-		label "GT"
+		label "[>]"
 	]
 	node
 	[
 		id 205
-		label "COMMENT_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 206
-		label "COMMENT_START_1"
+		label "[!]"
 	]
 	node
 	[
 		id 207
-		label "COMMENT_START_2"
+		label "[-]"
 	]
 	node
 	[
 		id 208
-		label "COMMENT_START_3"
+		label "[-]"
 	]
 	node
 	[
 		id 209
-		label "COMMENT_SUFFIX_0"
+		label "[-]"
 	]
 	node
 	[
 		id 210
-		label "CHAR_MINUS_COMMENT_SUFFIX_0"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 211
-		label "COMMENT_SUFFIX_1"
+		label "[-]"
 	]
 	node
 	[
 		id 212
-		label "CHAR_MINUS_COMMENT_SUFFIX_1"
+		label "[!-,.-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 213
-		label "GT"
+		label "[>]"
 	]
 	node
 	[
 		id 214
-		label "PI_START_0"
+		label "[<]"
 	]
 	node
 	[
 		id 215
-		label "PI_START_1"
+		label "[?]"
 	]
 	node
 	[
 		id 216
-		label "NAME_START_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?]"
 	]
 	node
 	[
 		id 217
-		label "NAME_CHAR"
+		label "[a-zA-Z:-:_-_À-ÖØ-öø-??-??-??-??-??-??-??-??-?---.-.0-9·-·?-??-?]"
 	]
 	node
 	[
 		id 218
-		label "PI_END_0"
+		label "[?]"
 	]
 	node
 	[
 		id 219
-		label "PI_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 220
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	node
 	[
 		id 221
-		label "PI_END_0"
+		label "[?]"
 	]
 	node
 	[
 		id 222
-		label "CHAR_MINUS_PI_END_0"
+		label "[!->@-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 223
-		label "PI_END_1"
+		label "[>]"
 	]
 	node
 	[
 		id 224
-		label "CHAR_MINUS_PI_END_1"
+		label "[!-=?-? - 	-	
+-
+-?-?]"
 	]
 	node
 	[
 		id 225
-		label "WHITESPACE_CHAR"
+		label "[ 	
+]"
 	]
 	edge
 	[
@@ -2832,15 +2882,6 @@ graph
 	]
 	edge
 	[
-		source 29
-		target 49
-		graphics
-		[
-			targetArrow "standard"
-		]
-	]
-	edge
-	[
 		source 37
 		target 38
 		graphics
@@ -3058,15 +3099,6 @@ graph
 	edge
 	[
 		source 49
-		target 77
-		graphics
-		[
-			targetArrow "standard"
-		]
-	]
-	edge
-	[
-		source 49
 		target 78
 		graphics
 		[
@@ -3104,15 +3136,6 @@ graph
 	[
 		source 28
 		target 78
-		graphics
-		[
-			targetArrow "standard"
-		]
-	]
-	edge
-	[
-		source 29
-		target 77
 		graphics
 		[
 			targetArrow "standard"
@@ -4130,15 +4153,6 @@ graph
 	[
 		source 103
 		target 139
-		graphics
-		[
-			targetArrow "standard"
-		]
-	]
-	edge
-	[
-		source 104
-		target 136
 		graphics
 		[
 			targetArrow "standard"

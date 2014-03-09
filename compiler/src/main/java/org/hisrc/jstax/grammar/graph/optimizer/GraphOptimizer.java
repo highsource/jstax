@@ -24,7 +24,10 @@ public class GraphOptimizer {
 				new EmptyVertexWithNoIncomingEdgesRemover(graph),
 				new EmptyVertexWithOneIncomingEdgeRemover(graph),
 				new EmptyVertexWithOneOutgoingEdgeRemover(graph),
-				new EmptyVertexRemover(graph));
+				new EmptyVertexRemover(graph)
+//				,				new OutgoingEdgeUnifier(graph)
+				, new DoubledChVertexUnifier(graph)
+				);
 	}
 
 	public boolean optimize() {
@@ -50,7 +53,7 @@ public class GraphOptimizer {
 		boolean optimized = false;
 		for (Vertex vertex : vertices) {
 			if (graph.containsVertex(vertex)) {
-				optimized = optimized || vertex.accept(optimizer);
+				optimized = optimized | vertex.accept(optimizer);
 			}
 		}
 		// If optimized, do it again

@@ -30,5 +30,10 @@ public class ChVertexImpl extends AbstractVertexImpl implements ChVertex {
 		Validate.notNull(visitor);
 		return visitor.visitVertex(this);
 	}
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
 
 }
