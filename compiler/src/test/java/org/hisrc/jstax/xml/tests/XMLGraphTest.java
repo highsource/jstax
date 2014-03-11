@@ -54,7 +54,7 @@ public class XMLGraphTest {
 //		XML.COMMENT.buildGraph(graph, start, end);
 //		XML.CHAR_DATA.buildGraph(graph, start, end);
 //		XML.XML_DECL.buildGraph(graph, start, end);
-		XML.DOCUMENT.buildGraph(graph, start, end);
+		XML.COMMENT.buildGraph(graph, start, end);
 
 		new CompositeGraphOptimizer(graph).optimize();
 		
