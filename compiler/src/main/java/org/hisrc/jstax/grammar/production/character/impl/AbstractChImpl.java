@@ -8,6 +8,8 @@ import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
+import org.hisrc.jstax.grammar.operation.None;
+import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.CharRange;
 import org.hisrc.jstax.grammar.production.character.CharRanges;
@@ -22,12 +24,23 @@ import org.jgrapht.DirectedGraph;
 public abstract class AbstractChImpl extends AbstractProduction implements
 		CharRanges {
 
+	private final Operation operation;
 	private final List<Ch> unmodifiableElements;
 
-	public AbstractChImpl(String name) {
+	public AbstractChImpl(Operation operation, String name) {
 		super(Validate.notNull(name));
+		this.operation = Validate.notNull(operation);
 		this.unmodifiableElements = Collections.unmodifiableList(Collections
 				.<Ch> singletonList(this));
+	}
+
+	public AbstractChImpl(String name) {
+		this(None.INSTANCE, Validate.notNull(name));
+	}
+
+	@Override
+	public Operation getOperation() {
+		return operation;
 	}
 
 	@Override

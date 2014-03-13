@@ -20,6 +20,27 @@ public class StringResult implements Result {
 		this.buffer[this.count++] = ch;
 	}
 
+	@Override
+	public char popChar() {
+		if (this.count <= 0) {
+			return (char) -1;
+		} else {
+			return this.buffer[--this.count];
+		}
+	}
+
+	@Override
+	public String popString() {
+		if (this.count <= 0) {
+			return null;
+		} else {
+			final String result = new String(this.buffer, 0, this.count);
+			this.count = 0;
+			return result;
+
+		}
+	}
+
 	public String toString() {
 		return String.valueOf(this.buffer, 0, this.count);
 	}

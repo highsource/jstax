@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.operation.None;
+import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.ChVisitor;
 import org.hisrc.jstax.grammar.production.character.Char;
 import org.hisrc.jstax.grammar.production.character.CharRange;
@@ -17,7 +19,10 @@ public class CharImpl extends AbstractChImpl implements Char {
 	private final List<CharRange> unmodifiableCharRanges;
 
 	public CharImpl(String name, char ch) {
-		super(name);
+		this(None.INSTANCE, name, ch);
+	}
+	public CharImpl(Operation operation, String name, char ch) {
+		super(operation, name);
 		this.ch = ch;
 		this.charRanges = Collections
 				.<CharRange> singletonList(new CharRangeImpl(name, ch, ch));

@@ -12,11 +12,27 @@ public class StringResultTest {
 	public void testPushChar() {
 		final Result result = new StringResult();
 
-		for (int index = 0; index < 2049; index++) {
+		for (int index = 0; index < 2048; index++) {
 			result.pushChar((char) index);
 		}
 		final String resultString = result.toString();
-		Assert.assertEquals(2049, resultString.length());
+		Assert.assertEquals(2048, resultString.length());
+	}
+
+	@Test
+	public void testPopChar() {
+		final Result result = new StringResult();
+
+		for (int index = 0; index < 2048; index++) {
+			result.pushChar((char) index);
+		}
+
+		for (int index = 0; index < 1024; index++) {
+			result.popChar();
+		}
+
+		Assert.assertEquals(1024, result.popString().length());
+		Assert.assertNull(result.popString());
 	}
 
 }

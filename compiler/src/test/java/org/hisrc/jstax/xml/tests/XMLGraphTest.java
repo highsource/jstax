@@ -2,17 +2,14 @@ package org.hisrc.jstax.xml.tests;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
 import org.hisrc.jstax.grammar.graph.Vertex;
-import org.hisrc.jstax.grammar.graph.VertexVisitor;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EndVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
 import org.hisrc.jstax.grammar.graph.optimizer.CompositeGraphOptimizer;
-import org.hisrc.jstax.grammar.graph.optimizer.OutgoingEdgeUnifier;
 import org.hisrc.jstax.grammar.parser.StateMachineParser;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.hisrc.jstax.io.ErrorHandler;
@@ -24,6 +21,7 @@ import org.hisrc.jstax.io.impl.ThrowingErrorHandler;
 import org.hisrc.jstax.jgrapht.ext.GMLGraphExporter;
 import org.hisrc.jstax.jgrapht.ext.GraphExporter;
 import org.hisrc.jstax.xml.XML;
+import org.hisrc.jstax.xml.stream.MyXMLStreamReader;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.ext.VertexNameProvider;
@@ -45,54 +43,50 @@ public class XMLGraphTest {
 				});
 
 		final Vertex start = new StartVertexImpl();
-//		final Vertex end = new ChVertexImpl(new CharImpl(CharConstants.EOF));
+		// final Vertex end = new ChVertexImpl(new CharImpl(CharConstants.EOF));
 		final Vertex end = new EndVertexImpl();
 		graph.addVertex(start);
-//		graph.addVertex(last);
+		// graph.addVertex(last);
 		graph.addVertex(end);
-//		graph.addEdge(last, end);
-//		XML.COMMENT.buildGraph(graph, start, end);
-//		XML.CHAR_DATA.buildGraph(graph, start, end);
-//		XML.XML_DECL.buildGraph(graph, start, end);
+		// graph.addEdge(last, end);
+		// XML.COMMENT.buildGraph(graph, start, end);
+		// XML.CHAR_DATA.buildGraph(graph, start, end);
+		// XML.XML_DECL.buildGraph(graph, start, end);
 		XML.COMMENT.buildGraph(graph, start, end);
 
 		new CompositeGraphOptimizer(graph).optimize();
-		
-		
-		
+
 		GraphExporter<Vertex, Edge> graphExporter = new GMLGraphExporter<Vertex, Edge>();
 
-		graphExporter.exportGraph(
-				graph,
-				new VertexNameProvider<Vertex>() {
+		graphExporter.exportGraph(graph, new VertexNameProvider<Vertex>() {
 
-					@Override
-					public String getVertexName(Vertex vertex) {
-						return
-//								vertex.getIdentifierName() + " (" + 
-								vertex.getName().replace("\"", "\'\'")
-								.replace("&", "AMP")
-//								+ ")"
-								;
-					}
-				}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),
+			@Override
+			public String getVertexName(Vertex vertex) {
+				return
+				// vertex.getIdentifierName() + " (" +
+				vertex.getName().replace("\"", "\'\'").replace("&", "AMP")
+				// + ")"
+				;
+			}
+		}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),
 				LoggerFactory.getLogger(getClass()));
 
 		final StateMachine stateMachine = new StateMachineBuilder()
 				.buildStateMachine(graph);
 		final StateMachineParser parser = new StateMachineParser(stateMachine);
 
-//		final Input input = new StringInput("<!-- Comment -->");
-		final Input input = new StringInput("<?xml    version=\"1.0\"    encoding=\"utf-8\"    standalone=\"yes\"?>" +
-				"<!-- Comment -->" +
-				"<?PI data?>" +
-				"<a b=\"c\" d=\'e\'>f</a>");
-//		final Input input = new StringInput("<a b=\"c\" d=\'e\'>f</a>");
+		// final Input input = new StringInput("<!-- Comment -->");
+//		final Input input = new StringInput(
+//				"<?xml    version=\"1.0\"    encoding=\"utf-8\"    standalone=\"yes\"?>"
+//						+ "<!-- Comment -->" + "<?PI data?>"
+//						+ "<a b=\"c\" d=\'e\'>f</a>");
+		final Input input = new StringInput(
+				"<!-- Test -->");
+		// final Input input = new StringInput("<a b=\"c\" d=\'e\'>f</a>");
 		final Result result = new StringResult();
 		final ErrorHandler errorHandler = ThrowingErrorHandler.INSTANCE;
-		parser.parse(input, result, errorHandler);
+		parser.parse(input, result, new MyXMLStreamReader(), errorHandler);
 
 	}
-
 
 }

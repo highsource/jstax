@@ -16,6 +16,9 @@ import static org.hisrc.jstax.grammar.production.Producer.terminated;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrMore;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrOne;
 
+import org.hisrc.jstax.grammar.operation.Comment;
+import org.hisrc.jstax.grammar.operation.Ignore;
+import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.production.Producer;
 import org.hisrc.jstax.grammar.production.Production;
 import org.hisrc.jstax.grammar.production.character.Char;
@@ -166,10 +169,20 @@ public class XML {
 	// [15] Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
 	public static final Production COMMENT = sequence(
 			"COMMENT",
-			str("COMMENT_START", "<!--"),
+			sequence("COMMENT_START",
+					_char(Ignore.INSTANCE, "COMMENT_START_0", '<'),
+					_char(Ignore.INSTANCE, "COMMENT_START_1", '!'),
+					_char(Ignore.INSTANCE, "COMMENT_START_2", '-'),
+					_char(Ignore.INSTANCE, "COMMENT_START_3", '-')),
 
-			terminated("COMMENT_CONTENT_TERMINATED", CHAR,
-					str("COMMENT_SUFFIX", "--")), CharConstants.GT);
+			terminated(
+					"COMMENT_CONTENT_TERMINATED",
+					CHAR,
+
+					_char(None.INSTANCE, "COMMENT_CONTENT_TERMINATOR_0", '-'),
+					_char(Comment.INSTANCE, "COMMENT_CONTENT_TERMINATOR_1", '-')
+
+			), CharConstants.GT);
 
 	// [17] PITarget ::= Name - (('X' | 'x') ('M' | 'm') ('L' | 'l'))
 	// public static final Production XML_IGNORECASE = sequence(
@@ -193,8 +206,12 @@ public class XML {
 			PI_TARGET,
 			choice("PI_END_OR_S_PI_CONTENT_PI_END",
 					PI_END,
-					sequence("S_PI_CONTENT_PI_END", S,
-							terminated("PI_CONTENT_PI_END", CHAR, PI_END))));
+					sequence(
+							"S_PI_CONTENT_PI_END",
+							S,
+							terminated("PI_CONTENT_PI_END", CHAR,
+									_char("PI_END_0", '?'),
+									_char("PI_END_1", '>')))));
 
 	// [19] CDStart ::= '<![CDATA['
 	public static final Str CD_START = str("CD_START", "<![CDATA[");
@@ -204,8 +221,12 @@ public class XML {
 	// CD_END);
 
 	// [18] CDSect ::= CDStart CData CDEnd
-	public static final Production CD_SECT = sequence("CD_SECT", CD_START,
-			terminated("CDATA_CDEND", CHAR, CD_END));
+	public static final Production CD_SECT = sequence(
+			"CD_SECT",
+			CD_START,
+			terminated("CDATA_CDEND", CHAR,
+			_char("CD_END_0", ']'), _char("CD_END_1", ']'),
+					_char("CD_END_2", '>')));
 
 	// [26] VersionNum ::= '1.' [0-9]+
 	public static final Production VERSION_NUM = sequence("VERSION_NUM",
@@ -311,15 +332,15 @@ public class XML {
 			CharConstants.GT, CHAR_DATA, NON_CHARACTER_OR_ELEMENT_CONTENT,
 			E_TAG);
 
-//	 public static final Production ELEMENT = new ElementProduction(
-//	 "ELEMENT",
-//	 str("START_TAG_PART", "<e"),
-//	 str("EMPTY_ELEM_START_TAG_END", "/>"),
-//	 CharConstants.GT,
-//	 // CHAR_DATA,
-//	 _char("CHAR_DATA", 'c'),
-//	 _char("NON_CHARACTER_OR_ELEMENT_CONTENT", '!'),
-//	 str("START_TAG_PART", "</e>"));
+	// public static final Production ELEMENT = new ElementProduction(
+	// "ELEMENT",
+	// str("START_TAG_PART", "<e"),
+	// str("EMPTY_ELEM_START_TAG_END", "/>"),
+	// CharConstants.GT,
+	// // CHAR_DATA,
+	// _char("CHAR_DATA", 'c'),
+	// _char("NON_CHARACTER_OR_ELEMENT_CONTENT", '!'),
+	// str("START_TAG_PART", "</e>"));
 
 	// choice(
 	// START_TAG_PART.followedBy(str("/>")),

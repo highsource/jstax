@@ -11,6 +11,7 @@ import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
 import org.hisrc.jstax.io.ParseException;
 import org.hisrc.jstax.io.Result;
+import org.hisrc.jstax.xml.stream.XMLStreamWriter;
 
 public class StateMachineParser {
 
@@ -21,7 +22,7 @@ public class StateMachineParser {
 		this.stateMachine = stateMachine;
 	}
 
-	public void parse(Input input, Result result, ErrorHandler errorHandler) {
+	public void parse(Input input, Result result, XMLStreamWriter writer, ErrorHandler errorHandler) {
 
 		State currentState = this.stateMachine.getInitialState();
 		final State terminalState = this.stateMachine.getTerminalState();
@@ -42,6 +43,7 @@ public class StateMachineParser {
 			}
 			final Ch ch = transition.getCh();
 			ch.read(input, result, errorHandler);
+			transition.getOperation().execute(result, writer);
 			currentState = transition.getNextState();
 		}
 

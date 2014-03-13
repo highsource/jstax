@@ -3,6 +3,7 @@ package org.hisrc.jstax.grammar.production;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.Char;
 import org.hisrc.jstax.grammar.production.character.CharRange;
@@ -50,6 +51,10 @@ public class Producer {
 		return new CharImpl(name, ch);
 	}
 
+	public static Char _char(Operation operation, String name, char ch) {
+		return new CharImpl(operation, name, ch);
+	}
+
 	public static Chars chars(String name, char... chars) {
 		return new CharsImpl(name, chars);
 	}
@@ -86,6 +91,10 @@ public class Producer {
 
 	public static Str str(String name, String str) {
 		return new StrImpl(name, str);
+	}
+
+	public static Str str(Operation operation, String name, String str) {
+		return new StrImpl(operation, name, str);
 	}
 
 	public static Choice choice(String name, Production... options) {
@@ -156,7 +165,7 @@ public class Producer {
 		return choice(name, productions);
 	}
 
-	public static Production terminated(String name, Ch _char, Str terminator) {
+	public static Production terminated(String name, Ch _char, Char... terminator) {
 		Validate.notNull(name);
 		Validate.notNull(_char);
 		Validate.notNull(terminator);

@@ -73,7 +73,7 @@ public class StateMachine {
 		Validate.notNull(to);
 		Validate.isTrue(statesSet.contains(from));
 		Validate.isTrue(statesSet.contains(to));
-		final Transition transition = new Transition(ch, to);
+		final Transition transition = new Transition(ch, ch.getOperation(), to);
 
 		final Collection<Transition> existingTransitions = getTransitions(from);
 		if (existingTransitions != null) {

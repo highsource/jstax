@@ -2,6 +2,7 @@ package org.hisrc.jstax.grammar.production.character;
 
 import java.util.List;
 
+import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.structure.Str;
 import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
@@ -24,5 +25,7 @@ public interface Ch extends Str {
 	public boolean intersects(Ch that);
 
 	public CharRanges minus(String name, Char that);
+	
+	public Operation getOperation();
 	
 }

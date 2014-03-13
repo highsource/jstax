@@ -1,7 +1,5 @@
 package org.hisrc.jstax.grammar.production.structure.impl;
 
-import java.util.List;
-
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
@@ -9,19 +7,19 @@ import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.Char;
 import org.hisrc.jstax.grammar.production.impl.AbstractProduction;
-import org.hisrc.jstax.grammar.production.structure.Str;
 import org.jgrapht.DirectedGraph;
 
 public class Terminated1Impl extends AbstractProduction {
 
 	private final Ch _char;
 
-	private final Str terminator;
+	private final Char[] terminator;
 
-	public Terminated1Impl(String name, Ch content, Str terminator) {
+	public Terminated1Impl(String name, Ch content, Char... terminator) {
 		super(Validate.notNull(name));
 		Validate.notNull(content);
-		Validate.notNull(terminator);
+		Validate.notEmpty(terminator);
+		Validate.noNullElements(terminator);
 		this._char = content;
 		this.terminator = terminator;
 	}
@@ -31,11 +29,11 @@ public class Terminated1Impl extends AbstractProduction {
 			Vertex end) {
 		Validate.notNull(_char);
 		Validate.notNull(terminator);
-		final List<Ch> elements = terminator.getElements();
+		final Char[] elements = this.terminator;
 
 		Vertex current = start;
-		for (int index = 0; index < elements.size(); index++) {
-			final Char terminatorChar = (Char) elements.get(index);
+		for (int index = 0; index < elements.length; index++) {
+			final Char terminatorChar = elements[index];
 			final Ch nonTerminatorChar = _char.minus(_char.getIdentifierName()
 					+ "_MINUS_" + terminatorChar.getIdentifierName(),
 					terminatorChar);
@@ -49,7 +47,7 @@ public class Terminated1Impl extends AbstractProduction {
 			graph.addEdge(current, nonTerminatorCharVertex);
 			graph.addEdge(nonTerminatorCharVertex, start);
 
-			if (index == (elements.size() - 1)) {
+			if (index == (elements.length - 1)) {
 				graph.addEdge(terminatorCharVertex, end);
 			}
 			current = terminatorCharVertex;
