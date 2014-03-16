@@ -33,4 +33,10 @@ public class MyXMLStreamReader implements XMLStreamWriter{
 		
 	}
 
+	@Override
+	public void writeCData(String data) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

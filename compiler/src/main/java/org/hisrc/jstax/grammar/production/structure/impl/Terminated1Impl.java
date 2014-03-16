@@ -33,26 +33,25 @@ public class Terminated1Impl extends AbstractProduction {
 		final Char[] elements = this.terminator;
 
 		Vertex current = start;
+		ChVertex firstTerminatorCharVertex = null;
 		for (int index = 0; index < elements.length; index++) {
 			final Char terminatorChar = elements[index];
-			final Ch nonTerminatorChar;
-			if (index == (elements.length - 1)) {
-				nonTerminatorChar =_char.minus(
-						_char.getIdentifierName() + "_MINUS_"
-								+ terminatorChar.getIdentifierName(),
-						terminatorChar).minus(
-						_char.getIdentifierName() + "_MINUS_"
-								+ terminatorChar.getIdentifierName() + "_"
-								+ elements[index - 1].getIdentifierName(),
-						elements[index - 1]);
-			} else {
-				nonTerminatorChar = _char.minus(_char.getIdentifierName()
-						+ "_MINUS_" + terminatorChar.getIdentifierName(),
-						terminatorChar);
+			final ChVertex terminatorCharVertex = new ChVertexImpl(
+					terminatorChar);
+			if (index == 0) {
+				firstTerminatorCharVertex = terminatorCharVertex;
 			}
 
-			final Vertex terminatorCharVertex = new ChVertexImpl(terminatorChar);
-			final Vertex nonTerminatorCharVertex = new ChVertexImpl(
+			final Ch nonTerminatorChar;
+			nonTerminatorChar = _char.minus(
+					_char.getIdentifierName() + "_MINUS_"
+							+ terminatorChar.getIdentifierName(),
+					terminatorChar).minus(
+					_char.getIdentifierName() + "_MINUS_"
+							+ terminatorChar.getIdentifierName() + "_"
+							+ elements[0].getIdentifierName(), elements[0]);
+
+			final ChVertex nonTerminatorCharVertex = new ChVertexImpl(
 					nonTerminatorChar);
 			graph.addVertex(terminatorCharVertex);
 			graph.addVertex(nonTerminatorCharVertex);
@@ -62,7 +61,7 @@ public class Terminated1Impl extends AbstractProduction {
 
 			if (index == (elements.length - 1)) {
 				graph.addEdge(terminatorCharVertex, end);
-				graph.addEdge(current, current);
+				graph.addEdge(current, firstTerminatorCharVertex);
 			}
 			current = terminatorCharVertex;
 		}

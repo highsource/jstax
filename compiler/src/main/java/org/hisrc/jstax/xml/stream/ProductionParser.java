@@ -95,6 +95,13 @@ public class ProductionParser {
 				this.writeProcessingInstruction(target);
 			}
 		}
+
+		@Override
+		public void writeCData(String data) {
+			if (data != null) {
+				System.out.println("CDATA [" + data + "]");
+			}
+		}
 	};
 
 }

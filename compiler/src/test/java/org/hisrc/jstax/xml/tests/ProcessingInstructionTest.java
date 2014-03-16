@@ -19,7 +19,7 @@ public class ProcessingInstructionTest {
 	@Test
 	public void testProcessingInstructionTargetData() {
 		ProductionParser parser = new ProductionParser(XML.PI, new StringInput(
-				"<?abc       ??>"), ThrowingErrorHandler.INSTANCE);
+				"<?abc       ??????>"), ThrowingErrorHandler.INSTANCE);
 
 		parser.parse();
 	}

@@ -15,5 +15,6 @@ public interface XMLStreamWriter {
 	public void writeProcessingInstructionData(String data);
 	
 	//
+	public void writeCData(String data);
 
 }

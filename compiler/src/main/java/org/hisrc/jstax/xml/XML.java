@@ -16,6 +16,7 @@ import static org.hisrc.jstax.grammar.production.Producer.terminated;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrMore;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrOne;
 
+import org.hisrc.jstax.grammar.operation.CData;
 import org.hisrc.jstax.grammar.operation.Comment;
 import org.hisrc.jstax.grammar.operation.Ignore;
 import org.hisrc.jstax.grammar.operation.None;
@@ -229,7 +230,16 @@ public class XML {
 					sequence("S_PI_CONTENT_PI_END", PI_DELIMITER, PI_DATA_END)));
 
 	// [19] CDStart ::= '<![CDATA['
-	public static final Str CD_START = str("CD_START", "<![CDATA[");
+	public static final Production CD_START = sequence("CD_START",
+			_char(Ignore.INSTANCE, "CD_START_0", '<'),
+			_char(Ignore.INSTANCE, "CD_START_1", '!'),
+			_char(Ignore.INSTANCE, "CD_START_2", '['),
+			_char(Ignore.INSTANCE, "CD_START_3", 'C'),
+			_char(Ignore.INSTANCE, "CD_START_4", 'D'),
+			_char(Ignore.INSTANCE, "CD_START_5", 'A'),
+			_char(Ignore.INSTANCE, "CD_START_6", 'T'),
+			_char(Ignore.INSTANCE, "CD_START_7", 'A'),
+			_char(Ignore.INSTANCE, "CD_START_8", '['));
 
 	// [20] CData ::= (Char* - (Char* ']]>' Char*))
 	// public static final Production C_DATA = terminated(CHAR.zeroOrMore(),
@@ -239,8 +249,10 @@ public class XML {
 	public static final Production CD_SECT = sequence(
 			"CD_SECT",
 			CD_START,
-			terminated("CDATA_CDEND", CHAR, _char("CD_END_0", ']'),
-					_char("CD_END_1", ']'), _char("CD_END_2", '>')));
+			terminated("CDATA_CDEND", CHAR,
+					_char(None.INSTANCE, "CD_END_0", ']'),
+					_char(None.INSTANCE, "CD_END_1", ']'),
+					_char(CData.INSTANCE, "CD_END_2", '>')));
 
 	// [26] VersionNum ::= '1.' [0-9]+
 	public static final Production VERSION_NUM = sequence("VERSION_NUM",
