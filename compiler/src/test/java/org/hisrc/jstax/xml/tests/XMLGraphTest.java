@@ -43,16 +43,10 @@ public class XMLGraphTest {
 				});
 
 		final Vertex start = new StartVertexImpl();
-		// final Vertex end = new ChVertexImpl(new CharImpl(CharConstants.EOF));
 		final Vertex end = new EndVertexImpl();
 		graph.addVertex(start);
-		// graph.addVertex(last);
 		graph.addVertex(end);
-		// graph.addEdge(last, end);
-		// XML.COMMENT.buildGraph(graph, start, end);
-		// XML.CHAR_DATA.buildGraph(graph, start, end);
-		// XML.XML_DECL.buildGraph(graph, start, end);
-		XML.COMMENT.buildGraph(graph, start, end);
+		XML.PI.buildGraph(graph, start, end);
 
 		new CompositeGraphOptimizer(graph).optimize();
 
@@ -63,9 +57,9 @@ public class XMLGraphTest {
 			@Override
 			public String getVertexName(Vertex vertex) {
 				return
-				// vertex.getIdentifierName() + " (" +
+				 vertex.getIdentifierName() + " (" +
 				vertex.getName().replace("\"", "\'\'").replace("&", "AMP")
-				// + ")"
+				 + ")"
 				;
 			}
 		}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),
@@ -76,13 +70,10 @@ public class XMLGraphTest {
 		final StateMachineParser parser = new StateMachineParser(stateMachine);
 
 		// final Input input = new StringInput("<!-- Comment -->");
-//		final Input input = new StringInput(
-//				"<?xml    version=\"1.0\"    encoding=\"utf-8\"    standalone=\"yes\"?>"
-//						+ "<!-- Comment -->" + "<?PI data?>"
-//						+ "<a b=\"c\" d=\'e\'>f</a>");
 		final Input input = new StringInput(
-				"<!-- Test -->");
-		// final Input input = new StringInput("<a b=\"c\" d=\'e\'>f</a>");
+				"<?xml    version=\"1.0\"    encoding=\"utf-8\"    standalone=\"yes\"?>"
+						+ "<!-- Comment -->" + "<?PI data?>"
+						+ "<a b=\"c\" d=\'e\'>f</a>");
 		final Result result = new StringResult();
 		final ErrorHandler errorHandler = ThrowingErrorHandler.INSTANCE;
 		parser.parse(input, result, new MyXMLStreamReader(), errorHandler);

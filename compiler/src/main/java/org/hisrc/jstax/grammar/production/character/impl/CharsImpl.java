@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.operation.None;
+import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.Producer;
 import org.hisrc.jstax.grammar.production.character.ChVisitor;
 import org.hisrc.jstax.grammar.production.character.Char;
@@ -31,14 +33,18 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 	}
 
 	public CharsImpl(String name, Char... _chars) {
-		super(Validate.notNull(name));
+		this(None.INSTANCE, name, _chars);
+	}
+
+	public CharsImpl(Operation operation, String name, Char... _chars) {
+		super(Validate.notNull(operation), Validate.notNull(name));
 		Validate.noNullElements(_chars);
 		this.length = _chars.length;
 		this.chs = new char[this.length];
 		for (int index = 0; index < this.length; index++) {
 			this.chs[index] = _chars[index].getChar();
 		}
-//		Arrays.sort(this.chs);
+		// Arrays.sort(this.chs);
 		this.chars = Arrays.asList(_chars);
 		this.unmodifiableChars = Collections.unmodifiableList(this.chars);
 		final List<CharRange> charRanges = new ArrayList<CharRange>(this.length);
@@ -128,6 +134,5 @@ public class CharsImpl extends AbstractChImpl implements Chars {
 			return false;
 		return true;
 	}
-	
-	
+
 }

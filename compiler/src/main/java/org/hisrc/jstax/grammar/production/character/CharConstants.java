@@ -19,6 +19,9 @@ public class CharConstants {
 	public static final Char LF_CHAR = _char("LF_CHAR", (char) 0xA);
 	public static final Char CR_CHAR = _char("CR_CHAR", (char) 0xD);
 	public static final Char SPACE_CHAR = _char("SPACE_CHAR", (char) 0x20);
+	public static final Char[] WHITESPACE_CHARS = { CharConstants.SPACE_CHAR,
+			CharConstants.TAB_CHAR, CharConstants.LF_CHAR,
+			CharConstants.CR_CHAR };
 	public static final Char APOSTROPHE = _char("APOSTROPHE", '\'');
 	public static final Char QUOTATION_MARK = _char("QUOTATION_MARK", '\"');
 	public static final Chars QUOTES = chars("QUOTES", APOSTROPHE,

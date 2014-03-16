@@ -1,6 +1,7 @@
 package org.hisrc.jstax.grammar.production.structure.impl;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.graph.ChVertex;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
@@ -34,9 +35,21 @@ public class Terminated1Impl extends AbstractProduction {
 		Vertex current = start;
 		for (int index = 0; index < elements.length; index++) {
 			final Char terminatorChar = elements[index];
-			final Ch nonTerminatorChar = _char.minus(_char.getIdentifierName()
-					+ "_MINUS_" + terminatorChar.getIdentifierName(),
-					terminatorChar);
+			final Ch nonTerminatorChar;
+			if (index == (elements.length - 1)) {
+				nonTerminatorChar =_char.minus(
+						_char.getIdentifierName() + "_MINUS_"
+								+ terminatorChar.getIdentifierName(),
+						terminatorChar).minus(
+						_char.getIdentifierName() + "_MINUS_"
+								+ terminatorChar.getIdentifierName() + "_"
+								+ elements[index - 1].getIdentifierName(),
+						elements[index - 1]);
+			} else {
+				nonTerminatorChar = _char.minus(_char.getIdentifierName()
+						+ "_MINUS_" + terminatorChar.getIdentifierName(),
+						terminatorChar);
+			}
 
 			final Vertex terminatorCharVertex = new ChVertexImpl(terminatorChar);
 			final Vertex nonTerminatorCharVertex = new ChVertexImpl(
@@ -49,6 +62,7 @@ public class Terminated1Impl extends AbstractProduction {
 
 			if (index == (elements.length - 1)) {
 				graph.addEdge(terminatorCharVertex, end);
+				graph.addEdge(current, current);
 			}
 			current = terminatorCharVertex;
 		}

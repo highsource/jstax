@@ -41,6 +41,10 @@ public class Producer {
 		return new ZeroOrOneImpl(name, production);
 	}
 
+	public static Production oneOrMore(Operation operation, String name, Production production) {
+		return new OneOrMoreImpl(operation, name, production);
+	}
+
 	public static Production oneOrMore(String name, Production production) {
 		Validate.notNull(name);
 		Validate.notNull(production);
@@ -61,6 +65,10 @@ public class Producer {
 
 	public static Chars chars(String name, String chars) {
 		return new CharsImpl(name, chars);
+	}
+
+	public static Chars chars(Operation operation, String name, Char... chars) {
+		return new CharsImpl(operation, name, chars);
 	}
 
 	public static Chars chars(String name, Char... chars) {

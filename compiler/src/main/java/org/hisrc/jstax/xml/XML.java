@@ -19,6 +19,9 @@ import static org.hisrc.jstax.grammar.production.Producer.zeroOrOne;
 import org.hisrc.jstax.grammar.operation.Comment;
 import org.hisrc.jstax.grammar.operation.Ignore;
 import org.hisrc.jstax.grammar.operation.None;
+import org.hisrc.jstax.grammar.operation.ProcessingInstruction;
+import org.hisrc.jstax.grammar.operation.ProcessingInstructionData;
+import org.hisrc.jstax.grammar.operation.ProcessingInstructionTarget;
 import org.hisrc.jstax.grammar.production.Producer;
 import org.hisrc.jstax.grammar.production.Production;
 import org.hisrc.jstax.grammar.production.character.Char;
@@ -35,9 +38,7 @@ public class XML {
 	public static final Char EQUALS_SIGN = _char("EQUALS_SIGN", '=');
 
 	public static final Chars WHITESPACE_CHAR = Producer.chars(
-			"WHITESPACE_CHAR", CharConstants.SPACE_CHAR,
-			CharConstants.TAB_CHAR, CharConstants.LF_CHAR,
-			CharConstants.CR_CHAR);
+			"WHITESPACE_CHAR", CharConstants.WHITESPACE_CHARS);
 
 	// [2] Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] |
 	// [#x10000-#x10FFFF] /* any Unicode character, excluding the surrogate
@@ -47,7 +48,8 @@ public class XML {
 			charRange("CHAR_1", '\uE000', '\uFFFD'));
 
 	// [3] S ::= (#x20 | #x9 | #xD | #xA)+
-	public static final Production S = oneOrMore("S", WHITESPACE_CHAR);
+	public static final Production S = oneOrMore(Ignore.INSTANCE, "S",
+			WHITESPACE_CHAR);
 	public static final Production POSSIBLY_S = zeroOrMore("POSSIBLY_S",
 			WHITESPACE_CHAR);
 
@@ -198,20 +200,33 @@ public class XML {
 	// .butNot(XML_IGNORECASE);
 
 	// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
-	public static final Str PI_START = str("PI_START", "<?");
-	public static final Str PI_END = str("PI_END", "?>");
+	public static final Production PI_START = sequence("PI_START",
+			_char(Ignore.INSTANCE, "PI_START_0", '<'),
+			_char(Ignore.INSTANCE, "PI_START_1", '?'));
+
+	public static final Production PI_END = sequence("PI_END",
+			_char(None.INSTANCE, "PI_END_0", '?'),
+			_char(ProcessingInstruction.INSTANCE, "PI_END_1", '>'));
+
+	public static final Production PI_DELIMITER = sequence(
+			"PI_DELIMITER",
+			chars(ProcessingInstructionTarget.INSTANCE, "PI_DELIMITER_S_0",
+					CharConstants.WHITESPACE_CHARS),
+			zeroOrMore(
+					"PI_DELIMITER_S_N",
+					chars(Ignore.INSTANCE, "PI_DELIMITER_S_N_S",
+							CharConstants.WHITESPACE_CHARS)));
+
+	public static final Production PI_DATA_END = terminated(
+			"PI_CONTENT_PI_END", CHAR, _char(None.INSTANCE, "PI_END_0", '?'),
+			_char(ProcessingInstructionData.INSTANCE, "PI_END_1", '>'));
+
 	public static final Production PI = sequence(
 			"PI",
 			PI_START,
 			PI_TARGET,
-			choice("PI_END_OR_S_PI_CONTENT_PI_END",
-					PI_END,
-					sequence(
-							"S_PI_CONTENT_PI_END",
-							S,
-							terminated("PI_CONTENT_PI_END", CHAR,
-									_char("PI_END_0", '?'),
-									_char("PI_END_1", '>')))));
+			choice("PI_END_OR_S_PI_CONTENT_PI_END", PI_END,
+					sequence("S_PI_CONTENT_PI_END", PI_DELIMITER, PI_DATA_END)));
 
 	// [19] CDStart ::= '<![CDATA['
 	public static final Str CD_START = str("CD_START", "<![CDATA[");
@@ -224,9 +239,8 @@ public class XML {
 	public static final Production CD_SECT = sequence(
 			"CD_SECT",
 			CD_START,
-			terminated("CDATA_CDEND", CHAR,
-			_char("CD_END_0", ']'), _char("CD_END_1", ']'),
-					_char("CD_END_2", '>')));
+			terminated("CDATA_CDEND", CHAR, _char("CD_END_0", ']'),
+					_char("CD_END_1", ']'), _char("CD_END_2", '>')));
 
 	// [26] VersionNum ::= '1.' [0-9]+
 	public static final Production VERSION_NUM = sequence("VERSION_NUM",
@@ -278,7 +292,8 @@ public class XML {
 
 	PI_START, str("XML", "xml"), VERSION_INFO,
 			zeroOrOne("POSSIBLY_ENCODING_DECL", ENCODING_DECL),
-			zeroOrOne("POSSIBLY_ENCODING_SD_DECL", SD_DECL), POSSIBLY_S, PI_END);
+			zeroOrOne("POSSIBLY_ENCODING_SD_DECL", SD_DECL), POSSIBLY_S,
+			str("XML_DECL_END", "?>"));
 
 	// [27] Misc ::= Comment | PI | S
 	public static final Production MISC = choice("MISC", COMMENT, PI, S);

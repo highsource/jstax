@@ -22,7 +22,8 @@ public class StateMachineParser {
 		this.stateMachine = stateMachine;
 	}
 
-	public void parse(Input input, Result result, XMLStreamWriter writer, ErrorHandler errorHandler) {
+	public void parse(Input input, Result result, XMLStreamWriter writer,
+			ErrorHandler errorHandler) {
 
 		State currentState = this.stateMachine.getInitialState();
 		final State terminalState = this.stateMachine.getTerminalState();
@@ -32,6 +33,7 @@ public class StateMachineParser {
 			final Transition transition = this.stateMachine.getTransition(
 					currentState, _char);
 			if (transition == null) {
+				this.stateMachine.getTransition(currentState, _char);
 				// TODO
 				errorHandler
 						.error(new ParseException(
