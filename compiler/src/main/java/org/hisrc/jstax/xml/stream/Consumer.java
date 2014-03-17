@@ -1,6 +1,14 @@
 package org.hisrc.jstax.xml.stream;
 
-public interface XMLStreamWriter {
+public interface Consumer {
+
+	public int getEventType();
+
+	public String getText();
+	
+	public String getPITarget();
+	
+	public String getPIData();
 
 	// Comment
 	public void writeComment(String data);
@@ -13,8 +21,10 @@ public interface XMLStreamWriter {
 	public void writeProcessingInstructionTarget(String target);
 
 	public void writeProcessingInstructionData(String data);
-	
+
 	//
 	public void writeCData(String data);
+	
+	public void flush();
 
 }

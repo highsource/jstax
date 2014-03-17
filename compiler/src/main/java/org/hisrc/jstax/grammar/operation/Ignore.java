@@ -1,12 +1,12 @@
 package org.hisrc.jstax.grammar.operation;
 
 import org.hisrc.jstax.io.Result;
-import org.hisrc.jstax.xml.stream.XMLStreamWriter;
+import org.hisrc.jstax.xml.stream.Consumer;
 
 public class Ignore implements Operation {
 
 	@Override
-	public void execute(final Result result, XMLStreamWriter writer) {
+	public void execute(final Result result, Consumer writer) {
 		result.popChar();
 	}
 

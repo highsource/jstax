@@ -1,5 +1,9 @@
 package org.hisrc.jstax.xml.tests;
 
+import javax.xml.stream.XMLStreamConstants;
+
+import junit.framework.Assert;
+
 import org.hisrc.jstax.io.impl.StringInput;
 import org.hisrc.jstax.io.impl.ThrowingErrorHandler;
 import org.hisrc.jstax.xml.XML;
@@ -10,27 +14,35 @@ public class CDataTest {
 
 	@Test
 	public void testProcessingInstruction() {
-		ProductionParser parser = new ProductionParser(XML.CD_SECT, new StringInput(
-				"<![CDATA[.]]>"), ThrowingErrorHandler.INSTANCE);
-		parser.parse();
+		ProductionParser streamReader = new ProductionParser(XML.CD_SECT,
+				new StringInput("<![CDATA[.]]>"), ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.CDATA, streamReader.next());
+		Assert.assertEquals(".", streamReader.getText());
 	}
 
 	@Test
 	public void testProcessingInstructionBracket() {
-		ProductionParser parser = new ProductionParser(XML.CD_SECT, new StringInput(
-				"<![CDATA[]]]>"), ThrowingErrorHandler.INSTANCE);
-		parser.parse();
+		ProductionParser streamReader = new ProductionParser(XML.CD_SECT,
+				new StringInput("<![CDATA[]]]>"), ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.CDATA, streamReader.next());
+		Assert.assertEquals("]", streamReader.getText());
 	}
+
 	@Test
 	public void testProcessingInstructionBracketBracket() {
-		ProductionParser parser = new ProductionParser(XML.CD_SECT, new StringInput(
-				"<![CDATA[]]]]>"), ThrowingErrorHandler.INSTANCE);
-		parser.parse();
+		ProductionParser streamReader = new ProductionParser(XML.CD_SECT,
+				new StringInput("<![CDATA[]]]]>"),
+				ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.CDATA, streamReader.next());
+		Assert.assertEquals("]]", streamReader.getText());
 	}
+
 	@Test
 	public void testProcessingInstructionBracketAngle() {
-		ProductionParser parser = new ProductionParser(XML.CD_SECT, new StringInput(
-				"<![CDATA[]>]]>"), ThrowingErrorHandler.INSTANCE);
-		parser.parse();
+		ProductionParser streamReader = new ProductionParser(XML.CD_SECT,
+				new StringInput("<![CDATA[]>]]>"),
+				ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.CDATA, streamReader.next());
+		Assert.assertEquals("]>", streamReader.getText());
 	}
 }

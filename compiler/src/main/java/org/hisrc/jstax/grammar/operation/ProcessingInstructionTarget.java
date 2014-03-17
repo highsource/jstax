@@ -1,12 +1,12 @@
 package org.hisrc.jstax.grammar.operation;
 
 import org.hisrc.jstax.io.Result;
-import org.hisrc.jstax.xml.stream.XMLStreamWriter;
+import org.hisrc.jstax.xml.stream.Consumer;
 
 public class ProcessingInstructionTarget implements Operation {
 
 	@Override
-	public void execute(Result result, XMLStreamWriter streamWriter) {
+	public void execute(Result result, Consumer streamWriter) {
 		// Pop the last whitespace character
 		result.popChar();
 		streamWriter.writeProcessingInstructionTarget(result.popString());
