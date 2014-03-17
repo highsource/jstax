@@ -12,7 +12,6 @@ import static org.hisrc.jstax.grammar.production.Producer.quoted;
 import static org.hisrc.jstax.grammar.production.Producer.quotedSingle;
 import static org.hisrc.jstax.grammar.production.Producer.sequence;
 import static org.hisrc.jstax.grammar.production.Producer.str;
-import static org.hisrc.jstax.grammar.production.Producer.terminated;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrMore;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrOne;
 
@@ -30,7 +29,6 @@ import org.hisrc.jstax.grammar.production.character.CharConstants;
 import org.hisrc.jstax.grammar.production.character.CharRanges;
 import org.hisrc.jstax.grammar.production.character.Chars;
 import org.hisrc.jstax.grammar.production.structure.Choice;
-import org.hisrc.jstax.grammar.production.structure.Str;
 
 public class XML {
 
@@ -160,15 +158,16 @@ public class XML {
 	public static final Production PUBID_LITERAL = quoted("PUBID_LITERAL",
 			CharConstants.QUOTES, PUBID_CHAR);
 
-	// [21] CDEnd ::= ']]>'
-	public static final Str CD_END = str("CD_END", "]]>");
-
 	// [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
 	public static final Production CHAR_DATA = notContaining(
 			"CHAR_DATA",
 			negativeChars("CHAR_DATA_CHAR", CharConstants.AMPERSAND,
-					CharConstants.LT), CD_END);
+					CharConstants.LT), str("CD_END", "]]>"));
 
+	public static final Production COMMENT_PRE_END = new CommentPreEndProduction(
+			"COMMENT_END", _char(None.INSTANCE, "COMMENT_CONTENT_TERMINATOR_0",
+					'-'), _char(Comment.INSTANCE,
+					"COMMENT_CONTENT_TERMINATOR_1", '-'));
 	// [15] Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
 	public static final Production COMMENT = sequence(
 			"COMMENT",
@@ -178,14 +177,7 @@ public class XML {
 					_char(Ignore.INSTANCE, "COMMENT_START_2", '-'),
 					_char(Ignore.INSTANCE, "COMMENT_START_3", '-')),
 
-			terminated(
-					"COMMENT_CONTENT_TERMINATED",
-					CHAR,
-
-					_char(None.INSTANCE, "COMMENT_CONTENT_TERMINATOR_0", '-'),
-					_char(Comment.INSTANCE, "COMMENT_CONTENT_TERMINATOR_1", '-')
-
-			), CharConstants.GT);
+			COMMENT_PRE_END, CharConstants.GT);
 
 	// [17] PITarget ::= Name - (('X' | 'x') ('M' | 'm') ('L' | 'l'))
 	// public static final Production XML_IGNORECASE = sequence(
@@ -218,9 +210,9 @@ public class XML {
 					chars(Ignore.INSTANCE, "PI_DELIMITER_S_N_S",
 							CharConstants.WHITESPACE_CHARS)));
 
-	public static final Production PI_DATA_END = terminated(
-			"PI_CONTENT_PI_END", CHAR, _char(None.INSTANCE, "PI_END_0", '?'),
-			_char(ProcessingInstructionData.INSTANCE, "PI_END_1", '>'));
+	public static final Production PI_DATA_END = new PIEndProduction(
+			"PI_DATA_END", _char(None.INSTANCE, "PI_END_0", '?'), _char(
+					ProcessingInstructionData.INSTANCE, "PI_END_1", '>'));
 
 	public static final Production PI = sequence(
 			"PI",
@@ -245,14 +237,14 @@ public class XML {
 	// public static final Production C_DATA = terminated(CHAR.zeroOrMore(),
 	// CD_END);
 
+	// [21] CDEnd ::= ']]>'
+	public static final Production CDATA_CDEND = new CDEndProduction("CDATA_CDEND",
+			_char(None.INSTANCE, "CD_END_0", ']'), _char(None.INSTANCE,
+					"CD_END_1", ']'), _char(CData.INSTANCE, "CD_END_2", '>'));
+
 	// [18] CDSect ::= CDStart CData CDEnd
-	public static final Production CD_SECT = sequence(
-			"CD_SECT",
-			CD_START,
-			terminated("CDATA_CDEND", CHAR,
-					_char(None.INSTANCE, "CD_END_0", ']'),
-					_char(None.INSTANCE, "CD_END_1", ']'),
-					_char(CData.INSTANCE, "CD_END_2", '>')));
+	public static final Production CD_SECT = sequence("CD_SECT", CD_START,
+			CDATA_CDEND);
 
 	// [26] VersionNum ::= '1.' [0-9]+
 	public static final Production VERSION_NUM = sequence("VERSION_NUM",

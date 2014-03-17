@@ -9,11 +9,42 @@ import org.junit.Test;
 public class CommentTest {
 
 	@Test
-	public void test() {
-		ProductionParser parser = new ProductionParser(XML.COMMENT, new StringInput("<!--a-->"),
-				ThrowingErrorHandler.INSTANCE);
-		
+	public void testComment00() {
+		ProductionParser parser = new ProductionParser(XML.COMMENT,
+				new StringInput("<!---->"), ThrowingErrorHandler.INSTANCE);
+
 		parser.parse();
 	}
 
+	@Test
+	public void testComment01() {
+		ProductionParser parser = new ProductionParser(XML.COMMENT,
+				new StringInput("<!--*-->"), ThrowingErrorHandler.INSTANCE);
+
+		parser.parse();
+	}
+
+	@Test
+	public void testComment02() {
+		ProductionParser parser = new ProductionParser(XML.COMMENT,
+				new StringInput("<!--**-->"), ThrowingErrorHandler.INSTANCE);
+
+		parser.parse();
+	}
+
+	@Test
+	public void testComment03() {
+		ProductionParser parser = new ProductionParser(XML.COMMENT,
+				new StringInput("<!---*-->"), ThrowingErrorHandler.INSTANCE);
+
+		parser.parse();
+	}
+
+	@Test
+	public void testComment04() {
+		ProductionParser parser = new ProductionParser(XML.COMMENT,
+				new StringInput("<!---**-->"), ThrowingErrorHandler.INSTANCE);
+
+		parser.parse();
+	}
 }

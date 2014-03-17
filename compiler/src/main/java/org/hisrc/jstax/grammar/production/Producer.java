@@ -25,7 +25,6 @@ import org.hisrc.jstax.grammar.production.structure.impl.ChoiceImpl;
 import org.hisrc.jstax.grammar.production.structure.impl.NotContainingImpl;
 import org.hisrc.jstax.grammar.production.structure.impl.SequenceImpl;
 import org.hisrc.jstax.grammar.production.structure.impl.StrImpl;
-import org.hisrc.jstax.grammar.production.structure.impl.Terminated1Impl;
 
 public class Producer {
 
@@ -41,7 +40,8 @@ public class Producer {
 		return new ZeroOrOneImpl(name, production);
 	}
 
-	public static Production oneOrMore(Operation operation, String name, Production production) {
+	public static Production oneOrMore(Operation operation, String name,
+			Production production) {
 		return new OneOrMoreImpl(operation, name, production);
 	}
 
@@ -173,10 +173,4 @@ public class Producer {
 		return choice(name, productions);
 	}
 
-	public static Production terminated(String name, Ch _char, Char... terminator) {
-		Validate.notNull(name);
-		Validate.notNull(_char);
-		Validate.notNull(terminator);
-		return new Terminated1Impl(name, _char, terminator);
-	}
 }

@@ -30,7 +30,7 @@ public class CDataTest {
 	@Test
 	public void testProcessingInstructionBracketAngle() {
 		ProductionParser parser = new ProductionParser(XML.CD_SECT, new StringInput(
-				"<![CDATA[]>]>"), ThrowingErrorHandler.INSTANCE);
+				"<![CDATA[]>]]>"), ThrowingErrorHandler.INSTANCE);
 		parser.parse();
 	}
 }

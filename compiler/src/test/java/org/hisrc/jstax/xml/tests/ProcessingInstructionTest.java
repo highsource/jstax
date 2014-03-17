@@ -17,9 +17,17 @@ public class ProcessingInstructionTest {
 	}
 
 	@Test
-	public void testProcessingInstructionTargetData() {
+	public void testProcessingInstructionTargetData0() {
 		ProductionParser parser = new ProductionParser(XML.PI, new StringInput(
 				"<?abc       ??????>"), ThrowingErrorHandler.INSTANCE);
+
+		parser.parse();
+	}
+	
+	@Test
+	public void testProcessingInstructionTargetData1() {
+		ProductionParser parser = new ProductionParser(XML.PI, new StringInput(
+				"<?abc       def ?>"), ThrowingErrorHandler.INSTANCE);
 
 		parser.parse();
 	}
