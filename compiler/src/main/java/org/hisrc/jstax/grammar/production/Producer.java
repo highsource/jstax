@@ -3,6 +3,7 @@ package org.hisrc.jstax.grammar.production;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.hisrc.jstax.grammar.operation.Ignore;
 import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.Char;
@@ -129,8 +130,8 @@ public class Producer {
 		return new NotContainingImpl(name, content, end);
 	}
 
-	public static Production quoted(String name, Chars quotes, Ch ch,
-			Production... contents) {
+	public static Production quoted(Operation operation, String name,
+			Chars quotes, Ch ch, Production... contents) {
 
 		final Production additionalContent;
 		if (contents == null || contents.length == 0) {
@@ -154,7 +155,9 @@ public class Producer {
 							mainContent, additionalContent);
 			productions[index++] = sequence(
 					name + "_CONTENT_" + quote.getIdentifierName() + "_QUOTED",
-					quote, content, quote);
+					new CharImpl(Ignore.INSTANCE, quote.getIdentifierName(),
+							quote.getChar()), content, new CharImpl(operation,
+							quote.getIdentifierName(), quote.getChar()));
 		}
 		return choice(name, productions);
 	}

@@ -1,10 +1,16 @@
 package org.hisrc.jstax.xml.stream;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.stream.Location;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -93,14 +99,36 @@ public class ProductionParser implements XMLStreamReader {
 		this.text = consumer.getText();
 		this.piTarget = consumer.getPITarget();
 		this.piData = consumer.getPIData();
+		this.localName = consumer.getLocalName();
+		if (this.eventType == XMLStreamConstants.ATTRIBUTE) {
+			final String attributePrefix = consumer.getAttributePrefix();
+			final String attributeLocalName = consumer.getAttributeLocalName();
+			final String attributeValue = consumer.getAttributeValue();
+			final String attributeNamespace = null;
+
+			final QName attributeName = new QName(
+					(attributeNamespace == null ? XMLConstants.NULL_NS_URI
+							: attributeNamespace), attributeLocalName,
+					(attributePrefix == null ? XMLConstants.DEFAULT_NS_PREFIX
+							: attributePrefix));
+
+			this.attributes.put(attributeName, attributeValue);
+			this.attributeNames.add(attributeName);
+			this.attributeValues.add(attributeValue);
+		}
 		consumer.flush();
 		return this.eventType;
 	}
 
 	private int eventType = -1;
+	private String localName;
 	private String text;
 	private String piTarget;
 	private String piData;
+	// TODO
+	private List<QName> attributeNames = new ArrayList<QName>();
+	private List<String> attributeValues = new ArrayList<String>();
+	private Map<QName, String> attributes = new LinkedHashMap<QName, String>();
 
 	@Override
 	public int getEventType() {
@@ -193,55 +221,88 @@ public class ProductionParser implements XMLStreamReader {
 
 	@Override
 	public String getAttributeValue(String namespaceURI, String localName) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO START_ELEMENT or ATTRIBUTE
+		if (this.attributes == null) {
+			throw new IllegalStateException(
+					"This method can only be called for START_ELEMENT or ATTRIBUTE events.");
+		}
+		return this.attributes.get(new QName(namespaceURI, localName));
 	}
 
 	@Override
 	public int getAttributeCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO START_ELEMENT or ATTRIBUTE
+		if (this.attributes == null) {
+			throw new IllegalStateException(
+					"This method can only be called for START_ELEMENT or ATTRIBUTE events.");
+		}
+		return this.attributes.size();
 	}
 
 	@Override
 	public QName getAttributeName(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO START_ELEMENT or ATTRIBUTE
+		if (this.attributeNames == null) {
+			throw new IllegalStateException(
+					"This method can only be called for START_ELEMENT or ATTRIBUTE events.");
+		}
+		// TODO OOBE
+		return this.attributeNames.get(index);
 	}
 
 	@Override
 	public String getAttributeNamespace(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO START_ELEMENT or ATTRIBUTE
+		if (this.attributeNames == null) {
+			throw new IllegalStateException(
+					"This method can only be called for START_ELEMENT or ATTRIBUTE events.");
+		}
+		// TODO OOBE
+		return this.attributeNames.get(index).getNamespaceURI();
 	}
 
 	@Override
 	public String getAttributeLocalName(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO START_ELEMENT or ATTRIBUTE
+		if (this.attributeNames == null) {
+			throw new IllegalStateException(
+					"This method can only be called for START_ELEMENT or ATTRIBUTE events.");
+		}
+		// TODO OOBE
+		return this.attributeNames.get(index).getLocalPart();
 	}
 
 	@Override
 	public String getAttributePrefix(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO START_ELEMENT or ATTRIBUTE
+		if (this.attributeNames == null) {
+			throw new IllegalStateException(
+					"This method can only be called for START_ELEMENT or ATTRIBUTE events.");
+		}
+		// TODO OOBE
+		return this.attributeNames.get(index).getPrefix();
 	}
 
 	@Override
 	public String getAttributeType(int index) {
-		// TODO Auto-generated method stub
+		// TODO ?????????
 		return null;
 	}
 
 	@Override
 	public String getAttributeValue(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO START_ELEMENT or ATTRIBUTE
+		if (this.attributeValues == null) {
+			throw new IllegalStateException(
+					"This method can only be called for START_ELEMENT or ATTRIBUTE events.");
+		}
+		// TODO OOBE
+		return this.attributeValues.get(index);
 	}
 
 	@Override
 	public boolean isAttributeSpecified(int index) {
-		// TODO Auto-generated method stub
+		// TODO ????
 		return false;
 	}
 
@@ -320,8 +381,7 @@ public class ProductionParser implements XMLStreamReader {
 
 	@Override
 	public String getLocalName() {
-		// TODO Auto-generated method stub
-		return null;
+		return localName;
 	}
 
 	@Override

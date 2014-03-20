@@ -15,8 +15,13 @@ import static org.hisrc.jstax.grammar.production.Producer.str;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrMore;
 import static org.hisrc.jstax.grammar.production.Producer.zeroOrOne;
 
+import org.hisrc.jstax.grammar.operation.AttributeLocalName;
+import org.hisrc.jstax.grammar.operation.AttributeValue;
 import org.hisrc.jstax.grammar.operation.CData;
 import org.hisrc.jstax.grammar.operation.Comment;
+import org.hisrc.jstax.grammar.operation.DecimalCharRef;
+import org.hisrc.jstax.grammar.operation.EntityRef;
+import org.hisrc.jstax.grammar.operation.HexCharRef;
 import org.hisrc.jstax.grammar.operation.Ignore;
 import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.operation.ProcessingInstruction;
@@ -48,9 +53,9 @@ public class XML {
 
 	// [3] S ::= (#x20 | #x9 | #xD | #xA)+
 	public static final Production S = oneOrMore(Ignore.INSTANCE, "S",
-			WHITESPACE_CHAR);
-	public static final Production POSSIBLY_S = zeroOrMore("POSSIBLY_S",
-			WHITESPACE_CHAR);
+			Producer.chars(Ignore.INSTANCE, "WHITESPACE_CHAR",
+					CharConstants.WHITESPACE_CHARS));
+	public static final Production POSSIBLY_S = zeroOrOne("POSSIBLY_S", S);
 
 	// [4] NameStartChar ::= ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] |
 	// [#xD8-#xF6] | [#xF8-#x2FF] | [#x370-#x37D] | [#x37F-#x1FFF] |
@@ -101,17 +106,24 @@ public class XML {
 
 	// [68] EntityRef ::= '&' Name ';'
 	public static final Production ENTITY_REF = sequence("ENTITY_REF",
-			CharConstants.AMPERSAND, NAME, CharConstants.SEMICOLON);
+			_char(Ignore.INSTANCE, "ENTITY_REF_AMPERSAND", '&'), NAME,
+			_char(EntityRef.INSTANCE, "ENTITY_REF_SEMICOLON", ';'));
 
 	// [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
 	public static final Production CHAR_REF = sequence(
 			"CHAR_REF",
-			str("CHAR_REF_PREFIX", "&#"),
+			sequence("CHAR_REF_PREFIX",
+					_char(Ignore.INSTANCE, "CHAR_REF_PREFIX_0", '&'),
+					_char(Ignore.INSTANCE, "CHAR_REF_PREFIX_0", '#')),
 			choice("CHAR_REF_SUFFIX",
-					oneOrMore("DEC_CHAR_REF", CharConstants.DIGITS),
+					sequence(
+							"DEC_CHAR_REF",
+							oneOrMore("DEC_CHAR_REF_N", CharConstants.DIGITS),
+							_char(DecimalCharRef.INSTANCE, "DEC_CHAR_REF_END",
+									';')),
 					sequence(
 							"HEX_CHAR_REF",
-							_char("HEX_CHAR_REF_PREFIX", 'x'),
+							_char(Ignore.INSTANCE, "HEX_CHAR_REF_PREFIX", 'x'),
 							oneOrMore(
 									"HEX_CHAR_REF_SUFFIX",
 									charRanges(
@@ -120,8 +132,8 @@ public class XML {
 											charRange("HEX_SMALL_LETTERS", 'a',
 													'f'),
 											charRange("HEX_CAPITAL_LETTERS",
-													'A', 'F'))))),
-			CharConstants.SEMICOLON);
+													'A', 'F'))),
+							_char(HexCharRef.INSTANCE, "Hex_CHAR_REF_END", ';'))));
 
 	// [67] Reference ::= EntityRef | CharRef
 	public static final Production REFERENCE = choice("REFERENCE", ENTITY_REF,
@@ -129,15 +141,17 @@ public class XML {
 
 	// [9] EntityValue ::= '"' ([^%&"] | PEReference | Reference)* '"' | "'"
 	// ([^%&'] | PEReference | Reference)* "'"
-	public static final Production ENTITY_VALUE = quoted(
-			"ENTITY_VALUE",
-			CharConstants.QUOTES,
-			negativeChars("ENTITY_VALUE_CHAR", CharConstants.PERCENT_SIGN,
-					CharConstants.AMPERSAND), PE_REFERENCE, REFERENCE);
+	// public static final Production ENTITY_VALUE = quoted(
+	// None.INSTANCE,
+	// "ENTITY_VALUE",
+	// CharConstants.QUOTES,
+	// negativeChars("ENTITY_VALUE_CHAR", CharConstants.PERCENT_SIGN,
+	// CharConstants.AMPERSAND), PE_REFERENCE, REFERENCE);
 
 	// [10] AttValue ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] |
 	// Reference)* "'"
 	public static final Production ATT_VALUE = quoted(
+			AttributeValue.INSTANCE,
 			"ATT_VALUE",
 			CharConstants.QUOTES,
 			negativeChars("ATT_VALUE_CHAR", CharConstants.LT,
@@ -145,8 +159,8 @@ public class XML {
 
 	// [11] SystemLiteral ::= ('"' [^"]* '"') | ("'" [^']* "'")
 	// zeroOrMoreChar
-	public static final Production SYSTEM_LITERAL = quoted("SYSTEM_LITERAL",
-			CharConstants.QUOTES, CharConstants.ANY_CHAR);
+	// public static final Production SYSTEM_LITERAL = quoted("SYSTEM_LITERAL",
+	// CharConstants.QUOTES, CharConstants.ANY_CHAR);
 
 	// [13] PubidChar ::= #x20 | #xD | #xA | [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]
 	public static final CharRanges PUBID_CHAR = charRanges("PUBID_CHAR",
@@ -155,8 +169,8 @@ public class XML {
 			chars("PUBID_CHAR_0", "-'()+,./:=?;!*#@$_%"));
 
 	// [12] PubidLiteral ::= '"' PubidChar* '"' | "'" (PubidChar - "'")* "'"
-	public static final Production PUBID_LITERAL = quoted("PUBID_LITERAL",
-			CharConstants.QUOTES, PUBID_CHAR);
+	// public static final Production PUBID_LITERAL = quoted("PUBID_LITERAL",
+	// CharConstants.QUOTES, PUBID_CHAR);
 
 	// [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
 	public static final Production CHAR_DATA = notContaining(
@@ -238,9 +252,10 @@ public class XML {
 	// CD_END);
 
 	// [21] CDEnd ::= ']]>'
-	public static final Production CDATA_CDEND = new CDEndProduction("CDATA_CDEND",
-			_char(None.INSTANCE, "CD_END_0", ']'), _char(None.INSTANCE,
-					"CD_END_1", ']'), _char(CData.INSTANCE, "CD_END_2", '>'));
+	public static final Production CDATA_CDEND = new CDEndProduction(
+			"CDATA_CDEND", _char(None.INSTANCE, "CD_END_0", ']'), _char(
+					None.INSTANCE, "CD_END_1", ']'), _char(CData.INSTANCE,
+					"CD_END_2", '>'));
 
 	// [18] CDSect ::= CDStart CData CDEnd
 	public static final Production CD_SECT = sequence("CD_SECT", CD_START,
@@ -309,8 +324,9 @@ public class XML {
 	// .followedBy(DOCTYPE_DECL.followedBy(MISC.zeroOrMore()).zeroOrOne())
 
 	// [41] Attribute ::= Name Eq AttValue
-	public static final Production ATTRIBUTE = sequence("ATTRIBUTE", NAME, EQ,
-			ATT_VALUE);
+	public static final Production ATTRIBUTE = sequence("ATTRIBUTE", NAME,
+			POSSIBLY_S, _char(AttributeLocalName.INSTANCE, "EQUALS_SIGN", '='),
+			POSSIBLY_S, ATT_VALUE);
 
 	// [44] EmptyElemTag ::= '<' Name (S Attribute)* S? '/>'
 

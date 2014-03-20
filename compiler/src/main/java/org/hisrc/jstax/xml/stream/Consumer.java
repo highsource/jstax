@@ -4,11 +4,19 @@ public interface Consumer {
 
 	public int getEventType();
 
+	public String getLocalName();
+
 	public String getText();
-	
+
 	public String getPITarget();
-	
+
 	public String getPIData();
+
+	public String getAttributePrefix();
+
+	public String getAttributeLocalName();
+
+	public String getAttributeValue();
 
 	// Comment
 	public void writeComment(String data);
@@ -24,7 +32,22 @@ public interface Consumer {
 
 	//
 	public void writeCData(String data);
-	
+
+	//
+	public void writeEntityRef(String name);
+
+	public void writeHexCharRef(String charRef);
+
+	public void writeDecimalCharRef(String charRef);
+
+	//
+
+	public void writeAttributeLocalName(String name);
+
+	public void writeAttributeValue(String name);
+
+	public void writeAttribute(String localName, String value);
+
 	public void flush();
 
 }
