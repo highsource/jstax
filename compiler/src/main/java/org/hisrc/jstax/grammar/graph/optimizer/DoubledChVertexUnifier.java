@@ -7,6 +7,7 @@ import org.hisrc.jstax.grammar.graph.ChVertex;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.jgrapht.DirectedGraph;
 
 public class DoubledChVertexUnifier extends DefaultVertexVisitor<Boolean> {
@@ -66,7 +67,7 @@ public class DoubledChVertexUnifier extends DefaultVertexVisitor<Boolean> {
 
 												if (level2Vertex != level1Vertex) {
 													graph.addEdge(level0Vertex,
-															level2Vertex);
+															level2Vertex, level0Edge.sequence(level1Edge));
 												}
 											}
 											graph.removeEdge(level0Edge);

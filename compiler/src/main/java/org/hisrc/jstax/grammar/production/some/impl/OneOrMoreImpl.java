@@ -3,6 +3,7 @@ package org.hisrc.jstax.grammar.production.some.impl;
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
 import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.operation.Operation;
@@ -26,9 +27,9 @@ public class OneOrMoreImpl extends AbstractSomeImpl implements OneOrMore {
 		final Vertex middle = new EmptyVertexImpl();
 		graph.addVertex(middle);
 		// m -> e
-		graph.addEdge(middle, end);
+		graph.addEdge(middle, end, new EdgeImpl());
 		// m -> s
-		graph.addEdge(middle, start);
+		graph.addEdge(middle, start, new EdgeImpl());
 		// s -> content -> m
 		getContent().buildGraph(graph, start, middle);
 	}

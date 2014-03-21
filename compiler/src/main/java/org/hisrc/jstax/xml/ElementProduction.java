@@ -3,6 +3,7 @@ package org.hisrc.jstax.xml;
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
 import org.hisrc.jstax.grammar.production.Production;
 import org.hisrc.jstax.grammar.production.impl.AbstractProduction;
@@ -55,27 +56,27 @@ public class ElementProduction extends AbstractProduction {
 		final Vertex v6 = new EmptyVertexImpl();
 		graph.addVertex(v6);
 
-		graph.addEdge(start, v0);
-		graph.addEdge(v6, end);
+		graph.addEdge(start, v0, new EdgeImpl());
+		graph.addEdge(v6, end, new EdgeImpl());
 
 		this.startTagPart.buildGraph(graph, v0, v1);
 		this.emptyElementStartTagEnd.buildGraph(graph, v1, v6);
 
 		this.nonEmptyElementStartTagEnd.buildGraph(graph, v1, v2);
 
-		graph.addEdge(v2, v3);
+		graph.addEdge(v2, v3, new EdgeImpl());
 		charData.buildGraph(graph, v2, v3);
 
-		graph.addEdge(v3, v0);
+		graph.addEdge(v3, v0, new EdgeImpl());
 
 		this.nonCharacterContent.buildGraph(graph, v3, v4);
 
-		graph.addEdge(v4, v5);
+		graph.addEdge(v4, v5, new EdgeImpl());
 
 		this.charData.buildGraph(graph, v4, v5);
 
-		graph.addEdge(v3, v5);
-		graph.addEdge(v5, v3);
+		graph.addEdge(v3, v5, new EdgeImpl());
+		graph.addEdge(v5, v3, new EdgeImpl());
 
 		this.endTag.buildGraph(graph, v5, v6);
 

@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.graph.ChVertex;
 import org.hisrc.jstax.grammar.graph.Edge;
+import org.hisrc.jstax.grammar.graph.EdgeToVertex;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
 import org.jgrapht.DirectedGraph;
@@ -16,7 +16,7 @@ public class VertexMerger extends DefaultVertexVisitor<Boolean> {
 	public VertexMerger(DirectedGraph<Vertex, Edge> graph) {
 		this.graph = Validate.notNull(graph);
 	}
-	
+
 	@Override
 	public Boolean visitVertex(Vertex first) {
 
@@ -24,11 +24,11 @@ public class VertexMerger extends DefaultVertexVisitor<Boolean> {
 		final Vertex[] vertices = vertexSet
 				.toArray(new Vertex[vertexSet.size()]);
 
-		final Set<Vertex> firstOutgoingVertices = outgoingVerticesOf(first);
+		final Set<EdgeToVertex> firstOugoingTransitions = outgoingTransitionsOf(first);
 		for (Vertex second : vertices) {
 			if (first != second && first.equals(second)) {
-				final Set<Vertex> secondOutgoingVertices = outgoingVerticesOf(second);
-				if (firstOutgoingVertices.equals(secondOutgoingVertices)) {
+				final Set<EdgeToVertex> secondOugoingTransitions = outgoingTransitionsOf(second);
+				if (firstOugoingTransitions.equals(secondOugoingTransitions)) {
 					final Set<Edge> secondIncomingEdgesSet = graph
 							.incomingEdgesOf(second);
 					final Edge[] secondIncomingEdges = secondIncomingEdgesSet
@@ -36,7 +36,8 @@ public class VertexMerger extends DefaultVertexVisitor<Boolean> {
 					for (Edge secondIncomingEdge : secondIncomingEdges) {
 						Vertex secondIncomingVertex = graph
 								.getEdgeSource(secondIncomingEdge);
-						graph.addEdge(secondIncomingVertex, first);
+						graph.addEdge(secondIncomingVertex, first,
+								secondIncomingEdge.clone());
 					}
 					graph.removeVertex(second);
 					return true;
@@ -46,12 +47,13 @@ public class VertexMerger extends DefaultVertexVisitor<Boolean> {
 		return false;
 	}
 
-	private Set<Vertex> outgoingVerticesOf(Vertex vertex) {
-		final Set<Vertex> outgoingVertices = new HashSet<Vertex>();
+	private Set<EdgeToVertex> outgoingTransitionsOf(Vertex vertex) {
+		final Set<EdgeToVertex> outgoingTransitionsSet = new HashSet<EdgeToVertex>();
 		for (final Edge outgoingEdge : graph.outgoingEdgesOf(vertex)) {
 			final Vertex outgoingVertex = graph.getEdgeTarget(outgoingEdge);
-			outgoingVertices.add(outgoingVertex);
+			outgoingTransitionsSet.add(new EdgeToVertex(outgoingEdge,
+					outgoingVertex));
 		}
-		return outgoingVertices;
+		return outgoingTransitionsSet;
 	}
 }

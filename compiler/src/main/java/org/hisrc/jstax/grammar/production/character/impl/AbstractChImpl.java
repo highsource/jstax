@@ -8,6 +8,7 @@ import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.Ch;
@@ -76,8 +77,8 @@ public abstract class AbstractChImpl extends AbstractProduction implements
 			Vertex end) {
 		final Vertex middle = new ChVertexImpl(this);
 		graph.addVertex(middle);
-		graph.addEdge(start, middle);
-		graph.addEdge(middle, end);
+		graph.addEdge(start, middle, new EdgeImpl());
+		graph.addEdge(middle, end, new EdgeImpl());
 	}
 
 	@Override

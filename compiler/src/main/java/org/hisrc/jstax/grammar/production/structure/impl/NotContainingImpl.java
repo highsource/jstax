@@ -7,6 +7,7 @@ import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.ErrorVertexImpl;
 import org.hisrc.jstax.grammar.production.character.Ch;
@@ -37,8 +38,8 @@ public class NotContainingImpl extends AbstractProduction {
 		// TODO
 		final Vertex mid = new EmptyVertexImpl();
 		graph.addVertex(mid);
-		graph.addEdge(start, mid);
-		graph.addEdge(mid, end);
+		graph.addEdge(start, mid, new EdgeImpl());
+		graph.addEdge(mid, end, new EdgeImpl());
 
 		final Vertex error = new ErrorVertexImpl(MessageFormat.format(
 				"Met the unexpected substring [{0}].", terminator.toString()));
@@ -48,9 +49,8 @@ public class NotContainingImpl extends AbstractProduction {
 		Vertex current = mid;
 		for (int index = 0; index < elements.size(); index++) {
 			final Char terminatorChar = (Char) elements.get(index);
-			final Ch nonTerminatorChar = _char.minus(
-					_char.getIdentifierName() + "_MINUS_"
-							+ terminatorChar.getIdentifierName(),
+			final Ch nonTerminatorChar = _char.minus(_char.getIdentifierName()
+					+ "_MINUS_" + terminatorChar.getIdentifierName(),
 					terminatorChar);
 
 			final Vertex terminatorCharVertex = new ChVertexImpl(terminatorChar);
@@ -58,12 +58,12 @@ public class NotContainingImpl extends AbstractProduction {
 					nonTerminatorChar);
 			graph.addVertex(terminatorCharVertex);
 			graph.addVertex(nonTerminatorCharVertex);
-			graph.addEdge(current, terminatorCharVertex);
-			graph.addEdge(current, nonTerminatorCharVertex);
-			graph.addEdge(nonTerminatorCharVertex, mid);
+			graph.addEdge(current, terminatorCharVertex, new EdgeImpl());
+			graph.addEdge(current, nonTerminatorCharVertex, new EdgeImpl());
+			graph.addEdge(nonTerminatorCharVertex, mid, new EdgeImpl());
 
 			if (index == (elements.size() - 1)) {
-				graph.addEdge(terminatorCharVertex, error);
+				graph.addEdge(terminatorCharVertex, error, new EdgeImpl());
 			}
 			current = terminatorCharVertex;
 		}

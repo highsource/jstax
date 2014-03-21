@@ -7,6 +7,7 @@ import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.EmptyVertex;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.jgrapht.DirectedGraph;
 
 public class EmptyVertexRemover extends DefaultVertexVisitor<Boolean> {
@@ -39,7 +40,7 @@ public class EmptyVertexRemover extends DefaultVertexVisitor<Boolean> {
 			final Vertex incomingVertex = graph.getEdgeSource(incomingEdge);
 			for (Edge outgoingEdge : outgoingEdges) {
 				final Vertex outgoingVertex = graph.getEdgeTarget(outgoingEdge);
-				graph.addEdge(incomingVertex, outgoingVertex);
+				graph.addEdge(incomingVertex, outgoingVertex, incomingEdge.sequence(outgoingEdge));
 			}
 		}
 		graph.removeVertex(vertex);

@@ -3,7 +3,7 @@ package org.hisrc.jstax.grammar.operation;
 import org.hisrc.jstax.io.Result;
 import org.hisrc.jstax.xml.stream.Consumer;
 
-public class CData implements Operation {
+public class CData extends AbstractOperation {
 
 	@Override
 	public void execute(Result result, Consumer streamWriter) {

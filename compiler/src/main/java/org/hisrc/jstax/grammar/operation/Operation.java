@@ -7,4 +7,8 @@ public interface Operation {
 
 	public void execute(Result result, Consumer writer);
 
+	public Operation join(Operation that);
+
+	public boolean isTrivial();
+
 }

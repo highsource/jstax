@@ -11,6 +11,7 @@ import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.jgrapht.DirectedGraph;
 
@@ -53,9 +54,14 @@ public class OutgoingEdgeUnifier extends DefaultVertexVisitor<Boolean> {
 					.get(level1Ch);
 			if (level0EdgesForCh != null && level0EdgesForCh.size() > 1) {
 
+				final Edge someLevel0EdgeForCh = level0EdgesForCh.iterator()
+						.next();
+				final Edge mergedLevel0EdgeForCh = someLevel0EdgeForCh
+						.merge(level0EdgesForCh);
 				final ChVertex newLevel1VertexForCh = new ChVertexImpl(level1Ch);
 				graph.addVertex(newLevel1VertexForCh);
-				graph.addEdge(level0Vertex, newLevel1VertexForCh);
+				graph.addEdge(level0Vertex, newLevel1VertexForCh,
+						mergedLevel0EdgeForCh);
 
 				for (final Edge level0EdgeForCh : level0EdgesForCh) {
 					final Vertex level1VertexForCh = graph
@@ -65,7 +71,8 @@ public class OutgoingEdgeUnifier extends DefaultVertexVisitor<Boolean> {
 					for (final Edge level1EdgeForCh : level1EdgesSetForCh) {
 						final Vertex level2VertexForCh = graph
 								.getEdgeTarget(level1EdgeForCh);
-						graph.addEdge(newLevel1VertexForCh, level2VertexForCh);
+						graph.addEdge(newLevel1VertexForCh, level2VertexForCh,
+								level1EdgeForCh.clone());
 					}
 					graph.removeEdge(level0EdgeForCh);
 				}

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.production.character.Char;
 import org.hisrc.jstax.grammar.production.impl.AbstractProduction;
@@ -35,16 +36,16 @@ public class CommentPreEndProduction extends AbstractProduction {
 				"COMMENT_END_CHAR_MINUS_M1", this.m1));
 		graph.addVertex(vMinusM1);
 
-		graph.addEdge(start, vm0);
-		graph.addEdge(start, vMinusM0);
+		graph.addEdge(start, vm0, new EdgeImpl());
+		graph.addEdge(start, vMinusM0, new EdgeImpl());
 
-		graph.addEdge(vm0, vm1);
-		graph.addEdge(vm0, vMinusM1);
+		graph.addEdge(vm0, vm1, new EdgeImpl());
+		graph.addEdge(vm0, vMinusM1, new EdgeImpl());
 
-		graph.addEdge(vm1, end);
+		graph.addEdge(vm1, end, new EdgeImpl());
 
-		graph.addEdge(vMinusM0, start);
-		graph.addEdge(vMinusM1, start);
+		graph.addEdge(vMinusM0, start, new EdgeImpl());
+		graph.addEdge(vMinusM1, start, new EdgeImpl());
 	}
 
 }

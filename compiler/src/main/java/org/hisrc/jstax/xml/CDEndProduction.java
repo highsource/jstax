@@ -4,6 +4,7 @@ import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.production.character.Char;
 import org.hisrc.jstax.grammar.production.impl.AbstractProduction;
@@ -44,21 +45,21 @@ public class CDEndProduction extends AbstractProduction {
 				"CD_END_CHAR_MINUS_GT_RSB1", this.rsb1));
 		graph.addVertex(vMinusGTRSB1);
 
-		graph.addEdge(start, vrsb0);
-		graph.addEdge(start, vMinusRSB0);
+		graph.addEdge(start, vrsb0, new EdgeImpl());
+		graph.addEdge(start, vMinusRSB0, new EdgeImpl());
 
-		graph.addEdge(vrsb0, vrsb1);
-		graph.addEdge(vrsb0, vMinusRSB1);
+		graph.addEdge(vrsb0, vrsb1, new EdgeImpl());
+		graph.addEdge(vrsb0, vMinusRSB1, new EdgeImpl());
 
-		graph.addEdge(vrsb1, vgt);
-		graph.addEdge(vrsb1, vMinusGTRSB1);
-		graph.addEdge(vrsb1, vrsb1);
+		graph.addEdge(vrsb1, vgt, new EdgeImpl());
+		graph.addEdge(vrsb1, vMinusGTRSB1, new EdgeImpl());
+		graph.addEdge(vrsb1, vrsb1, new EdgeImpl());
 
-		graph.addEdge(vgt, end);
+		graph.addEdge(vgt, end, new EdgeImpl());
 
-		graph.addEdge(vMinusRSB0, start);
-		graph.addEdge(vMinusRSB1, start);
-		graph.addEdge(vMinusGTRSB1, start);
+		graph.addEdge(vMinusRSB0, start, new EdgeImpl());
+		graph.addEdge(vMinusRSB1, start, new EdgeImpl());
+		graph.addEdge(vMinusGTRSB1, start, new EdgeImpl());
 
 	}
 

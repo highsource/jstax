@@ -15,13 +15,4 @@ public abstract class AbstractVertexImpl implements Vertex {
 		return this.identifierName;
 	}
 
-	@Override
-	public final boolean equals(Object obj) {
-		return super.equals(obj);
-	}
-
-	@Override
-	public final int hashCode() {
-		return super.hashCode();
-	}
 }
