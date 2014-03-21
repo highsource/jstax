@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
 import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.operation.Operation;
@@ -25,8 +26,10 @@ public class SequenceImpl extends AbstractProduction implements Sequence {
 	public SequenceImpl(String name, Production... elements) {
 		this(None.INSTANCE, name, elements);
 	}
-	public SequenceImpl(Operation operation, String name, Production... elements) {
-		super(Validate.notNull(name));
+
+	public SequenceImpl(Operation operation, String name,
+			Production... elements) {
+		super(Validate.notNull(operation), Validate.notNull(name));
 		Validate.noNullElements(elements);
 		this.elements = new ArrayList<Production>(Arrays.asList(elements));
 		this.unmodifiableElements = Collections.unmodifiableList(this.elements);
@@ -40,12 +43,15 @@ public class SequenceImpl extends AbstractProduction implements Sequence {
 	public void buildGraph(DirectedGraph<Vertex, Edge> graph, Vertex start,
 			Vertex end) {
 
+		Vertex last = new EmptyVertexImpl();
+		graph.addVertex(last);
+		graph.addEdge(last, end, new EdgeImpl(getOperation()));
 		Vertex previous = start;
 		Vertex next = null;
 		for (Iterator<Production> iterator = this.elements.iterator(); iterator
 				.hasNext();) {
 			final Production element = iterator.next();
-			next = iterator.hasNext() ? new EmptyVertexImpl() : end;
+			next = iterator.hasNext() ? new EmptyVertexImpl() : last;
 			graph.addVertex(next);
 			element.buildGraph(graph, previous, next);
 			previous = next;

@@ -55,14 +55,15 @@ public class StateMachineBuilder {
 		for (Vertex nextVertex : graph.vertexSet()) {
 			final State nextState = vertexStateMap.get(nextVertex);
 			final Set<Edge> incomingEdgeSet = graph.incomingEdgesOf(nextVertex);
-			for (Edge incomingEdge : incomingEdgeSet) {
+			for (final Edge incomingEdge : incomingEdgeSet) {
 				final Vertex previousVertex = graph.getEdgeSource(incomingEdge);
 				final State previousState = vertexStateMap.get(previousVertex);
 				nextVertex.accept(new DefaultVertexVisitor<Void>() {
 					@Override
 					public Void visitVertex(ChVertex vertex) {
 						stateMachine.createTransition(previousState,
-								vertex.getContent(), nextState);
+								vertex.getContent(),
+								incomingEdge.getOperation(), nextState);
 						return null;
 					}
 
@@ -71,7 +72,7 @@ public class StateMachineBuilder {
 						stateMachine.createTransition(previousState,
 								new CharImpl("EOF",
 										org.hisrc.jstax.io.CharConstants.EOF),
-								nextState);
+								incomingEdge.getOperation(), nextState);
 						return null;
 					}
 

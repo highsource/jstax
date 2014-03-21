@@ -42,7 +42,7 @@ public class CommentPreEndProduction extends AbstractProduction {
 		graph.addEdge(vm0, vm1, new EdgeImpl());
 		graph.addEdge(vm0, vMinusM1, new EdgeImpl());
 
-		graph.addEdge(vm1, end, new EdgeImpl());
+		graph.addEdge(vm1, end, new EdgeImpl(this.m1.getOperation()));
 
 		graph.addEdge(vMinusM0, start, new EdgeImpl());
 		graph.addEdge(vMinusM1, start, new EdgeImpl());

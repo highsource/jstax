@@ -13,8 +13,10 @@ public class ConsumerImpl implements Consumer {
 	private int eventType = -1;
 	private String localName;
 	private String text;
+	//
 	private String piTarget;
 	private String piData;
+	//
 	private String attributePrefix;
 	private String attributeLocalName;
 	private String attributeValue;
@@ -192,6 +194,13 @@ public class ConsumerImpl implements Consumer {
 		this.attributeLocalName = localName;
 		this.attributeValue = value;
 		this.eventType = XMLStreamConstants.ATTRIBUTE;
+	}
+
+	@Override
+	public void writeElementLocalName(String name) {
+		Validate.notNull(name);
+		this.localName = name;
+		this.eventType = ConsumerConstants.START_ELEMENT_NAME;
 	}
 
 };

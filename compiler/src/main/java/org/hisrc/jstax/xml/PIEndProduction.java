@@ -44,7 +44,7 @@ public class PIEndProduction extends AbstractProduction {
 		graph.addEdge(vq, vq, new EdgeImpl());
 		graph.addEdge(vq, vMinusGTQ, new EdgeImpl());
 
-		graph.addEdge(vgt, end, new EdgeImpl());
+		graph.addEdge(vgt, end, new EdgeImpl(this.gt.getOperation()));
 
 		graph.addEdge(vMinusQ, start, new EdgeImpl());
 		graph.addEdge(vMinusGTQ, start, new EdgeImpl());

@@ -20,6 +20,7 @@ import org.hisrc.jstax.grammar.operation.AttributeValue;
 import org.hisrc.jstax.grammar.operation.CData;
 import org.hisrc.jstax.grammar.operation.Comment;
 import org.hisrc.jstax.grammar.operation.DecCharRef;
+import org.hisrc.jstax.grammar.operation.ElementLocalName;
 import org.hisrc.jstax.grammar.operation.EntityRef;
 import org.hisrc.jstax.grammar.operation.HexCharRef;
 import org.hisrc.jstax.grammar.operation.Ignore;
@@ -116,11 +117,9 @@ public class XML {
 					_char(Ignore.INSTANCE, "CHAR_REF_PREFIX_0", '&'),
 					_char(Ignore.INSTANCE, "CHAR_REF_PREFIX_0", '#')),
 			choice("CHAR_REF_SUFFIX",
-					sequence(
-							"DEC_CHAR_REF",
+					sequence("DEC_CHAR_REF",
 							oneOrMore("DEC_CHAR_REF_N", CharConstants.DIGITS),
-							_char(DecCharRef.INSTANCE, "DEC_CHAR_REF_END",
-									';')),
+							_char(DecCharRef.INSTANCE, "DEC_CHAR_REF_END", ';')),
 					sequence(
 							"HEX_CHAR_REF",
 							_char(Ignore.INSTANCE, "HEX_CHAR_REF_PREFIX", 'x'),
@@ -232,8 +231,7 @@ public class XML {
 			"PI",
 			PI_START,
 			PI_TARGET,
-			choice("PI_END_OR_S_PI_CONTENT_PI_END",
-					PI_END,
+			choice("PI_END_OR_S_PI_CONTENT_PI_END", PI_END,
 					sequence("S_PI_CONTENT_PI_END", PI_DELIMITER, PI_DATA_END)));
 
 	// [19] CDStart ::= '<![CDATA['
@@ -332,9 +330,13 @@ public class XML {
 	// [44] EmptyElemTag ::= '<' Name (S Attribute)* S? '/>'
 
 	// StartTagPart ::= '<' Name (S Attribute)* S?
-	public static final Production START_TAG_PART = sequence("START_TAG_PART",
+	public static final Production START_TAG_PART = sequence(
+			"START_TAG_PART",
 
-	CharConstants.LT, NAME,
+			// CharConstants.LT,
+			_char(Ignore.INSTANCE, "START_TAG_LT", '<'),
+
+			sequence(ElementLocalName.INSTANCE, "START_TAG_ELEMENT_NAME", NAME),
 			zeroOrMore("ATTRIBUTES", sequence("ATTRIBUTE", S, ATTRIBUTE)),
 			POSSIBLY_S);
 

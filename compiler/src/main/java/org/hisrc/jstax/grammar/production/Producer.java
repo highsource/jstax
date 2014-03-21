@@ -114,6 +114,10 @@ public class Producer {
 		return new SequenceImpl(name, elements);
 	}
 
+	public static Sequence sequence(Operation operation, String name, Production... elements) {
+		return new SequenceImpl(operation, name, elements);
+	}
+
 	public static Production delimited(String name, Production element,
 			Production delimiter) {
 		Validate.notNull(name);

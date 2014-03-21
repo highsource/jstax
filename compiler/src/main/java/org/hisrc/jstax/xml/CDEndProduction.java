@@ -55,7 +55,7 @@ public class CDEndProduction extends AbstractProduction {
 		graph.addEdge(vrsb1, vMinusGTRSB1, new EdgeImpl());
 		graph.addEdge(vrsb1, vrsb1, new EdgeImpl());
 
-		graph.addEdge(vgt, end, new EdgeImpl());
+		graph.addEdge(vgt, end, new EdgeImpl(this.gt.getOperation()));
 
 		graph.addEdge(vMinusRSB0, start, new EdgeImpl());
 		graph.addEdge(vMinusRSB1, start, new EdgeImpl());

@@ -45,7 +45,7 @@ public class XMLGraphTest {
 		final Vertex end = new EndVertexImpl();
 		graph.addVertex(start);
 		graph.addVertex(end);
-		XML.DOCUMENT.buildGraph(graph, start, end);
+		XML.START_TAG_PART.buildGraph(graph, start, end);
 
 		new CompositeGraphOptimizer(graph).optimize();
 

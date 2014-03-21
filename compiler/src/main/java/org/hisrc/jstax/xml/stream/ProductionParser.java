@@ -89,23 +89,41 @@ public class ProductionParser implements XMLStreamReader {
 										.getLocator()));
 				return -1;
 			}
+			transition.getOperation().execute(result, consumer);
 			final Ch ch = transition.getCh();
 			ch.read(input, result, errorHandler);
-			transition.getOperation().execute(result, consumer);
 			currentState = transition.getNextState();
 		}
 
 		this.eventType = consumer.getEventType();
 		this.text = consumer.getText();
-		this.piTarget = consumer.getPITarget();
-		this.piData = consumer.getPIData();
-		this.localName = consumer.getLocalName();
+
+		//
+		if (this.eventType == XMLStreamConstants.PROCESSING_INSTRUCTION) {
+			this.piTarget = consumer.getPITarget();
+			this.piData = consumer.getPIData();
+		} else {
+			this.piTarget = null;
+			this.piData = null;
+		}
+
+		//
+		if (this.eventType == ConsumerConstants.START_ELEMENT_NAME
+				|| this.eventType == ConsumerConstants.END_ELEMENT_NAME
+				|| this.eventType == ConsumerConstants.ENTITY_REFERENCE) {
+			this.localName = consumer.getLocalName();
+		} else if (this.eventType == ConsumerConstants.ATTRIBUTE
+				|| this.eventType == ConsumerConstants.NAMESPACE) {
+			// Do not forget the local name
+		} else {
+			this.localName = null;
+		}
+		//
 		if (this.eventType == XMLStreamConstants.ATTRIBUTE) {
 			final String attributePrefix = consumer.getAttributePrefix();
 			final String attributeLocalName = consumer.getAttributeLocalName();
 			final String attributeValue = consumer.getAttributeValue();
 			final String attributeNamespace = null;
-
 			final QName attributeName = new QName(
 					(attributeNamespace == null ? XMLConstants.NULL_NS_URI
 							: attributeNamespace), attributeLocalName,
@@ -115,12 +133,24 @@ public class ProductionParser implements XMLStreamReader {
 			this.attributes.put(attributeName, attributeValue);
 			this.attributeNames.add(attributeName);
 			this.attributeValues.add(attributeValue);
+		} else if (this.eventType == ConsumerConstants.NAMESPACE
+				|| this.eventType == ConsumerConstants.START_ELEMENT) {
+			// Retain attributes
+		} else if (this.eventType == ConsumerConstants.START_ELEMENT_NAME) {
+			this.attributeNames = new ArrayList<QName>();
+			this.attributeValues = new ArrayList<String>();
+			this.attributes = new LinkedHashMap<QName, String>();
+		} else {
+			this.attributeNames = null;
+			this.attributeValues = null;
+			this.attributes = null;
 		}
 		consumer.flush();
 		return this.eventType;
 	}
 
 	private int eventType = -1;
+	private String prefix;
 	private String localName;
 	private String text;
 	private String piTarget;

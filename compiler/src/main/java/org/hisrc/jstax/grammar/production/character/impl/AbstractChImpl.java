@@ -78,7 +78,7 @@ public abstract class AbstractChImpl extends AbstractProduction implements
 		final Vertex middle = new ChVertexImpl(this);
 		graph.addVertex(middle);
 		graph.addEdge(start, middle, new EdgeImpl());
-		graph.addEdge(middle, end, new EdgeImpl());
+		graph.addEdge(middle, end, new EdgeImpl(getOperation()));
 	}
 
 	@Override

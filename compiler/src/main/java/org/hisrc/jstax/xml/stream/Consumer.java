@@ -48,6 +48,10 @@ public interface Consumer {
 
 	public void writeAttribute(String localName, String value);
 
+	//
+
+	public void writeElementLocalName(String name);
+
 	public void flush();
 
 }

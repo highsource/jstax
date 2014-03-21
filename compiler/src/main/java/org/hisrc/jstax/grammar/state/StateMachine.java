@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.collections4.map.MultiValueArrayMap;
+import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.Ch;
 
 public class StateMachine {
@@ -67,13 +68,13 @@ public class StateMachine {
 		return state;
 	}
 
-	public Transition createTransition(State from, Ch ch, State to) {
+	public Transition createTransition(State from, Ch ch, Operation operation, State to) {
 		Validate.notNull(from);
 		Validate.notNull(ch);
 		Validate.notNull(to);
 		Validate.isTrue(statesSet.contains(from));
 		Validate.isTrue(statesSet.contains(to));
-		final Transition transition = new Transition(ch, ch.getOperation(), to);
+		final Transition transition = new Transition(ch, operation, to);
 
 		final Collection<Transition> existingTransitions = getTransitions(from);
 		if (existingTransitions != null) {
