@@ -38,7 +38,7 @@ public interface Consumer {
 
 	public void writeHexCharRef(String charRef);
 
-	public void writeDecimalCharRef(String charRef);
+	public void writeDecCharRef(String charRef);
 
 	//
 

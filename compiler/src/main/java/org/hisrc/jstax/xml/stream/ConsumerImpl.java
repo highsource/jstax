@@ -102,14 +102,17 @@ public class ConsumerImpl implements Consumer {
 
 	@Override
 	public void writeProcessingInstructionData(String data) {
-		Validate.notNull(data);
 		if (this._piTarget == null) {
 			throw new IllegalStateException(
 					"Processing instruction target must have been set earlier, but it is null.");
 		}
 		final String target = this._piTarget;
 		this._piTarget = null;
-		writeProcessingInstruction(target, data);
+		if (data == null) {
+			writeProcessingInstruction(target);
+		} else {
+			writeProcessingInstruction(target, data);
+		}
 	}
 
 	@Override
@@ -143,7 +146,7 @@ public class ConsumerImpl implements Consumer {
 	}
 
 	@Override
-	public void writeDecimalCharRef(String charRef) {
+	public void writeDecCharRef(String charRef) {
 		Validate.notNull(charRef);
 		// TODO Exception
 		char _char = (char) Integer.parseInt(charRef, 10);

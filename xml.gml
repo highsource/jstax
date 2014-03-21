@@ -104,19 +104,19 @@ graph
 	node
 	[
 		id 20
-		label "CHAR_MINUS_PI_END_0 ([!->@-? - 	-	
+		label "PI_END_1 ([>])"
+	]
+	node
+	[
+		id 21
+		label "PI_END_CHAR_MINUS_Q ([!->@-? - 	-	
 -
 -?-?])"
 	]
 	node
 	[
-		id 21
-		label "PI_END_1 ([>])"
-	]
-	node
-	[
 		id 22
-		label "CHAR_MINUS_PI_END_1_PI_END_0 ([!-=@-? - 	-	
+		label "PI_END_CHAR_MINUS_GT_Q ([!-=@-? - 	-	
 -
 -?-?])"
 	]
@@ -303,7 +303,16 @@ graph
 	edge
 	[
 		source 19
-		target 21
+		target 20
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 19
+		target 19
 		graphics
 		[
 			targetArrow "standard"
@@ -320,17 +329,8 @@ graph
 	]
 	edge
 	[
-		source 21
+		source 20
 		target 2
-		graphics
-		[
-			targetArrow "standard"
-		]
-	]
-	edge
-	[
-		source 19
-		target 19
 		graphics
 		[
 			targetArrow "standard"
@@ -563,7 +563,7 @@ graph
 	]
 	edge
 	[
-		source 20
+		source 21
 		target 19
 		graphics
 		[
@@ -572,8 +572,8 @@ graph
 	]
 	edge
 	[
-		source 20
-		target 20
+		source 21
+		target 21
 		graphics
 		[
 			targetArrow "standard"
@@ -591,7 +591,7 @@ graph
 	edge
 	[
 		source 22
-		target 20
+		target 21
 		graphics
 		[
 			targetArrow "standard"
@@ -618,7 +618,7 @@ graph
 	edge
 	[
 		source 17
-		target 20
+		target 21
 		graphics
 		[
 			targetArrow "standard"
@@ -636,7 +636,7 @@ graph
 	edge
 	[
 		source 18
-		target 20
+		target 21
 		graphics
 		[
 			targetArrow "standard"

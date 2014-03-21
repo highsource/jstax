@@ -22,7 +22,7 @@ public class CharRefTest {
 	}
 
 	@Test
-	public void testDecimalCharRef() {
+	public void testDecCharRef() {
 		ProductionParser streamReader = new ProductionParser(XML.CHAR_REF,
 				new StringInput("&#00065;"), ThrowingErrorHandler.INSTANCE);
 		Assert.assertEquals(XMLStreamConstants.CHARACTERS,

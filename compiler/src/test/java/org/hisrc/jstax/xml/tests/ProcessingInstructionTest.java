@@ -19,7 +19,7 @@ public class ProcessingInstructionTest {
 		Assert.assertEquals(XMLStreamConstants.PROCESSING_INSTRUCTION,
 				streamReader.next());
 		Assert.assertEquals("abc", streamReader.getPITarget());
-		Assert.assertEquals(null, streamReader.getPITarget());
+		Assert.assertEquals(null, streamReader.getPIData());
 	}
 
 	@Test
@@ -27,8 +27,10 @@ public class ProcessingInstructionTest {
 		ProductionParser streamReader = new ProductionParser(XML.PI,
 				new StringInput("<?abc       ??????>"),
 				ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.PROCESSING_INSTRUCTION,
+				streamReader.next());
 		Assert.assertEquals("abc", streamReader.getPITarget());
-		Assert.assertEquals("?????", streamReader.getPITarget());
+		Assert.assertEquals("?????", streamReader.getPIData());
 	}
 
 	@Test
@@ -36,8 +38,10 @@ public class ProcessingInstructionTest {
 		ProductionParser streamReader = new ProductionParser(XML.PI,
 				new StringInput("<?abc       def ?>"),
 				ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.PROCESSING_INSTRUCTION,
+				streamReader.next());
 		Assert.assertEquals("abc", streamReader.getPITarget());
-		Assert.assertEquals("def ", streamReader.getPITarget());
+		Assert.assertEquals("def ", streamReader.getPIData());
 	}
 
 	@Test
@@ -45,8 +49,10 @@ public class ProcessingInstructionTest {
 		ProductionParser streamReader = new ProductionParser(XML.PI,
 				new StringInput("<?abc       ?>"),
 				ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.PROCESSING_INSTRUCTION,
+				streamReader.next());
 		Assert.assertEquals("abc", streamReader.getPITarget());
-		Assert.assertEquals(null, streamReader.getPITarget());
+		Assert.assertEquals(null, streamReader.getPIData());
 	}
 
 }

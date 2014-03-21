@@ -19,7 +19,7 @@ import org.hisrc.jstax.grammar.operation.AttributeLocalName;
 import org.hisrc.jstax.grammar.operation.AttributeValue;
 import org.hisrc.jstax.grammar.operation.CData;
 import org.hisrc.jstax.grammar.operation.Comment;
-import org.hisrc.jstax.grammar.operation.DecimalCharRef;
+import org.hisrc.jstax.grammar.operation.DecCharRef;
 import org.hisrc.jstax.grammar.operation.EntityRef;
 import org.hisrc.jstax.grammar.operation.HexCharRef;
 import org.hisrc.jstax.grammar.operation.Ignore;
@@ -119,7 +119,7 @@ public class XML {
 					sequence(
 							"DEC_CHAR_REF",
 							oneOrMore("DEC_CHAR_REF_N", CharConstants.DIGITS),
-							_char(DecimalCharRef.INSTANCE, "DEC_CHAR_REF_END",
+							_char(DecCharRef.INSTANCE, "DEC_CHAR_REF_END",
 									';')),
 					sequence(
 							"HEX_CHAR_REF",
@@ -232,7 +232,8 @@ public class XML {
 			"PI",
 			PI_START,
 			PI_TARGET,
-			choice("PI_END_OR_S_PI_CONTENT_PI_END", PI_END,
+			choice("PI_END_OR_S_PI_CONTENT_PI_END",
+					PI_END,
 					sequence("S_PI_CONTENT_PI_END", PI_DELIMITER, PI_DATA_END)));
 
 	// [19] CDStart ::= '<![CDATA['
