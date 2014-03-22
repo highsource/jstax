@@ -6,6 +6,12 @@ public interface Result {
 
 	public char popChar();
 
+	public <E extends Throwable> void popChars(CharsDestination<E> destination) throws E;
+
 	public String popString();
+
+	public interface CharsDestination<E extends Throwable> {
+		public void writeCharacters(char[] text, int start, int len) throws E;
+	}
 
 }

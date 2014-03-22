@@ -20,7 +20,9 @@ import org.hisrc.jstax.grammar.operation.AttributeValue;
 import org.hisrc.jstax.grammar.operation.CData;
 import org.hisrc.jstax.grammar.operation.Comment;
 import org.hisrc.jstax.grammar.operation.DecCharRef;
-import org.hisrc.jstax.grammar.operation.ElementLocalName;
+import org.hisrc.jstax.grammar.operation.StartElementLocalName;
+import org.hisrc.jstax.grammar.operation.EmptyStartElementTagGT;
+import org.hisrc.jstax.grammar.operation.EmptyStartElementTagSolidus;
 import org.hisrc.jstax.grammar.operation.EntityRef;
 import org.hisrc.jstax.grammar.operation.HexCharRef;
 import org.hisrc.jstax.grammar.operation.Ignore;
@@ -332,11 +334,9 @@ public class XML {
 	// StartTagPart ::= '<' Name (S Attribute)* S?
 	public static final Production START_TAG_PART = sequence(
 			"START_TAG_PART",
-
 			// CharConstants.LT,
 			_char(Ignore.INSTANCE, "START_TAG_LT", '<'),
-
-			sequence(ElementLocalName.INSTANCE, "START_TAG_ELEMENT_NAME", NAME),
+			sequence(StartElementLocalName.INSTANCE, "START_TAG_ELEMENT_NAME", NAME),
 			zeroOrMore("ATTRIBUTES", sequence("ATTRIBUTE", S, ATTRIBUTE)),
 			POSSIBLY_S);
 
@@ -366,7 +366,10 @@ public class XML {
 	// public static final Production ELEMENT = choice(EMPTY_ELEM_TAG,
 	// sequence(S_TAG, CONTENT, E_TAG));
 	public static final Production ELEMENT = new ElementProduction("ELEMENT",
-			START_TAG_PART, str("EMPTY_ELEM_START_TAG_END", "/>"),
+			START_TAG_PART, 
+			sequence("EMPTY_ELEM_START_TAG_END",
+					_char(EmptyStartElementTagSolidus.INSTANCE, "EMPTY_ELEM_START_TAG_END_SOLIDUS", '/'),
+					_char(EmptyStartElementTagGT.INSTANCE, "EMPTY_ELEM_START_TAG_END_GT", '>')),
 			CharConstants.GT, CHAR_DATA, NON_CHARACTER_OR_ELEMENT_CONTENT,
 			E_TAG);
 

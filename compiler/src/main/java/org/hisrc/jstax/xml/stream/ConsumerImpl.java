@@ -87,7 +87,6 @@ public class ConsumerImpl implements Consumer {
 		this.eventType = XMLStreamConstants.PROCESSING_INSTRUCTION;
 	}
 
-	@Override
 	public void writeProcessingInstruction(String target, String data) {
 		this.piTarget = target;
 		this.piData = data;
@@ -187,7 +186,6 @@ public class ConsumerImpl implements Consumer {
 		writeAttribute(localName, value);
 	}
 
-	@Override
 	public void writeAttribute(String localName, String value) {
 		Validate.notNull(localName);
 		Validate.notNull(value);
@@ -197,10 +195,59 @@ public class ConsumerImpl implements Consumer {
 	}
 
 	@Override
-	public void writeElementLocalName(String name) {
+	public void writeStartElementLocalName(String name) {
 		Validate.notNull(name);
 		this.localName = name;
 		this.eventType = ConsumerConstants.START_ELEMENT_NAME;
 	}
+	
+	@Override
+	public void writeEndElementLocalName(String name) {
+		Validate.notNull(name);
+		this.localName = name;
+		this.eventType = ConsumerConstants.START_ELEMENT_NAME;
+	}
+	
+	
+	@Override
+	public void writeEmptyStartElementTagSolidus() {
+		this.eventType = ConsumerConstants.START_ELEMENT;
+	}
+	@Override
+	public void writeEmptyStartElementTagGT(){
+		this.eventType = ConsumerConstants.END_ELEMENT;
+	}
+
+	@Override
+	public void writeStartDocumentVersion(String version) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeStartDocumentEncoding(String encoding) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeStartDocumentStandalone(String standalone) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeEndDocument() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeCharacters(char[] text, int start, int len) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 };

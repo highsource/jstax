@@ -30,6 +30,16 @@ public class StringResult implements Result {
 	}
 
 	@Override
+	public <E extends Throwable> void popChars(CharsDestination<E> destination)
+			throws E {
+		if (this.count > 0) {
+			destination.writeCharacters(this.buffer, 0, this.count);
+			this.count = 0;
+		}
+
+	}
+
+	@Override
 	public String popString() {
 		if (this.count <= 0) {
 			return null;
