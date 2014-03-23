@@ -13,17 +13,6 @@ public abstract class AbstractUnXMLStreamReaderImpl implements XMLStreamReader {
 	}
 
 	@Override
-	public int next() throws XMLStreamException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void require(int type, String namespaceURI, String localName) {
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
 	public void close() throws XMLStreamException {
 		throw new UnsupportedOperationException();
 	}

@@ -13,7 +13,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.apache.commons.lang3.Validate;
 
-public class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
+public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 		implements XMLStreamReader, XMLStreamReaderInput {
 
 	private boolean newEvent = false;
@@ -472,5 +472,33 @@ public class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 		}
 		return "UNKNOWN_EVENT_TYPE, " + String.valueOf(eventType);
 	}
+
+	public void require(int type, String namespaceURI, String localName)
+			throws XMLStreamException {
+		if (type != this.eventType)
+			throw new XMLStreamException("Event type "
+					+ getEventTypeString(type) + " specified did "
+					+ "not match with current parser event "
+					+ getEventTypeString(this.eventType));
+		if (namespaceURI != null && !namespaceURI.equals(getNamespaceURI()))
+			throw new XMLStreamException("Namespace URI " + namespaceURI
+					+ " specified did not match "
+					+ "with current namespace URI");
+		if (localName != null && !localName.equals(getLocalName()))
+			throw new XMLStreamException("LocalName " + localName
+					+ " specified did not match with " + "current local name");
+		return;
+	}
+
+	@Override
+	public int next() throws XMLStreamException {
+		while (!newEvent) {
+			scan();
+		}
+		this.newEvent = false;
+		return this.eventType;
+	}
+
+	protected abstract void scan();
 
 }
