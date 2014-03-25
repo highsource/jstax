@@ -21,11 +21,16 @@ public class CompositeGraphOptimizer {
 		Validate.notNull(graph);
 		this.graph = graph;
 		this.vertexOptimizers = Arrays.<VertexVisitor<Boolean>> asList(
-				//
+		
 				new EmptyVertexRemover(graph),
-				new DoubledChVertexUnifier(graph), new OutgoingEdgeUnifier(
-						graph), new NonStartVertexWithNoIncomingEdgesRemover(
-						graph), new VertexMerger(graph)
+				//
+				new DoubledChVertexUnifier(graph),
+				//
+				new OutgoingEdgeUnifier(graph),
+				//
+				new NonStartVertexWithNoIncomingEdgesRemover(graph),
+				//
+				new VertexMerger(graph)
 
 		);
 	}

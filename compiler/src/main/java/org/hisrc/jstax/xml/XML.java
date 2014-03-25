@@ -6,7 +6,6 @@ import static org.hisrc.jstax.grammar.production.Producer.charRanges;
 import static org.hisrc.jstax.grammar.production.Producer.chars;
 import static org.hisrc.jstax.grammar.production.Producer.choice;
 import static org.hisrc.jstax.grammar.production.Producer.negativeChars;
-import static org.hisrc.jstax.grammar.production.Producer.notContaining;
 import static org.hisrc.jstax.grammar.production.Producer.oneOrMore;
 import static org.hisrc.jstax.grammar.production.Producer.quoted;
 import static org.hisrc.jstax.grammar.production.Producer.quotedSingle;
@@ -19,7 +18,6 @@ import org.hisrc.jstax.grammar.operation.AttributeLocalPart;
 import org.hisrc.jstax.grammar.operation.AttributePrefixOrLocalPart;
 import org.hisrc.jstax.grammar.operation.AttributeValue;
 import org.hisrc.jstax.grammar.operation.CData;
-import org.hisrc.jstax.grammar.operation.Characters;
 import org.hisrc.jstax.grammar.operation.Comment;
 import org.hisrc.jstax.grammar.operation.DecCharRef;
 import org.hisrc.jstax.grammar.operation.EmptyStartElementTagGT;
@@ -230,11 +228,16 @@ public class XML {
 	// CharConstants.QUOTES, PUBID_CHAR);
 
 	// [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
-	public static final Production CHAR_DATA = notContaining(
-			Characters.INSTANCE,
-			"CHAR_DATA",
-			negativeChars("CHAR_DATA_CHAR", CharConstants.AMPERSAND,
-					CharConstants.LT), str("CD_END", "]]>"));
+	public static final Production CHAR_DATA =
+
+	new CharDataProduction("CHAR_DATA", _char(None.INSTANCE, "CHAR_DATA_END_0", ']'),
+			_char(None.INSTANCE, "CHAR_DATA_END_1", ']'), _char(CData.INSTANCE,
+					"CHAR_DATA_END_2", '>'));
+	// notContaining(
+	// Characters.INSTANCE,
+	// "CHAR_DATA",
+	// negativeChars("CHAR_DATA_CHAR", CharConstants.AMPERSAND,
+	// CharConstants.LT), str("CD_END", "]]>"));
 
 	public static final Production COMMENT_PRE_END = new CommentPreEndProduction(
 			"COMMENT_END", _char(None.INSTANCE, "COMMENT_CONTENT_TERMINATOR_0",
