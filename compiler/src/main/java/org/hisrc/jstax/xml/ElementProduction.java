@@ -77,8 +77,9 @@ public class ElementProduction extends AbstractProduction {
 
 		graph.addEdge(v3, v5, new EdgeImpl());
 		graph.addEdge(v5, v3, new EdgeImpl());
-
+		
 		this.endTag.buildGraph(graph, v5, v6);
+		graph.addEdge(v6, v2, new EdgeImpl());
 
 	}
 

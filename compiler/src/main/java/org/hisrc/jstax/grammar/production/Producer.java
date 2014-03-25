@@ -89,10 +89,10 @@ public class Producer {
 		return new NegativeCharsImpl(name, negativeChars);
 	}
 
-	public static NegativeChars negativeChars(String name,
-			char... negativeChars) {
-		return new NegativeCharsImpl(name, negativeChars);
-	}
+//	public static NegativeChars negativeChars(String name,
+//			char... negativeChars) {
+//		return new NegativeCharsImpl(name, negativeChars);
+//	}
 
 	public static NegativeChars negativeChars(String name, String negativeChars) {
 		return new NegativeCharsImpl(negativeChars);
@@ -114,7 +114,8 @@ public class Producer {
 		return new SequenceImpl(name, elements);
 	}
 
-	public static Sequence sequence(Operation operation, String name, Production... elements) {
+	public static Sequence sequence(Operation operation, String name,
+			Production... elements) {
 		return new SequenceImpl(operation, name, elements);
 	}
 
@@ -130,8 +131,8 @@ public class Producer {
 								element)));
 	}
 
-	public static Production notContaining(String name, Ch content, Str end) {
-		return new NotContainingImpl(name, content, end);
+	public static Production notContaining(Operation operation, String name, Ch content, Str end) {
+		return new NotContainingImpl(operation, name, content, end);
 	}
 
 	public static Production quoted(Operation operation, String name,
@@ -167,15 +168,14 @@ public class Producer {
 	}
 
 	// '"' X '"' | "'" X "'"
-	public static Production quotedSingle(String name, Chars quotes,
-			Production content) {
+	public static Production quotedSingle(Operation operation, String name,
+			Chars quotes, Production content) {
 		final List<Char> chars = quotes.getChars();
 		final Production[] productions = new Production[chars.size()];
 		int index = 0;
 		for (final Char quote : chars) {
-			productions[index++] = sequence(
-					name + "_QUOTED_" + quote.getIdentifierName(), quote,
-					content, quote);
+			productions[index++] = sequence(operation, name + "_QUOTED_"
+					+ quote.getIdentifierName(), quote, content, quote);
 		}
 		return choice(name, productions);
 	}

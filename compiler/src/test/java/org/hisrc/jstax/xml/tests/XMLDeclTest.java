@@ -12,16 +12,17 @@ import org.hisrc.jstax.xml.XML;
 import org.hisrc.jstax.xml.stream.ProductionXMLStreamReader;
 import org.junit.Test;
 
-public class EntityRefTest {
+public class XMLDeclTest {
 
 	@Test
-	public void testEntityRef() throws XMLStreamException {
+	public void testProcessingInstruction() throws XMLStreamException {
 		XMLStreamReader streamReader = new ProductionXMLStreamReader(
-				XML.ENTITY_REF, new StringInput("&lt;"),
+				XML.XML_DECL, new StringInput("<?xml version=\"1.0\" standalone=\"yes\"?>"),
 				ThrowingErrorHandler.INSTANCE);
-		Assert.assertEquals(XMLStreamConstants.ENTITY_REFERENCE,
-				streamReader.next());
-		Assert.assertEquals("<", streamReader.getText());
-		Assert.assertEquals("lt", streamReader.getLocalName());
+		Assert.assertEquals(XMLStreamConstants.START_DOCUMENT, streamReader.next());
+		// TODO
+//		Assert.assertEquals("1.0", streamReader.getVersion());
+//		Assert.assertEquals(true, streamReader.standaloneSet());
+//		Assert.assertEquals(true, streamReader.isStandalone());
 	}
 }

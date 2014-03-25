@@ -45,7 +45,7 @@ public class XMLGraphTest {
 		final Vertex end = new EndVertexImpl();
 		graph.addVertex(start);
 		graph.addVertex(end);
-		XML.START_TAG_PART.buildGraph(graph, start, end);
+		XML.ELEMENT.buildGraph(graph, start, end);
 
 		new CompositeGraphOptimizer(graph).optimize();
 
@@ -56,9 +56,9 @@ public class XMLGraphTest {
 			@Override
 			public String getVertexName(Vertex vertex) {
 				return
-//				 vertex.getIdentifierName() + " (" +
+				 vertex.getIdentifierName() + " (" +
 				vertex.getName().replace("\"", "\'\'").replace("&", "AMP")
-//				 + ")"
+				 + ")"
 				;
 			}
 		}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.Validate;
 public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 		implements XMLStreamReader, XMLStreamReaderInput {
 
-	private boolean newEvent = false;
+	protected boolean newEvent = false;
 	// Initial state
 	private int eventType = -1;
 
@@ -94,7 +94,7 @@ public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 		this.attributePrefixes = new ArrayList<String>(this.attributeCount);
 		this.attributeLocalNames = new ArrayList<String>(this.attributeCount);
 		this.attributeNamespaces = new ArrayList<String>(this.attributeCount);
-		this.attributeValues = new ArrayList<String>(this.attributeValues);
+		this.attributeValues = new ArrayList<String>(this.attributeCount);
 		for (Entry<QName, String> entry : attributes.entrySet()) {
 			final QName attributeName = entry.getKey();
 			final String attributeValue = entry.getValue();
@@ -106,7 +106,7 @@ public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 		}
 
 		writeNamespaces(namespaces);
-		newEvent(END_ELEMENT);
+		newEvent(START_ELEMENT);
 	}
 
 	@Override
@@ -119,10 +119,9 @@ public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 	}
 
 	@Override
-	public void writeComment(String comment) {
-		Validate.notNull(comment);
+	public void writeComment(char[] text, int start, int len) {
 		flush();
-		writeText(comment);
+		writeText(text, start, len);
 		newEvent(COMMENT);
 	}
 
@@ -149,17 +148,27 @@ public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 	public void writeCharacters(char[] text, int start, int len) {
 		flush();
 		writeText(text, start, len);
-		this.eventType = XMLStreamConstants.CHARACTERS;
+		newEvent(XMLStreamConstants.CHARACTERS);
+	}
+
+	@Override
+	public void writeCDATA(char[] text, int start, int len) {
+		flush();
+		writeText(text, start, len);
+		newEvent(XMLStreamConstants.CDATA);
+	}
+
+	public void writeEntityReference(String name, char[] text, int start,
+			int len) {
+		flush();
+		writeText(text, start, len);
+		this.localName = name;
+		newEvent(XMLStreamConstants.ENTITY_REFERENCE);
 	}
 
 	private void newEvent(int event) {
 		this.eventType = event;
 		this.newEvent = true;
-	}
-
-	private void writeText(String text) {
-		final char[] chars = text.toCharArray();
-		writeText(chars, 0, chars.length);
 	}
 
 	private void writeText(char[] text, int start, int len) {
@@ -493,6 +502,8 @@ public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 	@Override
 	public int next() throws XMLStreamException {
 		while (!newEvent) {
+
+			// TODO infinite loop
 			scan();
 		}
 		this.newEvent = false;

@@ -4,11 +4,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.hisrc.jstax.io.Result.CharsDestination;
-
 // TODO Exception
-public interface XMLStreamReaderInput extends
-		CharsDestination<RuntimeException> {
+public interface XMLStreamReaderInput {
 
 	public void writeStartDocument(String version, String encoding,
 			Boolean standalone);
@@ -20,13 +17,17 @@ public interface XMLStreamReaderInput extends
 
 	public void writeEndElement(QName name, Map<String, String> namespaces);
 
-	public void writeComment(String comment);
+	public void writeComment(char[] text, int start, int len);
 
 	public void writeProcessingInstruction(String target);
 
 	public void writeProcessingInstruction(String target, String data);
 
-	@Override
 	public void writeCharacters(char[] text, int start, int len);
+
+	public void writeCDATA(char[] text, int start, int len);
+
+	public void writeEntityReference(String name, char[] text, int start,
+			int len);
 
 }

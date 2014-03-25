@@ -10,6 +10,7 @@ import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
 import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.ErrorVertexImpl;
+import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.Char;
 import org.hisrc.jstax.grammar.production.impl.AbstractProduction;
@@ -22,8 +23,8 @@ public class NotContainingImpl extends AbstractProduction {
 
 	private final Str terminator;
 
-	public NotContainingImpl(String name, Ch content, Str terminator) {
-		super(Validate.notNull(name));
+	public NotContainingImpl(Operation operation, String name, Ch content, Str terminator) {
+		super(Validate.notNull(operation), Validate.notNull(name));
 		Validate.notNull(content);
 		Validate.notNull(terminator);
 		this._char = content;
@@ -39,7 +40,7 @@ public class NotContainingImpl extends AbstractProduction {
 		final Vertex mid = new EmptyVertexImpl();
 		graph.addVertex(mid);
 		graph.addEdge(start, mid, new EdgeImpl());
-		graph.addEdge(mid, end, new EdgeImpl());
+		graph.addEdge(mid, end, new EdgeImpl(getOperation()));
 
 		final Vertex error = new ErrorVertexImpl(MessageFormat.format(
 				"Met the unexpected substring [{0}].", terminator.toString()));

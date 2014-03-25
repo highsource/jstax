@@ -17,12 +17,14 @@ public class ReferenceTest {
 		final XMLInputFactory factory = XMLInputFactory.newInstance();
 
 		final XMLStreamReader streamReader = factory
-				.createXMLStreamReader(new StringReader("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-						"<a:b xmlns:a=\'urn:c\' a:d=\'e\' f=\'g\'>&lt;</a:b>"));
+				.createXMLStreamReader(new StringReader(
+						"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+								+ "<a:b xmlns:a=\'urn:c\' a:d=\'e\' f=\'g\'>&lt;<!----></a:b>"));
 
 		while (streamReader.hasNext()) {
 			final int eventType = streamReader.next();
-			System.out.println("=================================================");
+			System.out
+					.println("=================================================");
 			System.out.println("Event type: [" + eventType + "].");
 
 			if (eventType == XMLStreamConstants.START_ELEMENT) {
@@ -35,7 +37,7 @@ public class ReferenceTest {
 				System.out.println("Event type: [END_ELEMENT].");
 				logElementData(streamReader);
 				logNamespaceData(streamReader);
-//				logAttributeData(streamReader);
+				// logAttributeData(streamReader);
 			}
 			if (eventType == XMLStreamConstants.START_DOCUMENT) {
 				System.out.println("Event type: [START_DOCUMENT].");
@@ -58,10 +60,23 @@ public class ReferenceTest {
 			if (eventType == XMLStreamConstants.END_DOCUMENT) {
 				System.out.println("Event type: [END_DOCUMENT].");
 			}
+			if (eventType == XMLStreamConstants.COMMENT) {
+				System.out.println("Event type: [COMMENT].");
+				logText(streamReader);
+			}
 		}
 
 		// TODO Auto-generated method stub
 
+	}
+
+	private void logText(final XMLStreamReader streamReader) {
+		System.out.println("Text:" + streamReader.getText());
+		System.out.println("TextCharacters:"
+				+ streamReader.getTextCharacters());
+		System.out
+				.println("TextLength:" + streamReader.getTextLength());
+		System.out.println("TextStart:" + streamReader.getTextStart());
 	}
 
 	public void logElementData(final XMLStreamReader streamReader) {

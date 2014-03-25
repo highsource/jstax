@@ -89,22 +89,8 @@ public class StringInput implements Input {
 	}
 
 	@Override
-	public char peekChar(int offset) {
-		final int position = this.current + offset;
-		if (position >= this.length) {
-			return CharConstants.EOF;
-		} else {
-			return this.str[position];
-		}
-	}
-
-	@Override
 	public Locator getLocator() {
 		return this.locator;
 	}
-	
-	@Override
-	public boolean hasNextChar() {
-		return !finished;
-	}
+
 }

@@ -8,7 +8,8 @@ public class EntityRef extends AbstractOperation {
 	@Override
 	public void execute(Result result, XMLStreamScanner streamWriter) {
 		// Pop the last ";"
-		result.popChar();
+		@SuppressWarnings("unused")
+		final char popChar = result.popChar();
 		streamWriter.writeEntityRef(result.popString());
 	}
 

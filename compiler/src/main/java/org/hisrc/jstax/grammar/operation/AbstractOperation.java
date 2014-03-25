@@ -12,7 +12,9 @@ public abstract class AbstractOperation implements Operation {
 	@Override
 	public Operation join(Operation that) {
 		Validate.notNull(that);
-		if (that.isTrivial()) {
+		if (this == that) {
+			return this;
+		} else if (that.isTrivial()) {
 			return this;
 		} else {
 			if (this.isTrivial()) {
