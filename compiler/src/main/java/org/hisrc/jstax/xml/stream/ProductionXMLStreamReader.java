@@ -6,15 +6,18 @@ import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
 import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
-import org.hisrc.jstax.grammar.graph.impl.EndVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
 import org.hisrc.jstax.grammar.graph.optimizer.CompositeGraphOptimizer;
+import org.hisrc.jstax.grammar.operation.Ignore;
 import org.hisrc.jstax.grammar.production.Production;
 import org.hisrc.jstax.grammar.production.character.Ch;
+import org.hisrc.jstax.grammar.production.character.impl.CharImpl;
 import org.hisrc.jstax.grammar.state.State;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.hisrc.jstax.grammar.state.Transition;
+import org.hisrc.jstax.io.CharConstants;
 import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
 import org.hisrc.jstax.io.Locator;
@@ -51,7 +54,9 @@ public class ProductionXMLStreamReader extends XMLStreamReaderImpl {
 				});
 
 		final Vertex start = new StartVertexImpl();
-		final Vertex end = new EndVertexImpl();
+		// final Vertex end = new EndVertexImpl();
+		final Vertex end = new ChVertexImpl(new CharImpl(Ignore.INSTANCE,
+				"END", CharConstants.EOF));
 		graph.addVertex(start);
 		graph.addVertex(end);
 		production.buildGraph(graph, start, end);

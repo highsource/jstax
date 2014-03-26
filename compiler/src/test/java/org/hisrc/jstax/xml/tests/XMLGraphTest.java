@@ -6,12 +6,15 @@ import java.io.IOException;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
 import org.hisrc.jstax.grammar.graph.Vertex;
+import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
-import org.hisrc.jstax.grammar.graph.impl.EndVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
 import org.hisrc.jstax.grammar.graph.optimizer.CompositeGraphOptimizer;
+import org.hisrc.jstax.grammar.operation.Ignore;
 import org.hisrc.jstax.grammar.parser.StateMachineParser;
+import org.hisrc.jstax.grammar.production.character.impl.CharImpl;
 import org.hisrc.jstax.grammar.state.StateMachine;
+import org.hisrc.jstax.io.CharConstants;
 import org.hisrc.jstax.io.ErrorHandler;
 import org.hisrc.jstax.io.Input;
 import org.hisrc.jstax.io.Result;
@@ -42,7 +45,8 @@ public class XMLGraphTest {
 				});
 
 		final Vertex start = new StartVertexImpl();
-		final Vertex end = new EndVertexImpl();
+		final Vertex end = new ChVertexImpl(new CharImpl(Ignore.INSTANCE,
+				"END", CharConstants.EOF));
 		graph.addVertex(start);
 		graph.addVertex(end);
 		XML.CHAR_DATA.buildGraph(graph, start, end);
@@ -51,17 +55,18 @@ public class XMLGraphTest {
 
 		GraphExporter<Vertex, Edge> graphExporter = new GMLGraphExporter<Vertex, Edge>();
 
-		graphExporter.exportGraph(graph, new VertexNameProvider<Vertex>() {
+		graphExporter.exportGraph(
+				graph,
+				new VertexNameProvider<Vertex>() {
 
-			@Override
-			public String getVertexName(Vertex vertex) {
-				return
-				 vertex.getIdentifierName() + " (" +
-				vertex.getName().replace("\"", "\'\'").replace("&", "AMP")
-				 + ")"
-				;
-			}
-		}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),
+					@Override
+					public String getVertexName(Vertex vertex) {
+						return vertex.getIdentifierName()
+								+ " ("
+								+ vertex.getName().replace("\"", "\'\'")
+										.replace("&", "AMP") + ")";
+					}
+				}, new File("C:\\Projects\\workspaces\\jstax\\jstax\\xml.gml"),
 				LoggerFactory.getLogger(getClass()));
 
 		final StateMachine stateMachine = new StateMachineBuilder()
@@ -75,7 +80,7 @@ public class XMLGraphTest {
 						+ "<a b=\"c\" d=\'e\'>f</a>");
 		final Result result = new StringResult();
 		final ErrorHandler errorHandler = ThrowingErrorHandler.INSTANCE;
-//		parser.parse(input, result, new MyXMLStreamReader(), errorHandler);
+		// parser.parse(input, result, new MyXMLStreamReader(), errorHandler);
 
 	}
 

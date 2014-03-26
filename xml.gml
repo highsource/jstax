@@ -12,7 +12,7 @@ graph
 	node
 	[
 		id 2
-		label "END (END)"
+		label "END ([?])"
 	]
 	node
 	[
@@ -162,6 +162,24 @@ graph
 	[
 		source 8
 		target 6
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 3
+		target 2
+		graphics
+		[
+			targetArrow "standard"
+		]
+	]
+	edge
+	[
+		source 4
+		target 2
 		graphics
 		[
 			targetArrow "standard"

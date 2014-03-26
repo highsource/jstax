@@ -62,12 +62,12 @@ public class CharDataProduction extends AbstractProduction {
 		graph.addEdge(vrsb0, vMinusRSB1, new EdgeImpl());
 		graph.addEdge(vrsb0, e, new EdgeImpl(Characters.INSTANCE));
 
-		graph.addEdge(vrsb1, vgt, new EdgeImpl(CharDataError.INSTANCE));
+		graph.addEdge(vrsb1, vgt, new EdgeImpl());
 		graph.addEdge(vrsb1, vMinusGTRSB1, new EdgeImpl());
 		graph.addEdge(vrsb1, vrsb1, new EdgeImpl());
 		graph.addEdge(vrsb1, e, new EdgeImpl(Characters.INSTANCE));
 
-//		graph.addEdge(vgt, e, new EdgeImpl(CharDataError.INSTANCE));
+		graph.addEdge(vgt, e, new EdgeImpl(CharDataError.INSTANCE));
 
 		graph.addEdge(vMinusRSB0, s, new EdgeImpl());
 		graph.addEdge(vMinusRSB1, s, new EdgeImpl());

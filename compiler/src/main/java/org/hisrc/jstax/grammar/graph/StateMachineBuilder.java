@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.impl.DefaultVertexVisitor;
-import org.hisrc.jstax.grammar.production.character.impl.CharImpl;
 import org.hisrc.jstax.grammar.state.State;
 import org.hisrc.jstax.grammar.state.StateMachine;
 import org.jgrapht.DirectedGraph;
@@ -39,16 +38,6 @@ public class StateMachineBuilder {
 							return stateMachine.getInitialState();
 						}
 
-						@Override
-						public State visitVertex(EndVertex vertex) {
-							return stateMachine.getTerminalState();
-						}
-
-						@Override
-						public State visitVertex(ErrorVertex vertex) {
-							return stateMachine.createState(vertex
-									.getIdentifierName());
-						}
 					}));
 		}
 
@@ -63,15 +52,6 @@ public class StateMachineBuilder {
 					public Void visitVertex(ChVertex vertex) {
 						stateMachine.createTransition(previousState,
 								vertex.getContent(),
-								incomingEdge.getOperation(), nextState);
-						return null;
-					}
-
-					@Override
-					public Void visitVertex(EndVertex vertex) {
-						stateMachine.createTransition(previousState,
-								new CharImpl("EOF",
-										org.hisrc.jstax.io.CharConstants.EOF),
 								incomingEdge.getOperation(), nextState);
 						return null;
 					}

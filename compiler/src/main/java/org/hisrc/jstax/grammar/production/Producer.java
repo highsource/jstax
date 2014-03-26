@@ -23,7 +23,6 @@ import org.hisrc.jstax.grammar.production.structure.Choice;
 import org.hisrc.jstax.grammar.production.structure.Sequence;
 import org.hisrc.jstax.grammar.production.structure.Str;
 import org.hisrc.jstax.grammar.production.structure.impl.ChoiceImpl;
-import org.hisrc.jstax.grammar.production.structure.impl.NotContainingImpl;
 import org.hisrc.jstax.grammar.production.structure.impl.SequenceImpl;
 import org.hisrc.jstax.grammar.production.structure.impl.StrImpl;
 
@@ -89,10 +88,10 @@ public class Producer {
 		return new NegativeCharsImpl(name, negativeChars);
 	}
 
-//	public static NegativeChars negativeChars(String name,
-//			char... negativeChars) {
-//		return new NegativeCharsImpl(name, negativeChars);
-//	}
+	// public static NegativeChars negativeChars(String name,
+	// char... negativeChars) {
+	// return new NegativeCharsImpl(name, negativeChars);
+	// }
 
 	public static NegativeChars negativeChars(String name, String negativeChars) {
 		return new NegativeCharsImpl(negativeChars);
@@ -129,10 +128,6 @@ public class Producer {
 						name + "_DELIMITED_ELEMENTS",
 						sequence(name + "_DELIMITED_ELEMENT", delimiter,
 								element)));
-	}
-
-	public static Production notContaining(Operation operation, String name, Ch content, Str end) {
-		return new NotContainingImpl(operation, name, content, end);
 	}
 
 	public static Production quoted(Operation operation, String name,
