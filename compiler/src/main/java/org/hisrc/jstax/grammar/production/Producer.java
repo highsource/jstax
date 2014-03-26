@@ -3,7 +3,7 @@ package org.hisrc.jstax.grammar.production;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
-import org.hisrc.jstax.grammar.operation.Ignore;
+import org.hisrc.jstax.grammar.operation.IgnoreChar;
 import org.hisrc.jstax.grammar.operation.Operation;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.Char;
@@ -155,7 +155,7 @@ public class Producer {
 							mainContent, additionalContent);
 			productions[index++] = sequence(
 					name + "_CONTENT_" + quote.getIdentifierName() + "_QUOTED",
-					new CharImpl(Ignore.INSTANCE, quote.getIdentifierName(),
+					new CharImpl(IgnoreChar.INSTANCE, quote.getIdentifierName(),
 							quote.getChar()), content, new CharImpl(operation,
 							quote.getIdentifierName(), quote.getChar()));
 		}
@@ -163,14 +163,17 @@ public class Producer {
 	}
 
 	// '"' X '"' | "'" X "'"
-	public static Production quotedSingle(Operation operation, String name,
-			Chars quotes, Production content) {
+	public static Production quotedSingle(String name, Chars quotes,
+			Production content) {
 		final List<Char> chars = quotes.getChars();
 		final Production[] productions = new Production[chars.size()];
 		int index = 0;
 		for (final Char quote : chars) {
-			productions[index++] = sequence(operation, name + "_QUOTED_"
-					+ quote.getIdentifierName(), quote, content, quote);
+			final Char ignoredQuote = new CharImpl(IgnoreChar.INSTANCE,
+					quote.getIdentifierName(), quote.getChar());
+			productions[index++] = sequence(
+					name + "_QUOTED_" + quote.getIdentifierName(),
+					ignoredQuote, content, ignoredQuote);
 		}
 		return choice(name, productions);
 	}

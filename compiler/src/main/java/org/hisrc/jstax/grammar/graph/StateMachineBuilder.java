@@ -12,7 +12,8 @@ import org.jgrapht.DirectedGraph;
 
 public class StateMachineBuilder {
 
-	public StateMachine buildStateMachine(DirectedGraph<Vertex, Edge> graph) {
+	public StateMachine buildStateMachine(DirectedGraph<Vertex, Edge> graph,
+			Vertex start, Vertex end) {
 		Validate.notNull(graph);
 		final StateMachine stateMachine = new StateMachine();
 
@@ -24,7 +25,8 @@ public class StateMachineBuilder {
 
 						@Override
 						public State visitVertex(EmptyVertex vertex) {
-							return stateMachine.createState();
+							throw new UnsupportedOperationException(
+									"Graph must not contain empty vertices.");
 						}
 
 						@Override
@@ -33,13 +35,11 @@ public class StateMachineBuilder {
 									.getIdentifierName());
 						}
 
-						@Override
-						public State visitVertex(StartVertex vertex) {
-							return stateMachine.getInitialState();
-						}
-
 					}));
 		}
+		
+		stateMachine.setInitialState(vertexStateMap.get(start));
+		stateMachine.setTerminalState(vertexStateMap.get(end));
 
 		for (Vertex nextVertex : graph.vertexSet()) {
 			final State nextState = vertexStateMap.get(nextVertex);

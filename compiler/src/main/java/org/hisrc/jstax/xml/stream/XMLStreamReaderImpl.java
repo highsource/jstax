@@ -3,6 +3,7 @@ package org.hisrc.jstax.xml.stream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
@@ -235,11 +236,6 @@ public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 	@Override
 	public String getPITarget() {
 		return this.piTarget;
-	}
-
-	@Override
-	public boolean hasNext() throws XMLStreamException {
-		return this.eventType != END_DOCUMENT;
 	}
 
 	@Override
@@ -501,14 +497,23 @@ public abstract class XMLStreamReaderImpl extends AbstractUnXMLStreamReaderImpl
 
 	@Override
 	public int next() throws XMLStreamException {
-		while (!newEvent) {
-
+		if (!hasNext()) {
+			throw new NoSuchElementException("Stream contains no more events.");
+		}
+		while (!newEvent && hasNext()) {
 			// TODO infinite loop
 			scan();
 		}
-		this.newEvent = false;
-		return this.eventType;
+		if (newEvent) {
+			this.newEvent = false;
+			return this.eventType;
+		} else {
+			throw new NoSuchElementException(
+					"BUG: Stream should contain more events, but it does not.");
+		}
 	}
+
+	public abstract boolean hasNext();
 
 	protected abstract void scan();
 

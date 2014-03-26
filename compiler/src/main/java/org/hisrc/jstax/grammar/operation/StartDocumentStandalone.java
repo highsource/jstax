@@ -7,7 +7,7 @@ public class StartDocumentStandalone extends AbstractOperation {
 
 	@Override
 	public void execute(Result result, XMLStreamScanner streamWriter) {
-		streamWriter.writeStartDocumentEncoding(result.popString());
+		streamWriter.writeStartDocumentStandalone(result.popString());
 	}
 
 	public static final Operation INSTANCE = new StartDocumentStandalone();

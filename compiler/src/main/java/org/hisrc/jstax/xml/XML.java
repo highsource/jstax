@@ -22,12 +22,14 @@ import org.hisrc.jstax.grammar.operation.Comment;
 import org.hisrc.jstax.grammar.operation.DecCharRef;
 import org.hisrc.jstax.grammar.operation.EmptyStartElementTagGT;
 import org.hisrc.jstax.grammar.operation.EmptyStartElementTagSolidus;
+import org.hisrc.jstax.grammar.operation.EndDocument;
 import org.hisrc.jstax.grammar.operation.EndElementLocalPart;
 import org.hisrc.jstax.grammar.operation.EndElementPrefixOrLocalPart;
 import org.hisrc.jstax.grammar.operation.EndElementTagGT;
 import org.hisrc.jstax.grammar.operation.EntityRef;
 import org.hisrc.jstax.grammar.operation.HexCharRef;
-import org.hisrc.jstax.grammar.operation.Ignore;
+import org.hisrc.jstax.grammar.operation.IgnoreAll;
+import org.hisrc.jstax.grammar.operation.IgnoreChar;
 import org.hisrc.jstax.grammar.operation.None;
 import org.hisrc.jstax.grammar.operation.ProcessingInstruction;
 import org.hisrc.jstax.grammar.operation.ProcessingInstructionData;
@@ -51,7 +53,8 @@ public class XML {
 
 	public static final Char HYPHEN_MINUS = _char("HYPHEN_MINUS", '-');
 
-	public static final Char EQUALS_SIGN = _char("EQUALS_SIGN", '=');
+	public static final Char EQUALS_SIGN = _char(IgnoreChar.INSTANCE,
+			"EQUALS_SIGN", '=');
 
 	public static final Chars WHITESPACE_CHAR = Producer.chars(
 			"WHITESPACE_CHAR", CharConstants.WHITESPACE_CHARS);
@@ -64,8 +67,8 @@ public class XML {
 			charRange("CHAR_1", '\uE000', '\uFFFD'));
 
 	// [3] S ::= (#x20 | #x9 | #xD | #xA)+
-	public static final Production S = oneOrMore(Ignore.INSTANCE, "S",
-			Producer.chars(Ignore.INSTANCE, "WHITESPACE_CHAR",
+	public static final Production S = oneOrMore(IgnoreChar.INSTANCE, "S",
+			Producer.chars(IgnoreChar.INSTANCE, "WHITESPACE_CHAR",
 					CharConstants.WHITESPACE_CHARS));
 	public static final Production POSSIBLY_S = zeroOrOne("POSSIBLY_S", S);
 
@@ -117,7 +120,8 @@ public class XML {
 					"START_ELEMENT_POSSIBLY_COLON_LOCAL_PART",
 					sequence(
 							"START_ELEMENT_COLON_LOCAL_PART",
-							_char(Ignore.INSTANCE, "START_ELEMENT_COLON", ':'),
+							_char(IgnoreChar.INSTANCE, "START_ELEMENT_COLON",
+									':'),
 							sequence(StartElementLocalPart.INSTANCE,
 									"START_ELEMENT_LOCAL_PART", NC_NAME))));
 
@@ -129,7 +133,7 @@ public class XML {
 					"END_ELEMENT_POSSIBLY_COLON_LOCAL_PART",
 					sequence(
 							"END_ELEMENT_COLON_LOCAL_PART",
-							_char(Ignore.INSTANCE, "END_ELEMENT_COLON", ':'),
+							_char(IgnoreChar.INSTANCE, "END_ELEMENT_COLON", ':'),
 							sequence(EndElementLocalPart.INSTANCE,
 									"END_ELEMENT_LOCAL_PART", NC_NAME))));
 
@@ -141,7 +145,7 @@ public class XML {
 					"ATTRIBUTE_POSSIBLY_COLON_LOCAL_PART",
 					sequence(
 							"ATTRIBUTE_COLON_LOCAL_PART",
-							_char(Ignore.INSTANCE, "ATTRIBUTE_COLON", ':'),
+							_char(IgnoreChar.INSTANCE, "ATTRIBUTE_COLON", ':'),
 							sequence(AttributeLocalPart.INSTANCE,
 									"ATTRIBUTE_LOCAL_PART", NC_NAME))));
 
@@ -163,22 +167,23 @@ public class XML {
 
 	// [68] EntityRef ::= '&' Name ';'
 	public static final Production ENTITY_REF = sequence("ENTITY_REF",
-			_char(Ignore.INSTANCE, "ENTITY_REF_AMPERSAND", '&'), NAME,
+			_char(IgnoreChar.INSTANCE, "ENTITY_REF_AMPERSAND", '&'), NAME,
 			_char(EntityRef.INSTANCE, "ENTITY_REF_SEMICOLON", ';'));
 
 	// [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
 	public static final Production CHAR_REF = sequence(
 			"CHAR_REF",
 			sequence("CHAR_REF_PREFIX",
-					_char(Ignore.INSTANCE, "CHAR_REF_PREFIX_0", '&'),
-					_char(Ignore.INSTANCE, "CHAR_REF_PREFIX_0", '#')),
+					_char(IgnoreChar.INSTANCE, "CHAR_REF_PREFIX_0", '&'),
+					_char(IgnoreChar.INSTANCE, "CHAR_REF_PREFIX_0", '#')),
 			choice("CHAR_REF_SUFFIX",
 					sequence("DEC_CHAR_REF",
 							oneOrMore("DEC_CHAR_REF_N", CharConstants.DIGITS),
 							_char(DecCharRef.INSTANCE, "DEC_CHAR_REF_END", ';')),
 					sequence(
 							"HEX_CHAR_REF",
-							_char(Ignore.INSTANCE, "HEX_CHAR_REF_PREFIX", 'x'),
+							_char(IgnoreChar.INSTANCE, "HEX_CHAR_REF_PREFIX",
+									'x'),
 							oneOrMore(
 									"HEX_CHAR_REF_SUFFIX",
 									charRanges(
@@ -230,9 +235,11 @@ public class XML {
 	// [14] CharData ::= [^<&]* - ([^<&]* ']]>' [^<&]*)
 	public static final Production CHAR_DATA =
 
-	new CharDataProduction("CHAR_DATA", _char(None.INSTANCE, "CHAR_DATA_END_0", ']'),
-			_char(None.INSTANCE, "CHAR_DATA_END_1", ']'), _char(CData.INSTANCE,
-					"CHAR_DATA_END_2", '>'));
+	new CharDataProduction("CHAR_DATA", CHAR.minus("CHAR_DATA_CONTENT",
+			CharConstants.LT).minus("CHAR_DATA_CONTENT",
+			CharConstants.AMPERSAND), _char(None.INSTANCE, "CHAR_DATA_END_0",
+			']'), _char(None.INSTANCE, "CHAR_DATA_END_1", ']'), _char(
+			CData.INSTANCE, "CHAR_DATA_END_2", '>'));
 	// notContaining(
 	// Characters.INSTANCE,
 	// "CHAR_DATA",
@@ -247,10 +254,10 @@ public class XML {
 	public static final Production COMMENT = sequence(
 			"COMMENT",
 			sequence("COMMENT_START",
-					_char(Ignore.INSTANCE, "COMMENT_START_0", '<'),
-					_char(Ignore.INSTANCE, "COMMENT_START_1", '!'),
-					_char(Ignore.INSTANCE, "COMMENT_START_2", '-'),
-					_char(Ignore.INSTANCE, "COMMENT_START_3", '-')),
+					_char(IgnoreChar.INSTANCE, "COMMENT_START_0", '<'),
+					_char(IgnoreChar.INSTANCE, "COMMENT_START_1", '!'),
+					_char(IgnoreChar.INSTANCE, "COMMENT_START_2", '-'),
+					_char(IgnoreChar.INSTANCE, "COMMENT_START_3", '-')),
 
 			COMMENT_PRE_END, CharConstants.GT);
 
@@ -269,8 +276,8 @@ public class XML {
 
 	// [16] PI ::= '<?' PITarget (S (Char* - (Char* '?>' Char*)))? '?>'
 	public static final Production PI_START = sequence("PI_START",
-			_char(Ignore.INSTANCE, "PI_START_0", '<'),
-			_char(Ignore.INSTANCE, "PI_START_1", '?'));
+			_char(IgnoreChar.INSTANCE, "PI_START_0", '<'),
+			_char(IgnoreChar.INSTANCE, "PI_START_1", '?'));
 
 	public static final Production PI_END = sequence("PI_END",
 			_char(None.INSTANCE, "PI_END_0", '?'),
@@ -282,7 +289,7 @@ public class XML {
 					CharConstants.WHITESPACE_CHARS),
 			zeroOrMore(
 					"PI_DELIMITER_S_N",
-					chars(Ignore.INSTANCE, "PI_DELIMITER_S_N_S",
+					chars(IgnoreChar.INSTANCE, "PI_DELIMITER_S_N_S",
 							CharConstants.WHITESPACE_CHARS)));
 
 	public static final Production PI_DATA_END = new PIEndProduction(
@@ -298,15 +305,15 @@ public class XML {
 
 	// [19] CDStart ::= '<![CDATA['
 	public static final Production CD_START = sequence("CD_START",
-			_char(Ignore.INSTANCE, "CD_START_0", '<'),
-			_char(Ignore.INSTANCE, "CD_START_1", '!'),
-			_char(Ignore.INSTANCE, "CD_START_2", '['),
-			_char(Ignore.INSTANCE, "CD_START_3", 'C'),
-			_char(Ignore.INSTANCE, "CD_START_4", 'D'),
-			_char(Ignore.INSTANCE, "CD_START_5", 'A'),
-			_char(Ignore.INSTANCE, "CD_START_6", 'T'),
-			_char(Ignore.INSTANCE, "CD_START_7", 'A'),
-			_char(Ignore.INSTANCE, "CD_START_8", '['));
+			_char(IgnoreChar.INSTANCE, "CD_START_0", '<'),
+			_char(IgnoreChar.INSTANCE, "CD_START_1", '!'),
+			_char(IgnoreChar.INSTANCE, "CD_START_2", '['),
+			_char(IgnoreChar.INSTANCE, "CD_START_3", 'C'),
+			_char(IgnoreChar.INSTANCE, "CD_START_4", 'D'),
+			_char(IgnoreChar.INSTANCE, "CD_START_5", 'A'),
+			_char(IgnoreChar.INSTANCE, "CD_START_6", 'T'),
+			_char(IgnoreChar.INSTANCE, "CD_START_7", 'A'),
+			_char(IgnoreChar.INSTANCE, "CD_START_8", '['));
 
 	// [20] CData ::= (Char* - (Char* ']]>' Char*))
 	// public static final Production C_DATA = terminated(CHAR.zeroOrMore(),
@@ -323,9 +330,14 @@ public class XML {
 			CDATA_CDEND);
 
 	// [26] VersionNum ::= '1.' [0-9]+
-	public static final Production VERSION_NUM = sequence("VERSION_NUM",
+	public static final Production VERSION_NUM = sequence(
+			StartDocumentVersion.INSTANCE, "VERSION_NUM",
 			str("VERSION_NUM_PREFIX", "1."),
 			oneOrMore("VERSION_NUM_SUFFIX", CharConstants.DIGITS));
+
+	public static final Production VERSION_ATTRIBUTE_VALUE = sequence(
+			StartDocumentVersion.INSTANCE, "VERSION_ATTRIBUTE_VALUE",
+			VERSION_NUM);
 
 	// [25] Eq ::= S? '=' S?
 	public static final Production EQ = sequence("EQ", POSSIBLY_S, EQUALS_SIGN,
@@ -336,10 +348,10 @@ public class XML {
 	public static final Production VERSION_INFO = sequence(
 			"VERSION_INFO",
 			S,
-			str("VERSION_ATTRIBUTE_NAME", "version"),
+			str(IgnoreAll.INSTANCE, "VERSION_ATTRIBUTE_NAME", "version"),
 			EQ,
-			quotedSingle(StartDocumentVersion.INSTANCE, "VERSION_INFO_VALUE",
-					CharConstants.QUOTES, VERSION_NUM));
+			quotedSingle("VERSION_INFO_VALUE", CharConstants.QUOTES,
+					VERSION_ATTRIBUTE_VALUE));
 
 	// [81] EncName ::= [A-Za-z] ([A-Za-z0-9._] | '-')*
 	public static final Production ENC_NAME = sequence(
@@ -350,35 +362,40 @@ public class XML {
 					charRanges("ENC_NAME_CHAR",
 							CharConstants.DIGITS_AND_LETTERS,
 							chars("SPECIAL_ENC_NAME_CHARS", "._-"))));
-
+	public static final Production ENCODING_ATTRIBUTE_VALUE = sequence(
+			StartDocumentEncoding.INSTANCE, "ENCODING_ATTRIBUTE_VALUE",
+			ENC_NAME);
 	// [80] EncodingDecl ::= S 'encoding' Eq ('"' EncName '"' | "'" EncName "'"
 	// )
 	public static final Production ENCODING_DECL = sequence(
 			"ENCODING_DECL",
 			S,
-			str("ENCODING_ATTRIBUTE_NAME", "encoding"),
+			str(IgnoreAll.INSTANCE, "ENCODING_ATTRIBUTE_NAME", "encoding"),
 			EQ,
-			quotedSingle(StartDocumentEncoding.INSTANCE, "ENCODING_VALUE",
-					CharConstants.QUOTES, ENC_NAME));
+			quotedSingle("ENCODING_VALUE", CharConstants.QUOTES,
+					ENCODING_ATTRIBUTE_VALUE));
 
 	// [32] SDDecl ::= S 'standalone' Eq (("'" ('yes' | 'no') "'") | ('"' ('yes'
 	// | 'no') '"'))
 	public static final Production YES_NO = choice("YES_NO", str("YES", "yes"),
 			str("NO", "no"));
+	public static final Production STANDALONE_VALUE = sequence(
+			StartDocumentStandalone.INSTANCE, "STANDALONE_ATTRIBUTE_VALUE",
+			YES_NO);
 	public static final Production SD_DECL = sequence(
 			"SD_DECL",
 			S,
-			str("STANDALONE_ATTRIBUTE_NAME", "standalone"),
+			str(IgnoreAll.INSTANCE, "STANDALONE_ATTRIBUTE_NAME", "standalone"),
 			EQ,
-			quotedSingle(StartDocumentStandalone.INSTANCE, "STANDALONE_VALUE",
-					CharConstants.QUOTES, YES_NO));
+			quotedSingle("STANDALONE_VALUE", CharConstants.QUOTES,
+					STANDALONE_VALUE));
 
 	// [23] XMLDecl ::= '<?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
 	public static final Production XML_DECL =
 
 	sequence("XML_DECL",
 
-	PI_START, str("XML", "xml"), VERSION_INFO,
+	PI_START, str(IgnoreAll.INSTANCE, "XML", "xml"), VERSION_INFO,
 			zeroOrOne("POSSIBLY_ENCODING_DECL", ENCODING_DECL),
 			zeroOrOne("POSSIBLY_ENCODING_SD_DECL", SD_DECL), POSSIBLY_S,
 			str(StartDocument.INSTANCE, "XML_DECL_END", "?>"));
@@ -395,7 +412,8 @@ public class XML {
 	// [41] Attribute ::= Name Eq AttValue
 	public static final Production ATTRIBUTE = sequence("ATTRIBUTE",
 			ATTRIBUTE_NAME, POSSIBLY_S,
-			_char(Ignore.INSTANCE, "EQUALS_SIGN", '='), POSSIBLY_S, ATT_VALUE);
+			_char(IgnoreChar.INSTANCE, "EQUALS_SIGN", '='), POSSIBLY_S,
+			ATT_VALUE);
 
 	// [44] EmptyElemTag ::= '<' Name (S Attribute)* S? '/>'
 
@@ -403,7 +421,8 @@ public class XML {
 	public static final Production START_TAG_PART = sequence(
 			"START_TAG_PART",
 			// CharConstants.LT,
-			_char(Ignore.INSTANCE, "START_TAG_LT", '<'), START_ELEMENT_NAME,
+			_char(IgnoreChar.INSTANCE, "START_TAG_LT", '<'),
+			START_ELEMENT_NAME,
 			zeroOrMore("ATTRIBUTES", sequence("ATTRIBUTE", S, ATTRIBUTE)),
 			POSSIBLY_S);
 
@@ -433,9 +452,10 @@ public class XML {
 			"END_ELEMENT_TAG_TAG",
 			sequence(
 					"END_ELEMENT_TAG_PREFIX",
-					_char(Ignore.INSTANCE, "END_ELEMENT_TAG_PREFIX_LT", '<'),
-					_char(Ignore.INSTANCE, "END_ELEMENT_TAG_PREFIX_SOLIDUS",
-							'/')), END_ELEMENT_NAME, POSSIBLY_S,
+					_char(IgnoreChar.INSTANCE, "END_ELEMENT_TAG_PREFIX_LT", '<'),
+					_char(IgnoreChar.INSTANCE,
+							"END_ELEMENT_TAG_PREFIX_SOLIDUS", '/')),
+			END_ELEMENT_NAME, POSSIBLY_S,
 			_char(EndElementTagGT.INSTANCE, "END_ELEMENT_TAG_GT", '>'));
 
 	public static final Production ELEMENT_CONTENT = zeroOrMore(
@@ -489,7 +509,12 @@ public class XML {
 	// [43] content ::= CharData? ((element | Reference | CDSect | PI | Comment)
 	// CharData?)*
 
-	public static final Production DOCUMENT = sequence("DOCUMENT", PROLOG,
-			ELEMENT, zeroOrMore("DOCUMENT_MISC", MISC));
+	public static final Production DOCUMENT = sequence(
+			"DOCUMENT",
+			PROLOG,
+			ELEMENT,
+			zeroOrMore("DOCUMENT_MISC", MISC),
+			_char(EndDocument.INSTANCE, "END_DOCUMENT",
+					org.hisrc.jstax.io.CharConstants.EOF));
 
 }

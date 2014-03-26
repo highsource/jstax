@@ -9,18 +9,22 @@ import org.hisrc.jstax.grammar.graph.impl.EmptyVertexImpl;
 import org.hisrc.jstax.grammar.operation.CharDataError;
 import org.hisrc.jstax.grammar.operation.Characters;
 import org.hisrc.jstax.grammar.operation.None;
+import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.Char;
 import org.hisrc.jstax.grammar.production.impl.AbstractProduction;
 import org.jgrapht.DirectedGraph;
 
 public class CharDataProduction extends AbstractProduction {
 
+	private final Ch content;
 	private final Char rsb0;
 	private final Char rsb1;
 	private final Char gt;
 
-	public CharDataProduction(String name, Char rsb0, Char rsb1, Char gt) {
+	public CharDataProduction(String name, Ch content, Char rsb0, Char rsb1,
+			Char gt) {
 		super(None.INSTANCE, name);
+		this.content = content;
 		this.rsb0 = Validate.notNull(rsb0);
 		this.rsb1 = Validate.notNull(rsb1);
 		this.gt = Validate.notNull(gt);
@@ -44,13 +48,13 @@ public class CharDataProduction extends AbstractProduction {
 		final Vertex vgt = new ChVertexImpl(this.gt);
 		graph.addVertex(vgt);
 
-		final Vertex vMinusRSB0 = new ChVertexImpl(XML.CHAR.minus(
+		final Vertex vMinusRSB0 = new ChVertexImpl(content.minus(
 				"CHAR_DATA_END_CHAR_MINUS_RSB0", this.rsb0));
 		graph.addVertex(vMinusRSB0);
-		final Vertex vMinusRSB1 = new ChVertexImpl(XML.CHAR.minus(
+		final Vertex vMinusRSB1 = new ChVertexImpl(content.minus(
 				"CHAR_DATA_CHAR_MINUS_RSB1", this.rsb1));
 		graph.addVertex(vMinusRSB1);
-		final Vertex vMinusGTRSB1 = new ChVertexImpl(XML.CHAR.minus(
+		final Vertex vMinusGTRSB1 = new ChVertexImpl(content.minus(
 				"CHAR_DATA_CHAR_MINUS_GT", this.gt).minus(
 				"CHAR_DATA_CHAR_MINUS_GT_RSB1", this.rsb1));
 		graph.addVertex(vMinusGTRSB1);

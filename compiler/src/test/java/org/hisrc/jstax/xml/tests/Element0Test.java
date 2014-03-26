@@ -79,7 +79,7 @@ public class Element0Test {
 	@Test
 	public void testElement4() throws XMLStreamException {
 		XMLStreamReader streamReader = new ProductionXMLStreamReader(
-				XML.ELEMENT, new StringInput("<site> <regions> <africa> </africa> </regions> </site>"),
+				XML.ELEMENT, new StringInput("<site><regions><africa></africa></regions></site>"),
 				ThrowingErrorHandler.INSTANCE);
 		Assert.assertEquals(XMLStreamConstants.START_ELEMENT,
 				streamReader.next());

@@ -12,18 +12,16 @@ import org.hisrc.jstax.xml.XML;
 import org.hisrc.jstax.xml.stream.ProductionXMLStreamReader;
 import org.junit.Test;
 
-public class XMLDeclTest {
+public class Document0Test {
 
 	@Test
-	public void testXMLDecl() throws XMLStreamException {
+	public void testEmptyElement() throws XMLStreamException {
 		XMLStreamReader streamReader = new ProductionXMLStreamReader(
-				XML.XML_DECL, new StringInput("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"),
+				XML.DOCUMENT, new StringInput("<a/>"),
 				ThrowingErrorHandler.INSTANCE);
-		Assert.assertEquals(XMLStreamConstants.START_DOCUMENT, streamReader.next());
-//		 TODO
-		Assert.assertEquals("1.0", streamReader.getVersion());
-		Assert.assertEquals("UTF-8", streamReader.getCharacterEncodingScheme());
-		Assert.assertEquals(true, streamReader.standaloneSet());
-		Assert.assertEquals(true, streamReader.isStandalone());
+		Assert.assertEquals(XMLStreamConstants.START_ELEMENT,
+				streamReader.next());
+		Assert.assertEquals(XMLStreamConstants.END_ELEMENT, streamReader.next());
+		Assert.assertEquals(XMLStreamConstants.END_DOCUMENT, streamReader.next());
 	}
 }

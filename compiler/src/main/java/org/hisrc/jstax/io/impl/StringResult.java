@@ -48,6 +48,11 @@ public class StringResult implements Result {
 		}
 	}
 
+	@Override
+	public void clear() {
+		this.count = 0;
+	}
+
 	public String toString() {
 		return String.valueOf(this.buffer, 0, this.count);
 	}

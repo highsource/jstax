@@ -17,18 +17,19 @@ public class CompositeGraphOptimizer {
 	private final List<VertexVisitor<Boolean>> vertexOptimizers;
 
 	@SuppressWarnings("unchecked")
-	public CompositeGraphOptimizer(DirectedGraph<Vertex, Edge> graph) {
+	public CompositeGraphOptimizer(DirectedGraph<Vertex, Edge> graph,
+			Vertex start, Vertex end) {
 		Validate.notNull(graph);
 		this.graph = graph;
 		this.vertexOptimizers = Arrays.<VertexVisitor<Boolean>> asList(
-		
-				new EmptyVertexRemover(graph),
-				//
+
+		new EmptyVertexRemover(graph),
+		//
 				new DoubledChVertexUnifier(graph),
 				//
 				new OutgoingEdgeUnifier(graph),
 				//
-				new NonStartVertexWithNoIncomingEdgesRemover(graph),
+				new NonStartVertexWithNoIncomingEdgesRemover(graph, start),
 				//
 				new VertexMerger(graph)
 

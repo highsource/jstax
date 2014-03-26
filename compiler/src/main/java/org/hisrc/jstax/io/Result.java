@@ -9,6 +9,8 @@ public interface Result {
 	public <E extends Throwable> void popChars(CharsDestination<E> destination) throws E;
 
 	public String popString();
+	
+	public void clear();
 
 	public interface CharsDestination<E extends Throwable> {
 		public void writeCharacters(char[] text, int start, int len) throws E;

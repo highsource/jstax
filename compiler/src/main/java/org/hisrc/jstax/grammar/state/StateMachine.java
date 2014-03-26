@@ -32,29 +32,30 @@ public class StateMachine {
 
 	private MultiMap<State, Transition> stateTransitions = new MultiValueArrayMap<State, Transition>();
 
-	private final State initialState;
-	private final State terminalState;
-
-	public StateMachine() {
-		this.initialState = createState("INITIAL");
-		this.terminalState = createState("TERMINAL");
-	}
-
+	private State initialState;
+	private State terminalState;
+	
 	public State getInitialState() {
 		return this.initialState;
+	}
+
+	public void setInitialState(State initialState) {
+		Validate.notNull(initialState);
+		this.initialState = initialState;
 	}
 
 	public State getTerminalState() {
 		return this.terminalState;
 	}
 
-	public State createState() {
-		return createState(null);
+	public void setTerminalState(State terminalState) {
+		Validate.notNull(terminalState);
+		this.terminalState = terminalState;
 	}
 
 	public State createState(String name) {
 		final int id = count;
-		final String stateName = (name == null ? "STATE": name) + "_" + id;
+		final String stateName = (name == null ? "STATE" : name) + "_" + id;
 		final State state = new State(id, stateName);
 		if (nameStateMap.containsKey(state.getName())) {
 			throw new IllegalArgumentException("State with name [" + name
@@ -68,7 +69,8 @@ public class StateMachine {
 		return state;
 	}
 
-	public Transition createTransition(State from, Ch ch, Operation operation, State to) {
+	public Transition createTransition(State from, Ch ch, Operation operation,
+			State to) {
 		Validate.notNull(from);
 		Validate.notNull(ch);
 		Validate.notNull(to);

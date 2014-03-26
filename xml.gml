@@ -32,21 +32,21 @@ graph
 	node
 	[
 		id 6
-		label "CHAR_DATA_END_CHAR_MINUS_RSB0 ([!-\^-? - 	-	
+		label "CHAR_DATA_END_CHAR_MINUS_RSB0 ([!-%'-;=-\^-? - 	-	
 -
 -?-?])"
 	]
 	node
 	[
 		id 7
-		label "CHAR_DATA_CHAR_MINUS_RSB1 ([!-\^-? - 	-	
+		label "CHAR_DATA_CHAR_MINUS_RSB1 ([!-%'-;=-\^-? - 	-	
 -
 -?-?])"
 	]
 	node
 	[
 		id 8
-		label "CHAR_DATA_CHAR_MINUS_GT_RSB1 ([!-=?-\^-? - 	-	
+		label "CHAR_DATA_CHAR_MINUS_GT_RSB1 ([!-%'-;=-=?-\^-? - 	-	
 -
 -?-?])"
 	]

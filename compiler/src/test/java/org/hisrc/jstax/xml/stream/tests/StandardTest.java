@@ -46,7 +46,8 @@ public class StandardTest {
 		// System.out.println("Elapsed time [" + (end - start) + "].");
 		// }
 		//
-		for (ZipEntry entry = zis.getNextEntry(); entry != null;) {
+		for (ZipEntry entry = zis.getNextEntry(); entry != null; entry = zis
+				.getNextEntry()) {
 			final Reader reader = new InputStreamReader(zis, "UTF-8");
 			final XMLStreamReader streamReader = new ProductionXMLStreamReader(
 					XML.DOCUMENT, new ReaderInput(reader),
@@ -55,7 +56,7 @@ public class StandardTest {
 			final long start = System.currentTimeMillis();
 			while (streamReader.hasNext()) {
 				int eventType = streamReader.next();
-				 System.out.println("Read event [" + eventType + "].");
+				System.out.println("Read event [" + eventType + "].");
 			}
 			final long end = System.currentTimeMillis();
 			System.out.println("Elapsed time [" + (end - start) + "].");

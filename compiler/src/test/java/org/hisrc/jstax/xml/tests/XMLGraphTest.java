@@ -8,9 +8,8 @@ import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
-import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
 import org.hisrc.jstax.grammar.graph.optimizer.CompositeGraphOptimizer;
-import org.hisrc.jstax.grammar.operation.Ignore;
+import org.hisrc.jstax.grammar.operation.IgnoreChar;
 import org.hisrc.jstax.grammar.parser.StateMachineParser;
 import org.hisrc.jstax.grammar.production.character.impl.CharImpl;
 import org.hisrc.jstax.grammar.state.StateMachine;
@@ -44,14 +43,14 @@ public class XMLGraphTest {
 					}
 				});
 
-		final Vertex start = new StartVertexImpl();
-		final Vertex end = new ChVertexImpl(new CharImpl(Ignore.INSTANCE,
+		final Vertex start = new ChVertexImpl(new CharImpl(IgnoreChar.INSTANCE,
+				"START", CharConstants.BOF));
+		final Vertex end = new ChVertexImpl(new CharImpl(IgnoreChar.INSTANCE,
 				"END", CharConstants.EOF));
 		graph.addVertex(start);
 		graph.addVertex(end);
 		XML.CHAR_DATA.buildGraph(graph, start, end);
-
-		new CompositeGraphOptimizer(graph).optimize();
+		new CompositeGraphOptimizer(graph, start, end).optimize();
 
 		GraphExporter<Vertex, Edge> graphExporter = new GMLGraphExporter<Vertex, Edge>();
 
@@ -70,7 +69,7 @@ public class XMLGraphTest {
 				LoggerFactory.getLogger(getClass()));
 
 		final StateMachine stateMachine = new StateMachineBuilder()
-				.buildStateMachine(graph);
+				.buildStateMachine(graph, start, end);
 		final StateMachineParser parser = new StateMachineParser(stateMachine);
 
 		// final Input input = new StringInput("<!-- Comment -->");

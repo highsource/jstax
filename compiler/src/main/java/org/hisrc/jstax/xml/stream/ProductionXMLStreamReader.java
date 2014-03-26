@@ -8,9 +8,9 @@ import org.hisrc.jstax.grammar.graph.StateMachineBuilder;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.ChVertexImpl;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
-import org.hisrc.jstax.grammar.graph.impl.StartVertexImpl;
 import org.hisrc.jstax.grammar.graph.optimizer.CompositeGraphOptimizer;
-import org.hisrc.jstax.grammar.operation.Ignore;
+import org.hisrc.jstax.grammar.operation.EndDocument;
+import org.hisrc.jstax.grammar.operation.IgnoreChar;
 import org.hisrc.jstax.grammar.production.Production;
 import org.hisrc.jstax.grammar.production.character.Ch;
 import org.hisrc.jstax.grammar.production.character.impl.CharImpl;
@@ -53,15 +53,16 @@ public class ProductionXMLStreamReader extends XMLStreamReaderImpl {
 					}
 				});
 
-		final Vertex start = new StartVertexImpl();
-		// final Vertex end = new EndVertexImpl();
-		final Vertex end = new ChVertexImpl(new CharImpl(Ignore.INSTANCE,
-				"END", CharConstants.EOF));
+		final Vertex start = new ChVertexImpl(new CharImpl(IgnoreChar.INSTANCE,
+				"START", CharConstants.BOF));
+		final Vertex end = new ChVertexImpl(new CharImpl(EndDocument.INSTANCE,
+				"END123", CharConstants.EOF));
 		graph.addVertex(start);
 		graph.addVertex(end);
 		production.buildGraph(graph, start, end);
-		new CompositeGraphOptimizer(graph).optimize();
-		this.stateMachine = new StateMachineBuilder().buildStateMachine(graph);
+		new CompositeGraphOptimizer(graph, start, end).optimize();
+		this.stateMachine = new StateMachineBuilder().buildStateMachine(graph,
+				start, end);
 		this.currentState = this.stateMachine.getInitialState();
 		this.terminalState = this.stateMachine.getTerminalState();
 		this.result = new StringResult();
@@ -92,5 +93,10 @@ public class ProductionXMLStreamReader extends XMLStreamReaderImpl {
 			ch.read(input, result, errorHandler);
 			currentState = transition.getNextState();
 		}
+	}
+
+	@Override
+	public boolean hasNext() {
+		return currentState != terminalState;
 	}
 }
