@@ -19,8 +19,7 @@ public class ChoiceImpl extends AbstractProduction implements Choice {
 	private final List<Production> options;
 	private final List<Production> unmodifiableOptions;
 
-	public ChoiceImpl(String name, Production... options) {
-		super(Validate.notNull(name));
+	public ChoiceImpl(Production... options) {
 		Validate.noNullElements(options);
 		this.options = new ArrayList<Production>(Arrays.asList(options));
 		this.unmodifiableOptions = Collections.unmodifiableList(this.options);

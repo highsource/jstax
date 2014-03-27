@@ -10,6 +10,8 @@ import org.hisrc.jstax.io.Result;
 
 public interface Ch extends Str {
 
+	public String getIdentifierName();
+
 	public void read(Input input, Result result, ErrorHandler handler);
 
 	public boolean startsInput(Input input);

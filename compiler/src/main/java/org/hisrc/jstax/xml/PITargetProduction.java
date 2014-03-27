@@ -17,8 +17,7 @@ public class PITargetProduction extends AbstractProduction {
 	private final Ch nameStartChar;
 	private final Ch nameChar;
 
-	public PITargetProduction(String name, Ch nameStartChar, Ch nameChar) {
-		super(Validate.notNull(name));
+	public PITargetProduction( Ch nameStartChar, Ch nameChar) {
 		this.nameStartChar = Validate.notNull(nameStartChar);
 		this.nameChar = Validate.notNull(nameChar);
 	}

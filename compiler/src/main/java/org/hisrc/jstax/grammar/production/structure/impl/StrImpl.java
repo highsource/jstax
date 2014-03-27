@@ -12,13 +12,19 @@ import org.hisrc.jstax.grammar.production.structure.Str;
 
 public class StrImpl extends SequenceImpl implements Str {
 
+	private final String name;
+
 	public StrImpl(String name, String content) {
 		this(None.INSTANCE, name, content);
 	}
 
 	public StrImpl(Operation operation, String name, String content) {
-		super(operation, name, elements(operation, name,
-				Validate.notBlank(content)));
+		super(operation, elements(operation, name, Validate.notBlank(content)));
+		this.name = Validate.notNull(name);
+	}
+
+	public String getIdentifierName() {
+		return name;
 	}
 
 	@Override

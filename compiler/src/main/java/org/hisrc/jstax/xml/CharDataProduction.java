@@ -21,9 +21,9 @@ public class CharDataProduction extends AbstractProduction {
 	private final Char rsb1;
 	private final Char gt;
 
-	public CharDataProduction(String name, Ch content, Char rsb0, Char rsb1,
+	public CharDataProduction(Ch content, Char rsb0, Char rsb1,
 			Char gt) {
-		super(None.INSTANCE, name);
+		super(None.INSTANCE);
 		this.content = content;
 		this.rsb0 = Validate.notNull(rsb0);
 		this.rsb1 = Validate.notNull(rsb1);

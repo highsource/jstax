@@ -28,27 +28,24 @@ import org.hisrc.jstax.grammar.production.structure.impl.StrImpl;
 
 public class Producer {
 
-	public static Production zeroOrMore(String name, Production production) {
-		Validate.notNull(name);
+	public static Production zeroOrMore(Production production) {
 		Validate.notNull(production);
-		return new ZeroOrMoreImpl(name, production);
+		return new ZeroOrMoreImpl(production);
 	}
 
-	public static Production zeroOrOne(String name, Production production) {
-		Validate.notNull(name);
+	public static Production zeroOrOne(Production production) {
 		Validate.notNull(production);
-		return new ZeroOrOneImpl(name, production);
+		return new ZeroOrOneImpl(production);
 	}
 
-	public static Production oneOrMore(Operation operation, String name,
+	public static Production oneOrMore(Operation operation,
 			Production production) {
-		return new OneOrMoreImpl(operation, name, production);
+		return new OneOrMoreImpl(operation, production);
 	}
 
-	public static Production oneOrMore(String name, Production production) {
-		Validate.notNull(name);
+	public static Production oneOrMore(Production production) {
 		Validate.notNull(production);
-		return new OneOrMoreImpl(name, production);
+		return new OneOrMoreImpl(production);
 	}
 
 	public static Char _char(String name, char ch) {
@@ -105,29 +102,20 @@ public class Producer {
 		return new StrImpl(operation, name, str);
 	}
 
-	public static Choice choice(String name, Production... options) {
-		return new ChoiceImpl(name, options);
+	public static Choice choice(Production... options) {
+		return new ChoiceImpl(options);
 	}
 
-	public static Sequence sequence(String name, Production... elements) {
-		return new SequenceImpl(name, elements);
+	public static Sequence sequence(Production... elements) {
+		return new SequenceImpl(elements);
 	}
 
-	public static Sequence sequence(Operation operation, String name,
-			Production... elements) {
-		return new SequenceImpl(operation, name, elements);
+	public static Sequence sequence(Operation operation, Production... elements) {
+		return new SequenceImpl(operation, elements);
 	}
 
-	public static Production delimited(String name, Production element,
-			Production delimiter) {
-		Validate.notNull(name);
-		return sequence(
-				"name",
-				element,
-				zeroOrMore(
-						name + "_DELIMITED_ELEMENTS",
-						sequence(name + "_DELIMITED_ELEMENT", delimiter,
-								element)));
+	public static Production delimited(Production element, Production delimiter) {
+		return sequence(element, zeroOrMore(sequence(delimiter, element)));
 	}
 
 	public static Production quoted(Operation operation, String name,
@@ -139,8 +127,7 @@ public class Producer {
 		} else if (contents.length == 1) {
 			additionalContent = contents[0];
 		} else {
-			additionalContent = Producer.choice(name + "_ADDITIONAL_CONTENT",
-					contents);
+			additionalContent = choice(contents);
 		}
 
 		final List<Char> chars = quotes.getChars();
@@ -151,31 +138,28 @@ public class Producer {
 			final Ch mainContent = ch.minus(
 					name + "_MAIN_CONTENT_" + quote.getIdentifierName(), quote);
 			final Production content = additionalContent == null ? mainContent
-					: choice(name + "_CONTENT_" + quote.getIdentifierName(),
-							mainContent, additionalContent);
+					: choice(mainContent, additionalContent);
 			productions[index++] = sequence(
-					name + "_CONTENT_" + quote.getIdentifierName() + "_QUOTED",
-					new CharImpl(IgnoreChar.INSTANCE, quote.getIdentifierName(),
-							quote.getChar()), content, new CharImpl(operation,
-							quote.getIdentifierName(), quote.getChar()));
+					new CharImpl(IgnoreChar.INSTANCE,
+							quote.getIdentifierName(), quote.getChar()),
+					zeroOrMore(content),
+					new CharImpl(operation, quote.getIdentifierName(), quote
+							.getChar()));
 		}
-		return choice(name, productions);
+		return choice(productions);
 	}
 
 	// '"' X '"' | "'" X "'"
-	public static Production quotedSingle(String name, Chars quotes,
-			Production content) {
+	public static Production quotedSingle(Chars quotes, Production content) {
 		final List<Char> chars = quotes.getChars();
 		final Production[] productions = new Production[chars.size()];
 		int index = 0;
 		for (final Char quote : chars) {
 			final Char ignoredQuote = new CharImpl(IgnoreChar.INSTANCE,
 					quote.getIdentifierName(), quote.getChar());
-			productions[index++] = sequence(
-					name + "_QUOTED_" + quote.getIdentifierName(),
-					ignoredQuote, content, ignoredQuote);
+			productions[index++] = sequence(ignoredQuote, content, ignoredQuote);
 		}
-		return choice(name, productions);
+		return choice(productions);
 	}
 
 }

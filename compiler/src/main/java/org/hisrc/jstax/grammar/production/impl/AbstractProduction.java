@@ -8,22 +8,16 @@ import org.hisrc.jstax.grammar.production.Production;
 public abstract class AbstractProduction implements Production {
 
 	private final Operation operation;
-	private final String name;
 
-	public AbstractProduction(Operation operation, String name) {
+	public AbstractProduction(Operation operation) {
 		this.operation = Validate.notNull(operation);
-		this.name = Validate.notNull(name);
 	}
 
-	public AbstractProduction(String name) {
-		this(None.INSTANCE, Validate.notNull(name));
+	public AbstractProduction() {
+		this(None.INSTANCE);
 	}
 
 	public Operation getOperation() {
 		return operation;
-	}
-
-	public String getIdentifierName() {
-		return name;
 	}
 }

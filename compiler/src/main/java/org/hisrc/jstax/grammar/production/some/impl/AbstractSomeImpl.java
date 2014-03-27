@@ -12,13 +12,12 @@ public abstract class AbstractSomeImpl extends AbstractProduction implements
 
 	private final Production production;
 
-	public AbstractSomeImpl(String name, Production production) {
-		this(None.INSTANCE, name, production);
+	public AbstractSomeImpl(Production production) {
+		this(None.INSTANCE, production);
 	}
 
-	public AbstractSomeImpl(Operation operation, String name,
-			Production production) {
-		super(Validate.notNull(operation), Validate.notNull(name));
+	public AbstractSomeImpl(Operation operation, Production production) {
+		super(Validate.notNull(operation));
 		this.production = Validate.notNull(production);
 	}
 

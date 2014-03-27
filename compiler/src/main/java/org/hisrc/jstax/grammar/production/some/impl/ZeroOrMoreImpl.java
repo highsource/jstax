@@ -1,6 +1,5 @@
 package org.hisrc.jstax.grammar.production.some.impl;
 
-import org.apache.commons.lang3.Validate;
 import org.hisrc.jstax.grammar.graph.Edge;
 import org.hisrc.jstax.grammar.graph.Vertex;
 import org.hisrc.jstax.grammar.graph.impl.EdgeImpl;
@@ -11,8 +10,8 @@ import org.jgrapht.DirectedGraph;
 
 public class ZeroOrMoreImpl extends AbstractSomeImpl implements ZeroOrMore {
 
-	public ZeroOrMoreImpl(String name, Production production) {
-		super(Validate.notNull(name), production);
+	public ZeroOrMoreImpl(Production production) {
+		super(production);
 	}
 
 	@Override

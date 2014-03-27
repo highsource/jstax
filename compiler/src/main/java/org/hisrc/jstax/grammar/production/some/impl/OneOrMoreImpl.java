@@ -13,12 +13,12 @@ import org.jgrapht.DirectedGraph;
 
 public class OneOrMoreImpl extends AbstractSomeImpl implements OneOrMore {
 
-	public OneOrMoreImpl(String name, Production production) {
-		this(None.INSTANCE, name, production);
+	public OneOrMoreImpl(Production production) {
+		this(None.INSTANCE, production);
 	}
 
-	public OneOrMoreImpl(Operation operation, String name, Production production) {
-		super(Validate.notNull(operation), Validate.notNull(name), production);
+	public OneOrMoreImpl(Operation operation, Production production) {
+		super(Validate.notNull(operation), production);
 	}
 
 	@Override

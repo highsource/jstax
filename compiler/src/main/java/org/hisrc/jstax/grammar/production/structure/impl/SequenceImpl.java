@@ -23,13 +23,13 @@ public class SequenceImpl extends AbstractProduction implements Sequence {
 	private final List<Production> elements;
 	private final List<Production> unmodifiableElements;
 
-	public SequenceImpl(String name, Production... elements) {
-		this(None.INSTANCE, name, elements);
+	public SequenceImpl(Production... elements) {
+		this(None.INSTANCE, elements);
 	}
 
-	public SequenceImpl(Operation operation, String name,
+	public SequenceImpl(Operation operation, 
 			Production... elements) {
-		super(Validate.notNull(operation), Validate.notNull(name));
+		super(Validate.notNull(operation));
 		Validate.noNullElements(elements);
 		this.elements = new ArrayList<Production>(Arrays.asList(elements));
 		this.unmodifiableElements = Collections.unmodifiableList(this.elements);

@@ -18,11 +18,11 @@ public class ElementProduction extends AbstractProduction {
 	private final Production nonCharacterContent;
 	private final Production endTag;
 
-	public ElementProduction(String name, Production startTagPart,
+	public ElementProduction(Production startTagPart,
 			Production emptyElementStartTagEnd,
 			Production nonEmptyElementStartTagEnd, Production charData,
 			Production nonCharacterContent, Production endTag) {
-		super(Validate.notNull(name));
+		super();
 		Validate.notNull(startTagPart);
 		Validate.notNull(emptyElementStartTagEnd);
 		Validate.notNull(nonEmptyElementStartTagEnd);

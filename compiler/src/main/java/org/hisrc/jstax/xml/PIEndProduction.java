@@ -15,8 +15,8 @@ public class PIEndProduction extends AbstractProduction {
 	private final Char q;
 	private final Char gt;
 
-	public PIEndProduction(String name, Char q, Char gt) {
-		super(None.INSTANCE, name);
+	public PIEndProduction(Char q, Char gt) {
+		super(None.INSTANCE);
 		this.q = Validate.notNull(q);
 		this.gt = Validate.notNull(gt);
 	}

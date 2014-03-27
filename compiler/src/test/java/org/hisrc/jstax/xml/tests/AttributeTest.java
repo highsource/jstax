@@ -19,7 +19,7 @@ public class AttributeTest {
 	@Test
 	public void testAttributeQuotes() throws XMLStreamException {
 		XMLStreamReader streamReader = new ProductionXMLStreamReader(
-				XML.ELEMENT, new StringInput("<a a   =    \"b\"/>"),
+				XML.ELEMENT, new StringInput("<a a   =    \"bc\"/>"),
 				ThrowingErrorHandler.INSTANCE);
 		Assert.assertEquals(XMLStreamConstants.START_ELEMENT, streamReader.next());
 		Assert.assertEquals(1, streamReader.getAttributeCount());
@@ -28,8 +28,8 @@ public class AttributeTest {
 				streamReader.getAttributeNamespace(0));
 		Assert.assertEquals(XMLConstants.DEFAULT_NS_PREFIX,
 				streamReader.getAttributePrefix(0));
-		Assert.assertEquals("b", streamReader.getAttributeValue(0));
-		Assert.assertEquals("b",
+		Assert.assertEquals("bc", streamReader.getAttributeValue(0));
+		Assert.assertEquals("bc",
 				streamReader.getAttributeValue(XMLConstants.NULL_NS_URI, "a"));
 		Assert.assertEquals(new QName("a"), streamReader.getAttributeName(0));
 		Assert.assertEquals(XMLStreamConstants.END_ELEMENT, streamReader.next());

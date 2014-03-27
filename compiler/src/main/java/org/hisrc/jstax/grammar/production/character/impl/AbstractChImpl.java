@@ -25,10 +25,13 @@ import org.jgrapht.DirectedGraph;
 public abstract class AbstractChImpl extends AbstractProduction implements
 		CharRanges {
 
+	private final String name;
+	
 	private final List<Ch> unmodifiableElements;
 
 	public AbstractChImpl(Operation operation, String name) {
-		super(Validate.notNull(operation), Validate.notNull(name));
+		super(Validate.notNull(operation));
+		this.name = Validate.notNull(name);
 		this.unmodifiableElements = Collections.unmodifiableList(Collections
 				.<Ch> singletonList(this));
 	}
@@ -36,6 +39,12 @@ public abstract class AbstractChImpl extends AbstractProduction implements
 	public AbstractChImpl(String name) {
 		this(None.INSTANCE, Validate.notNull(name));
 	}
+	
+
+	public String getIdentifierName() {
+		return name;
+	}
+
 
 	@Override
 	public List<Ch> getElements() {

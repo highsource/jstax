@@ -24,4 +24,15 @@ public class Document0Test {
 		Assert.assertEquals(XMLStreamConstants.END_ELEMENT, streamReader.next());
 		Assert.assertEquals(XMLStreamConstants.END_DOCUMENT, streamReader.next());
 	}
+	
+	@Test
+	public void testEmptyElementWithAttribute() throws XMLStreamException {
+		XMLStreamReader streamReader = new ProductionXMLStreamReader(
+				XML.DOCUMENT, new StringInput("<a b=\"cde\"/>"),
+				ThrowingErrorHandler.INSTANCE);
+		Assert.assertEquals(XMLStreamConstants.START_ELEMENT,
+				streamReader.next());
+		Assert.assertEquals(XMLStreamConstants.END_ELEMENT, streamReader.next());
+		Assert.assertEquals(XMLStreamConstants.END_DOCUMENT, streamReader.next());
+	}
 }

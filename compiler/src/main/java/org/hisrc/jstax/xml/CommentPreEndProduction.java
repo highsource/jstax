@@ -15,8 +15,8 @@ public class CommentPreEndProduction extends AbstractProduction {
 	private final Char m0;
 	private final Char m1;
 
-	public CommentPreEndProduction(String name, Char m0, Char m1) {
-		super(None.INSTANCE, name);
+	public CommentPreEndProduction(Char m0, Char m1) {
+		super(None.INSTANCE);
 		this.m0 = Validate.notNull(m0);
 		this.m1 = Validate.notNull(m1);
 	}
